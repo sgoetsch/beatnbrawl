@@ -24,9 +24,9 @@ public class RenderSystem extends EntitySystem {
     private OrthographicCamera camera;
     private SpriteBatch batch;
 
-    public RenderSystem(OrthographicCamera camera){
+    public RenderSystem(OrthographicCamera camera, SpriteBatch batch){
         this.camera = camera;
-        this.batch = new SpriteBatch();
+        this.batch = batch;
     }
 
     @Override
@@ -41,9 +41,6 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-
-        PositionComponent position;
-        RenderComponent render;
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
 

@@ -12,9 +12,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
+import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
+import de.quadspot.beatnbrawl.systems.InputSystem;
 import de.quadspot.beatnbrawl.systems.MovementSystem;
 import de.quadspot.beatnbrawl.systems.RenderSystem;
 
@@ -24,21 +26,21 @@ public class beatnbrawl extends Game {
     Engine engine;
     OrthographicCamera camera;
     Float delta;
+    SpriteBatch batch;
 	
 	@Override
 	public void create () {
-/*		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");*/
+		batch = new SpriteBatch();
+//		img = new Texture("badlogic.jpg");
         delta = Gdx.graphics.getDeltaTime();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         engine = new Engine();
-        engine.addSystem(new RenderSystem(camera));
-        engine.addSystem(new MovementSystem());
 
         Entity entity = new Entity();
         entity.add(new RenderComponent());
         entity.add(new PositionComponent(new Vector2(300,300)));
         entity.add(new MovementComponent(new Vector2(10,-10),20));
+        entity.add(new InputComponent());
 
         engine.addEntity(entity);
         //entity.removeAll();
@@ -46,6 +48,12 @@ public class beatnbrawl extends Game {
         entity2.add(new PositionComponent(new Vector2(-500,0)));
         entity2.add(new RenderComponent());
         engine.addEntity(entity2);
+
+        engine.addSystem(new RenderSystem(camera, batch));
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(new InputSystem(camera, batch));
+
+
 
 
 	}

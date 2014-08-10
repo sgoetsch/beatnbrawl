@@ -22,16 +22,17 @@ public class InputComponent extends Component {
     private Drawable touchBackground;
     private Drawable touchKnob;
     private Texture blockTexture;
-    private Sprite blockSprite;
     private float blockSpeed;
+
+    /* Refactoring erforderlich, wegen theoretisch möglicher mehrfacher Erstellung der Komponente */
 
     public InputComponent() {
         //Create a touchpad skin
         touchpadSkin = new Skin();
         //Set background image
-        touchpadSkin.add("touchBackground", new Texture("data/touchBackground.png"));
+        touchpadSkin.add("touchBackground", new Texture("touchBackground.png"));
         //Set knob image
-        touchpadSkin.add("touchKnob", new Texture("data/touchKnob.png"));
+        touchpadSkin.add("touchKnob", new Texture("touchKnob.png"));
         //Create TouchPad Style
         touchpadStyle = new TouchpadStyle();
         //Create Drawable's from TouchPad skin
@@ -43,6 +44,10 @@ public class InputComponent extends Component {
         //Create new TouchPad with the created style
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(15, 15, 200, 200);
+        touchpad.setBounds(50, 50, 500, 500);
+    }
+
+    public Touchpad getTouchpad() {
+        return touchpad;
     }
 }

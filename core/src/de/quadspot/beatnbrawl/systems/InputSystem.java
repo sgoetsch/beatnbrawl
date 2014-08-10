@@ -1,42 +1,66 @@
 package de.quadspot.beatnbrawl.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
+import com.badlogic.ashley.core.Engine;
+import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
+import com.badlogic.ashley.core.Family;
+import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
+import de.quadspot.beatnbrawl.components.InputComponent;
+import de.quadspot.beatnbrawl.components.PositionComponent;
+import de.quadspot.beatnbrawl.components.RenderComponent;
 
 /**
  * Created by goetsch on 05.08.14.
  */
 public class InputSystem extends EntitySystem{
-    private Touchpad touchpad;
-    private Touchpad.TouchpadStyle touchpadStyle;
-    private Skin touchpadSkin;
-    private Drawable touchBackground;
-    private Drawable touchKnob;
-
-    public InputSystem() {
+    private Stage stage;
+    private SpriteBatch batch;
+    private ImmutableArray<Entity> entities;
+    private OrthographicCamera camera;
 
 
-     //   batch = new SpriteBatch();
-        //Create camera
-     //   float aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
-     //   camera = new OrthographicCamera();
-     //   camera.setToOrtho(false, 10f*aspectRatio, 10f);
+    public InputSystem(OrthographicCamera camera, SpriteBatch batch) {
+        this.camera = camera;
+        this.batch = batch;
+    }
 
+    @Override
+    public void addedToEngine(Engine engine) {
+        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class));
 
+        ComponentMapper<InputComponent> icm = ComponentMapper.getFor(InputComponent.class);
 
         //Create a Stage and add TouchPad
-        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true, batch);
-        stage.addActor(touchpad);
+        //stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true, batch);
+        stage = new Stage(new ExtendViewport(camera.viewportWidth,camera.viewportHeight), batch);
+
+        stage.addActor(icm.get(entities.first()).getTouchpad());
         Gdx.input.setInputProcessor(stage);
+    }
 
-        //Create block sprite
-        blockTexture = new Texture(Gdx.files.internal("data/block.png"));
-        blockSprite = new Sprite(blockTexture);
-        //Set position to centre of the screen
-        blockSprite.setPosition(Gdx.graphics.getWidth()/2-blockSprite.getWidth()/2, Gdx.graphics.getHeight()/2-blockSprite.getHeight()/2);
+    @Override
+    public void removedFromEngine(Engine engine) {
+        super.removedFromEngine(engine);
+    }
 
-        blockSpeed = 5;
+    @Override
+    public void update(float deltaTime) {
+
+        stage.act(deltaTime);
+        stage.draw();
+
     }
 }

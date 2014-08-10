@@ -7,8 +7,8 @@ import com.badlogic.gdx.math.Vector2;
  * Created by goetsch on 05.08.14.
  */
 public class MovementComponent extends Component {
-    private Vector2 velocity = new Vector2(100,0);
-    private float maxVelocity = 0;
+    private Vector2 velocity;
+    private float maxVelocity;
 
     public MovementComponent(Vector2 velocity, float maxVelocity) {
         this.velocity = velocity;
