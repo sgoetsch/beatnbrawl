@@ -1,10 +1,11 @@
 package de.quadspot.beatnbrawl.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
-import com.badlogic.ashley.utils.ImmutableIntMap;
+import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -18,7 +19,7 @@ import de.quadspot.beatnbrawl.components.RenderComponent;
  * Created by goetsch on 05.08.14.
  */
 public class RenderSystem extends EntitySystem {
-    private ImmutableIntMap<Entity> entities;
+    private ImmutableArray<Entity> entities;
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
@@ -30,7 +31,7 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFamilyFor(PositionComponent.class, RenderComponent.class));
+        entities = engine.getEntitiesFor(Family.getFor(PositionComponent.class, RenderComponent.class));
     }
 
     @Override
@@ -43,6 +44,8 @@ public class RenderSystem extends EntitySystem {
 
         PositionComponent position;
         RenderComponent render;
+        ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
+        ComponentMapper <RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -51,10 +54,9 @@ public class RenderSystem extends EntitySystem {
 
         batch.begin();
 
-        for(Entity entity: entities.values()){
-            position = entity.getComponent(PositionComponent.class);
-            render = entity.getComponent(RenderComponent.class);
-            batch.draw(render.getImg(), position.getPosition().x, position.getPosition().y);
+        for(int i = 0; i < entities.size(); ++i){
+            Entity entity = entities.get(i);
+            batch.draw(rcm.get(entity).getImg(), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y);
             //batch.draw(render.getImg(), 300, 300);
         }
 

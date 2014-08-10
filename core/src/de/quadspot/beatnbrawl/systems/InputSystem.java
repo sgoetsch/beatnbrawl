@@ -14,4 +14,29 @@ public class InputSystem extends EntitySystem{
     private Skin touchpadSkin;
     private Drawable touchBackground;
     private Drawable touchKnob;
+
+    public InputSystem() {
+
+
+     //   batch = new SpriteBatch();
+        //Create camera
+     //   float aspectRatio = (float) Gdx.graphics.getWidth() / (float) Gdx.graphics.getHeight();
+     //   camera = new OrthographicCamera();
+     //   camera.setToOrtho(false, 10f*aspectRatio, 10f);
+
+
+
+        //Create a Stage and add TouchPad
+        stage = new Stage(Gdx.graphics.getWidth(), Gdx.graphics.getHeight(), true, batch);
+        stage.addActor(touchpad);
+        Gdx.input.setInputProcessor(stage);
+
+        //Create block sprite
+        blockTexture = new Texture(Gdx.files.internal("data/block.png"));
+        blockSprite = new Sprite(blockTexture);
+        //Set position to centre of the screen
+        blockSprite.setPosition(Gdx.graphics.getWidth()/2-blockSprite.getWidth()/2, Gdx.graphics.getHeight()/2-blockSprite.getHeight()/2);
+
+        blockSpeed = 5;
+    }
 }

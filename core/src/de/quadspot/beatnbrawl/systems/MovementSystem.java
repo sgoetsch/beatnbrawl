@@ -1,5 +1,6 @@
 package de.quadspot.beatnbrawl.systems;
 
+import com.badlogic.ashley.core.ComponentMapper;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
@@ -15,14 +16,15 @@ import de.quadspot.beatnbrawl.components.PositionComponent;
 public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
-        super(Family.getFamilyFor(PositionComponent.class, MovementComponent.class));
+        super(Family.getFor(PositionComponent.class, MovementComponent.class));
     }
 
     @Override
     public void processEntity(Entity entity, float deltaTime) {
-        PositionComponent position = entity.getComponent(PositionComponent.class);
-        MovementComponent movement = entity.getComponent(MovementComponent.class);
+        ComponentMapper<PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
+        ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
 
-        position.getPosition().add(movement.getVelocity().cpy().scl(deltaTime));
+        pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
+
     }
 }
