@@ -30,7 +30,7 @@ public class InputComponent extends Component {
         //Create a touchpad skin
         touchpadSkin = new Skin();
         //Set background image
-        touchpadSkin.add("touchBackground", new Texture("touchBackground.png"));
+        touchpadSkin.add("touchBackground", new Texture("touchBackground2.png"));
         //Set knob image
         touchpadSkin.add("touchKnob", new Texture("touchKnob.png"));
         //Create TouchPad Style
