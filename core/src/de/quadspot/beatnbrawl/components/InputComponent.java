@@ -15,16 +15,13 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
  */
 public class InputComponent extends Component {
 
-    private Stage stage;
     private Touchpad touchpad;
     private TouchpadStyle touchpadStyle;
     private Skin touchpadSkin;
     private Drawable touchBackground;
     private Drawable touchKnob;
-    private Texture blockTexture;
-    private float blockSpeed;
 
-    /* Refactoring erforderlich, wegen theoretisch möglicher mehrfacher Erstellung der Komponente */
+    /* TODO Refactoring erforderlich, wegen theoretisch möglicher mehrfacher Erstellung der Komponente */
 
     public InputComponent() {
         //Create a touchpad skin
