@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="76" height="7" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="tmnt" tilewidth="32" tileheight="32">
+  <image source="TMNT-City.gif" width="2432" height="224"/>
+ </tileset>
+ <layer name="Kachelebene 1" width="76" height="7">
+  <data encoding="base64" compression="zlib">
+   eJwV1YOyGAYAAMEX27bZ2LZtp7Ft27ZtszEa27ZtW93O3H7DBQoICAhMEIISjOCEICShCE0YwhKO8EQgIpGITBSiEo3oxCAmsYhNHOISj/gkICGJSEwSkpKM5KQgJalIzV+kIS3pSE8GMpKJzGQhK9nITg5ykovc5CEv+chPAQpSiMIUoSjFKE4JSlKK0pShLOUoTwUqUonKVKEq1ahODWpSi9rUoS5/U4/6NKAhjWhME5rSjOa0oCWtaE0b2tKO9nSgI53oTBe60o3u9KAnvehNH/rSj/4MYCCDGMwQhjKM4YxgJKMYzRjGMo7xTGAik5jMFKYyjenMYCazmM0c5jKP+SxgIYtYzBKWsozlrGAlq1jNGtayjvVsYCP/sInNbGEr29jODnayi938yx72so/9HOAghzjMEY5yjOOc4CSnOM0ZznKO81zgIpe4zBWuco3r3OAmt7jNHe5yj/s84CGPeMwTnvKM57zgJa94zRve8o73fOAjn/jMF77yje/84Ce/+M0fAgKJwAQhKMEITghCEorQhCEs4QhPBCISichEISrRiE4MYhKL2MQhLvGITwISkojEJCEpyUhOClKSitT8RRrSko70ZCAjmchMFrKSjezkICe5yE0e8pKP/BSgIIUoTBGKUozilKAkpShNGcpSjvJUoCKVqEwVqlKN6tSgJrWoTR3q8jf1qE8DGtKIxjShKc1oTgta0orWtKEt7WhPBzrSic50oSvd6E4PetKL3vShL/3ozwAGMojBDGEowxjOCEYyitGMYSzjGM8EJjKJyUxhKtOYzgxmMovZzGEu85jPAhayiMUsYSnLWM4KVrKK1axhLetYzwY28g+b2MwWtrKN7exgJ7vYzb/sYS/72M8BDnKIwxzhKMc4zglOcorTnOEs5zjPBS5yictc4SrXuM4NbnKL29zhLve4zwMe8ojHPOEpz3jOC17yite84S3veM8HPvKJz3zhK9/4zg9+8ovf/OH/8QciMEEISjCCE4KQhCI0YQhLOMITgYhEIjJRiMp/s1UBDA==
+  </data>
+ </layer>
+ <objectgroup name="Grund">
+  <object name="grund0" type="object" x="0" y="178" width="2434">
+   <properties>
+    <property name="categoryBits" value="4"/>
+    <property name="maskBits" value="8"/>
+   </properties>
+  </object>
+  <object name="grund1" type="object" x="0" y="219" width="2434">
+   <properties>
+    <property name="categoryBits" value="4"/>
+    <property name="maskBits" value="8"/>
+   </properties>
+  </object>
+  <object name="grund2" type="object" x="0.25" y="171.5" height="52.1591"/>
+  <object name="grund2" type="object" x="2417.92" y="0" height="224.103"/>
+  <object name="grund2" type="object" x="516.333" y="172" width="212.667" height="26.3333"/>
+ </objectgroup>
+</map>

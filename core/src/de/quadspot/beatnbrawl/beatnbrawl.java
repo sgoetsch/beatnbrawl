@@ -13,6 +13,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 
 import de.quadspot.beatnbrawl.components.InputComponent;
+import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
@@ -41,8 +42,12 @@ public class beatnbrawl extends Game {
         entity.add(new PositionComponent(new Vector2(300,300)));
         entity.add(new MovementComponent(new Vector2(0,0),500));
         entity.add(new InputComponent());
-
         engine.addEntity(entity);
+
+        Entity map = new Entity();
+        map.add(new MapComponent(batch));
+        engine.addEntity(map);
+
         //entity.removeAll();
         Entity entity2 = new Entity();
         entity2.add(new PositionComponent(new Vector2(-500,0)));

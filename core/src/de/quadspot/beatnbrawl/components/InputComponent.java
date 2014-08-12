@@ -41,7 +41,7 @@ public class InputComponent extends Component {
         //Create new TouchPad with the created style
         touchpad = new Touchpad(10, touchpadStyle);
         //setBounds(x,y,width,height)
-        touchpad.setBounds(50, 50, 500, 500);
+        //touchpad.setBounds(50, 50, 500, 500);
     }
 
     public Touchpad getTouchpad() {
