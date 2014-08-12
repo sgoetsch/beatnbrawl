@@ -15,6 +15,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Touchpad;
@@ -75,7 +76,9 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            mcm.get(entity).getVelocity().set(new Vector2(mcm.get(entity).getMaxVelocity() * icm.get(entity).getTouchpad().getKnobPercentX(),mcm.get(entity).getMaxVelocity() * icm.get(entity).getTouchpad().getKnobPercentY()));
+            mcm.get(entity).getVelocity().set(new Vector3(mcm.get(entity).getMaxVelocity() * icm.get(entity).getTouchpad().getKnobPercentX(),
+                    0,
+                    mcm.get(entity).getMaxVelocity() * icm.get(entity).getTouchpad().getKnobPercentY()));
         }
 
         stage.act(deltaTime);

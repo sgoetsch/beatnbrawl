@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
@@ -26,5 +27,6 @@ public class MovementSystem extends IteratingSystem {
 
         pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
 
+        //pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x,pcm.get(entity).getPosition().z,pcm.get(entity).getPosition().z);
     }
 }

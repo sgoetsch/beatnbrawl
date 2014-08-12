@@ -73,7 +73,7 @@ public class RenderSystem extends EntitySystem {
 
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            batch.draw(rcm.get(entity).getImg(), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y);
+            batch.draw(rcm.get(entity).getImg(), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
             //batch.draw(render.getImg(), 300, 300);
         }
 

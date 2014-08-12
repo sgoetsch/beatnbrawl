@@ -1,1 +1,1 @@
-include 'core', 'android', 'html', ':ashley'
+include 'core', 'android', ':ashley'

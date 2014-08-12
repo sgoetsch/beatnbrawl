@@ -2,20 +2,21 @@ package de.quadspot.beatnbrawl.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Created by goetsch on 05.08.14.
  */
 public class MovementComponent extends Component {
-    private Vector2 velocity;
+    private Vector3 velocity;
     private float maxVelocity;
 
-    public MovementComponent(Vector2 velocity, float maxVelocity) {
+    public MovementComponent(Vector3 velocity, float maxVelocity) {
         this.velocity = velocity;
         this.maxVelocity = maxVelocity;
     }
 
-    public Vector2 getVelocity() {
+    public Vector3 getVelocity() {
         return velocity;
     }
 

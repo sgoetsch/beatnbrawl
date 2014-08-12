@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
@@ -39,8 +40,8 @@ public class beatnbrawl extends Game {
 
         Entity entity = new Entity();
         entity.add(new RenderComponent());
-        entity.add(new PositionComponent(new Vector2(300,300)));
-        entity.add(new MovementComponent(new Vector2(0,0),500));
+        entity.add(new PositionComponent(new Vector3(300,300,0)));
+        entity.add(new MovementComponent(new Vector3(0,0,0),500));
         entity.add(new InputComponent());
         engine.addEntity(entity);
 
@@ -50,7 +51,7 @@ public class beatnbrawl extends Game {
 
         //entity.removeAll();
         Entity entity2 = new Entity();
-        entity2.add(new PositionComponent(new Vector2(-500,0)));
+        entity2.add(new PositionComponent(new Vector3(500,0,0)));
         entity2.add(new RenderComponent());
         engine.addEntity(entity2);
 
