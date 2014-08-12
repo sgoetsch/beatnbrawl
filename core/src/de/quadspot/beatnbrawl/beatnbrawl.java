@@ -41,7 +41,7 @@ public class beatnbrawl extends Game {
         Entity entity = new Entity();
         entity.add(new RenderComponent());
         entity.add(new PositionComponent(new Vector3(300,300,0)));
-        entity.add(new MovementComponent(new Vector3(0,0,0),500));
+        entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         entity.add(new InputComponent());
         engine.addEntity(entity);
 

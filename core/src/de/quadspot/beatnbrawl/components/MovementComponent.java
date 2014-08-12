@@ -9,9 +9,9 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class MovementComponent extends Component {
     private Vector3 velocity;
-    private float maxVelocity;
+    private Vector3 maxVelocity;
 
-    public MovementComponent(Vector3 velocity, float maxVelocity) {
+    public MovementComponent(Vector3 velocity, Vector3 maxVelocity) {
         this.velocity = velocity;
         this.maxVelocity = maxVelocity;
     }
@@ -20,7 +20,7 @@ public class MovementComponent extends Component {
         return velocity;
     }
 
-    public float getMaxVelocity() {
+    public Vector3 getMaxVelocity() {
         return maxVelocity;
     }
 }

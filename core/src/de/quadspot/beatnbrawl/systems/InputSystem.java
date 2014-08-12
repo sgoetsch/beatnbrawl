@@ -76,9 +76,9 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            mcm.get(entity).getVelocity().set(new Vector3(mcm.get(entity).getMaxVelocity() * icm.get(entity).getTouchpad().getKnobPercentX(),
+            mcm.get(entity).getVelocity().set(new Vector3(mcm.get(entity).getMaxVelocity().x * icm.get(entity).getTouchpad().getKnobPercentX(),
                     0,
-                    mcm.get(entity).getMaxVelocity() * icm.get(entity).getTouchpad().getKnobPercentY()));
+                    mcm.get(entity).getMaxVelocity().z * icm.get(entity).getTouchpad().getKnobPercentY()));
         }
 
         stage.act(deltaTime);
