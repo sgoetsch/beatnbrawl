@@ -8,6 +8,7 @@ import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 
@@ -17,7 +18,7 @@ import de.quadspot.beatnbrawl.components.PositionComponent;
 public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
-        super(Family.getFor(PositionComponent.class, MovementComponent.class));
+        super(Family.getFor(PositionComponent.class, MovementComponent.class, AnimationComponent.class));
     }
 
     @Override

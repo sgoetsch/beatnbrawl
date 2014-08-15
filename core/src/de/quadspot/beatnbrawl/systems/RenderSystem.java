@@ -14,6 +14,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.Bits;
 
+import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
@@ -36,7 +37,7 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, RenderComponent.class), new Bits(), new Bits()));
+        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, RenderComponent.class, AnimationComponent.class), new Bits(), new Bits()));
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
@@ -54,6 +55,7 @@ public class RenderSystem extends EntitySystem {
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
         ComponentMapper <MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
+        ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
 
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -73,8 +75,11 @@ public class RenderSystem extends EntitySystem {
 
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            batch.draw(rcm.get(entity).getImg(), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
+            batch.draw(acm.get(entity).getCurrentAnimation().getKeyFrame(deltaTime), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
             //batch.draw(render.getImg(), 300, 300);
+            //System.out.println(deltaTime);
+            //System.out.println(acm.get(entity).getWalkRightAnimation().getKeyFrames().length);
+            // getKeyFrameIndex(deltaTime));
         }
 
         batch.end();
