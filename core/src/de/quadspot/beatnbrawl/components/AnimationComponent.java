@@ -34,38 +34,31 @@ public class AnimationComponent extends Component {
         jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
 
-        // TODO: Refactor to own function
-        TextureRegion[] walkLeftFrames = new TextureRegion[walkRightAnimation.getKeyFrames().length];
-        k=0;
-        for (TextureRegion i : walkRightAnimation.getKeyFrames()){
-            walkLeftFrames[k] = new TextureRegion(i);
-            walkLeftFrames[k].flip(true, false);
-            k++;
-        }
-        walkLeftAnimation = new Animation(0.15f, walkLeftFrames);
+        walkLeftAnimation = flip(walkRightAnimation);     
         walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion[] jumpLeftFrames = new TextureRegion[jumpRightAnimation.getKeyFrames().length];
-        k=0;
-        for (TextureRegion i : jumpRightAnimation.getKeyFrames()){
-            jumpLeftFrames[k] = new TextureRegion(i);
-            jumpLeftFrames[k].flip(true, false);
-            k++;
-        }
-        jumpLeftAnimation = new Animation(0.15f, jumpLeftFrames);
+        
+        jumpLeftAnimation = flip(jumpRightAnimation);
         jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion[] standLeftFrames = new TextureRegion[standRightAnimation.getKeyFrames().length];
-        k=0;
-        for (TextureRegion i : standRightAnimation.getKeyFrames()){
-            standLeftFrames[k] = new TextureRegion(i);
-            standLeftFrames[k].flip(true, false);
-            k++;
-        }
-        standLeftAnimation = new Animation(0.15f, standLeftFrames);
+        
+        standLeftAnimation = flip(standRightAnimation);
         standLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         currentAnimation = standRightAnimation; //Commenting this leads to: java.lang.NullPointerException
+    }
+    
+    private Animation flip(Animation sourceAnimation){
+        TextureRegion[] destFrames = new TextureRegion[sourceAnimation.getKeyFrames().length];
+        k=0;
+        for (TextureRegion i : sourceAnimation.getKeyFrames()){
+            destFrames[k] = new TextureRegion(i);
+            destFrames[k].flip(true, false);
+            k++;
+        }
+        Animation destAnimation = new Animation(0.15f, destFrames);
+        
+        return destAnimation;
     }
 
     public Animation getWalkRightAnimation() {
