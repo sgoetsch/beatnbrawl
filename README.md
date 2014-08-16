@@ -10,7 +10,7 @@ TODO:
 * Sprites laden und einbinden /done
 * Entity-States einführen (fsm?) /done
 * Sprites mit States verbinden /done
-* Enemys
+* Enemies
 * KI
 * Menüs
 * and much more!
