@@ -11,8 +11,6 @@ import com.badlogic.gdx.utils.Bits;
 
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
-import de.quadspot.beatnbrawl.components.PositionComponent;
-import de.quadspot.beatnbrawl.components.RenderComponent;
 
 /**
  * Created by goetsch on 15.08.14.

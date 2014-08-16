@@ -1,14 +1,9 @@
 package de.quadspot.beatnbrawl.components;
 
 import com.badlogic.ashley.core.Component;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.utils.Array;
-
-import java.util.Iterator;
 
 /**
  * Created by goetsch on 13.08.14.
