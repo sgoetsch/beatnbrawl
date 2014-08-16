@@ -18,7 +18,7 @@ import de.quadspot.beatnbrawl.components.PositionComponent;
 public class MovementSystem extends IteratingSystem {
 
     public MovementSystem() {
-        super(Family.getFor(PositionComponent.class, MovementComponent.class, AnimationComponent.class));
+        super(Family.getFor(PositionComponent.class, MovementComponent.class));
     }
 
     @Override
@@ -28,6 +28,20 @@ public class MovementSystem extends IteratingSystem {
 
         pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
 
-        //pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x,pcm.get(entity).getPosition().z,pcm.get(entity).getPosition().z);
+        if (mcm.get(entity).getVelocity().x > 0) {
+            mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
+        }
+        else if (mcm.get(entity).getVelocity().x < 0) {
+            mcm.get(entity).setState(MovementComponent.State.WALK_LEFT);
+        }
+        else {
+            if (mcm.get(entity).getPrevState().dir().equals("RIGHT")) {
+                mcm.get(entity).setState(MovementComponent.State.STAND_RIGHT);
+            }
+            else mcm.get(entity).setState(MovementComponent.State.STAND_LEFT);
+
+
+    }
+
     }
 }

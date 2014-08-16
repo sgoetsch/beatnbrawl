@@ -45,7 +45,7 @@ public class beatnbrawl extends Game {
         entity.add(new PositionComponent(new Vector3(300,300,0)));
         entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         entity.add(new InputComponent());
-        entity.add(new AnimationComponent("don.atlas"));
+        entity.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
         engine.addEntity(entity);
 
         Entity map = new Entity();
@@ -62,7 +62,7 @@ public class beatnbrawl extends Game {
         engine.addSystem(new RenderSystem(camera, batch));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new InputSystem(camera, batch));
-        //engine.addSystem(new AnimationSystem());
+        engine.addSystem(new AnimationSystem());
 
 
 

@@ -25,6 +25,7 @@ import de.quadspot.beatnbrawl.components.RenderComponent;
 public class RenderSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
     private Entity mapEntity;
+    private float elapsedTime = 0;
 
 
     private OrthographicCamera camera;
@@ -75,7 +76,10 @@ public class RenderSystem extends EntitySystem {
 
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            batch.draw(acm.get(entity).getCurrentAnimation().getKeyFrame(deltaTime), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
+            elapsedTime += deltaTime;
+            //batch.draw(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
+            batch.draw(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z,
+                    0,0,acm.get(entity).getWidth(elapsedTime),acm.get(entity).getHeight(elapsedTime),4,4,0);
             //batch.draw(render.getImg(), 300, 300);
             //System.out.println(deltaTime);
             //System.out.println(acm.get(entity).getWalkRightAnimation().getKeyFrames().length);

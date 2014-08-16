@@ -33,7 +33,10 @@ public class AnimationComponent extends Component {
         walkRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("walk")));
         walkRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
         standRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("stand")));
+        standRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         jumpRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("jump")));
+        jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         TextureRegion[] walkLeftFrames = walkRightAnimation.getKeyFrames();
         k=0;
@@ -43,6 +46,7 @@ public class AnimationComponent extends Component {
             k++;
         }
         walkLeftAnimation = new Animation(0.15f, walkLeftFrames);
+        walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         TextureRegion[] jumpLeftFrames = jumpRightAnimation.getKeyFrames();
         k=0;
@@ -52,6 +56,7 @@ public class AnimationComponent extends Component {
             k++;
         }
         jumpLeftAnimation = new Animation(0.15f, jumpLeftFrames);
+        jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         TextureRegion[] standLeftFrames = standRightAnimation.getKeyFrames();
         k=0;
@@ -61,8 +66,9 @@ public class AnimationComponent extends Component {
             k++;
         }
         standLeftAnimation = new Animation(0.15f, standLeftFrames);
+        standLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        currentAnimation = walkRightAnimation;
+        currentAnimation = standRightAnimation; //Commenting this leads to: java.lang.NullPointerException
     }
 
     public Animation getWalkRightAnimation() {
@@ -95,5 +101,13 @@ public class AnimationComponent extends Component {
 
     public void setCurrentAnimation(Animation currentAnimation) {
         this.currentAnimation = currentAnimation;
+    }
+
+    public int getWidth(float elapsedTime) {
+        return currentAnimation.getKeyFrame(elapsedTime).getRegionWidth();
+    }
+
+    public int getHeight(float elapsedTime) {
+        return currentAnimation.getKeyFrame(elapsedTime).getRegionHeight();
     }
 }
