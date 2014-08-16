@@ -28,41 +28,43 @@ public class AnimationComponent extends Component {
     public AnimationComponent(String string) {
         this.textureAtlas = new TextureAtlas(string);
 
-        //TextureRegion[] walkRightFrames = new TextureRegion[20];
-
+      //  TextureRegion[] walkRightFrames = textureAtlas.findRegions("walk");
         walkRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("walk")));
         walkRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         standRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("stand")));
         standRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         jumpRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("jump")));
         jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion[] walkLeftFrames = walkRightAnimation.getKeyFrames();
+
+        // TODO: Refactor to own function
+        TextureRegion[] walkLeftFrames = new TextureRegion[walkRightAnimation.getKeyFrames().length];
         k=0;
-        for (TextureRegion i : walkLeftFrames){
+        for (TextureRegion i : walkRightAnimation.getKeyFrames()){
             walkLeftFrames[k] = new TextureRegion(i);
-            i.flip(true, false);
+            walkLeftFrames[k].flip(true, false);
             k++;
         }
         walkLeftAnimation = new Animation(0.15f, walkLeftFrames);
         walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion[] jumpLeftFrames = jumpRightAnimation.getKeyFrames();
+        TextureRegion[] jumpLeftFrames = new TextureRegion[jumpRightAnimation.getKeyFrames().length];
         k=0;
-        for (TextureRegion i : jumpLeftFrames){
+        for (TextureRegion i : jumpRightAnimation.getKeyFrames()){
             jumpLeftFrames[k] = new TextureRegion(i);
-            i.flip(true, false);
+            jumpLeftFrames[k].flip(true, false);
             k++;
         }
         jumpLeftAnimation = new Animation(0.15f, jumpLeftFrames);
         jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        TextureRegion[] standLeftFrames = standRightAnimation.getKeyFrames();
+        TextureRegion[] standLeftFrames = new TextureRegion[standRightAnimation.getKeyFrames().length];
         k=0;
-        for (TextureRegion i : standLeftFrames){
-            standLeftFrames[k]=new TextureRegion(i);
-            i.flip(true, false);
+        for (TextureRegion i : standRightAnimation.getKeyFrames()){
+            standLeftFrames[k] = new TextureRegion(i);
+            standLeftFrames[k].flip(true, false);
             k++;
         }
         standLeftAnimation = new Animation(0.15f, standLeftFrames);
