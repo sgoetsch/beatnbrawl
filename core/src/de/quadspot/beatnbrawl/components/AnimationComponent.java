@@ -34,21 +34,21 @@ public class AnimationComponent extends Component {
         jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
 
-        walkLeftAnimation = flip(walkRightAnimation);     
+        walkLeftAnimation = flip(0.15f, walkRightAnimation);     
         walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         
-        jumpLeftAnimation = flip(jumpRightAnimation);
+        jumpLeftAnimation = flip(0.15f, jumpRightAnimation);
         jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         
-        standLeftAnimation = flip(standRightAnimation);
+        standLeftAnimation = flip(0.15f, standRightAnimation);
         standLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         currentAnimation = standRightAnimation; //Commenting this leads to: java.lang.NullPointerException
     }
     
-    private Animation flip(Animation sourceAnimation){
+    private Animation flip(float f, Animation sourceAnimation){
         TextureRegion[] destFrames = new TextureRegion[sourceAnimation.getKeyFrames().length];
         k=0;
         for (TextureRegion i : sourceAnimation.getKeyFrames()){
@@ -56,7 +56,7 @@ public class AnimationComponent extends Component {
             destFrames[k].flip(true, false);
             k++;
         }
-        Animation destAnimation = new Animation(0.15f, destFrames);
+        Animation destAnimation = new Animation(f, destFrames);
         
         return destAnimation;
     }
