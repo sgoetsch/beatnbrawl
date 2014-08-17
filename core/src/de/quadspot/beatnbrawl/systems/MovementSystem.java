@@ -49,13 +49,13 @@ public class MovementSystem extends EntitySystem {
             System.out.println(mapcm.get(mapEntity).getGroundBody().getX()+","+mapcm.get(mapEntity).getGroundBody().getY()+","+(mapcm.get(mapEntity).getGroundBody().getX()+mapcm.get(mapEntity).getGroundBody().getWidth())+","+(mapcm.get(mapEntity).getGroundBody().getY()+mapcm.get(mapEntity).getGroundBody().getHeight()));
             System.out.println(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z));
             System.out.println("x:"+(int) pcm.get(entity).getPosition().x +"y:"+ (int) pcm.get(entity).getPosition().y+"z:"+ (int) pcm.get(entity).getPosition().z);
-            if ((mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().y))) {
+            //if ((mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z))) {
 
                 pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
 
-                if (mcm.get(entity).getVelocity().x > 0) {
+                if (mcm.get(entity).getVelocity().x > 0 && mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)) {
                     mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
-                } else if (mcm.get(entity).getVelocity().x < 0) {
+                } else if (mcm.get(entity).getVelocity().x < 0 && mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)) {
                     mcm.get(entity).setState(MovementComponent.State.WALK_LEFT);
                 } else {
                     if (mcm.get(entity).getPrevState().dir().equals("RIGHT")) {
@@ -64,7 +64,7 @@ public class MovementSystem extends EntitySystem {
                         mcm.get(entity).setState(MovementComponent.State.STAND_LEFT);
                     }
                 }
-            }
+            //}
         }
     }
 }

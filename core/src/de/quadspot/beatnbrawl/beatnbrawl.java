@@ -37,7 +37,7 @@ public class beatnbrawl extends Game {
 
         Entity entity = new Entity();
         entity.add(new RenderComponent());
-        entity.add(new PositionComponent(new Vector3(100,100,10)));
+        entity.add(new PositionComponent(new Vector3(100,0,10)));
         entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         entity.add(new InputComponent());
         entity.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
