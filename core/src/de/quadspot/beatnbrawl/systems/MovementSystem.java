@@ -8,7 +8,7 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Bits;
 import de.quadspot.beatnbrawl.components.MapComponent;
 
@@ -45,11 +45,13 @@ public class MovementSystem extends EntitySystem {
         ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
+            
+            Vector3 oldPos = pcm.get(entity).getPosition();
 
             System.out.println(mapcm.get(mapEntity).getGroundBody().getX()+","+mapcm.get(mapEntity).getGroundBody().getY()+","+(mapcm.get(mapEntity).getGroundBody().getX()+mapcm.get(mapEntity).getGroundBody().getWidth())+","+(mapcm.get(mapEntity).getGroundBody().getY()+mapcm.get(mapEntity).getGroundBody().getHeight()));
             System.out.println(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z));
             System.out.println("x:"+(int) pcm.get(entity).getPosition().x +"y:"+ (int) pcm.get(entity).getPosition().y+"z:"+ (int) pcm.get(entity).getPosition().z);
-            if ((mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().y))) {
+            if ((mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z))) {
 
                 pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
 
@@ -64,6 +66,8 @@ public class MovementSystem extends EntitySystem {
                         mcm.get(entity).setState(MovementComponent.State.STAND_LEFT);
                     }
                 }
+            }else{
+                pcm.get(entity).getPosition().set(oldPos);
             }
         }
     }
