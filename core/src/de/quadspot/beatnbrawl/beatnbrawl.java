@@ -7,14 +7,15 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector3;
-
 import de.quadspot.beatnbrawl.components.AnimationComponent;
+import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
 import de.quadspot.beatnbrawl.systems.AnimationSystem;
+import de.quadspot.beatnbrawl.systems.CollisionSystem;
 import de.quadspot.beatnbrawl.systems.InputSystem;
 import de.quadspot.beatnbrawl.systems.MovementSystem;
 import de.quadspot.beatnbrawl.systems.RenderSystem;
@@ -37,10 +38,11 @@ public class beatnbrawl extends Game {
 
         Entity entity = new Entity();
         entity.add(new RenderComponent());
-        entity.add(new PositionComponent(new Vector3(100,100,10)));
+        entity.add(new PositionComponent(new Vector3(100,0,10)));
         entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         entity.add(new InputComponent());
         entity.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
+        entity.add(new CollisionComponent());
         engine.addEntity(entity);
 
         Entity map = new Entity();
@@ -58,6 +60,7 @@ public class beatnbrawl extends Game {
         engine.addSystem(new MovementSystem());
         engine.addSystem(new InputSystem(camera, batch));
         engine.addSystem(new AnimationSystem());
+        engine.addSystem(new CollisionSystem());
 
 
 
