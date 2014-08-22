@@ -29,7 +29,7 @@ public class CollidingBody {
     private float y;
     private float width;
     private float hight;
-    private Vector2 position;
+    private Vector2 position = new Vector2(0,0);
     
 
     public CollidingBody(float x, float y, float width, float hight) {
@@ -111,11 +111,36 @@ public class CollidingBody {
         this.y = y;
         this.width = width;
         this.hight = hight;
+        setRecs();
     }
     
     public void set(Vector3 position, float width, float hight){
-        this.position.set(new Vector2(position.x,position.y+position.z));
+        this.position.set(new Vector2(position.x,position.z));
+        this.x = this.position.x;
+        this.y = this.position.y;
         this.width = width;
         this.hight = hight;
+        setRecs();
+    }
+    
+    private void setRecs(){
+        
+        //boundingBox.set(x, y, width, hight);
+        boundingBox.setPosition(position);
+        //collisionBox.set(x, y, width, hight/4);
+        collisionBox.setPosition(position);
+        //attackBox.set();
+            
+        //sensorLeft.set(x,(y+hight)/2-sensorHight/2,sensorWidth,sensorHight);
+        sensorLeft.setPosition(x, (y+hight)/2-sensorHight/2);
+        
+        //sensorRight.set(x+width-sensorWidth,(y+hight)/2-sensorHight/2,sensorWidth,sensorHight);
+        sensorRight.setPosition(x+width-sensorWidth,(y+hight)/2-sensorHight/2);
+
+        //sensorTop.set((x+width)/2-sensorWidth/2,y+hight-sensorHight,sensorWidth,sensorHight);
+        sensorTop.setPosition((x+width)/2-sensorWidth/2,y+hight-sensorHight);
+        
+        //sensorBottom.set((x+width)/2-sensorWidth/2,y,sensorWidth,sensorHight);
+        sensorBottom.setPosition((x+width)/2-sensorWidth/2,y);
     }
 }

@@ -29,7 +29,8 @@ public class CollisionSystem extends EntitySystem{
     private ImmutableArray<Entity> entities;
     private float elapsedTime;
     private Entity mapEntity;
-
+    int k=0;
+    
     @Override
     public boolean checkProcessing() {
         return super.checkProcessing(); //To change body of generated methods, choose Tools | Templates.
@@ -41,7 +42,6 @@ public class CollisionSystem extends EntitySystem{
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
         
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
-        ComponentMapper <RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
         ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
         ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
@@ -52,6 +52,7 @@ public class CollisionSystem extends EntitySystem{
             
             ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime));
             ccm.get(entity).setGround(mapcm.get(mapEntity).getGroundBody());
+            System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
 
             
 //            ccm.get(entity).getBoundingBox().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime));
@@ -89,16 +90,40 @@ public class CollisionSystem extends EntitySystem{
         elapsedTime += deltaTime;
        
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
-        ComponentMapper <RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
         ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
 
-        
+
+                    
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
             
             
             ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime));
+            //System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
+            System.out.println("Collision"+k++);
+            
+            if (ccm.get(entity).isLeftOfGround()) {
+                pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
+                    //mcm.get(entity).getVelocity().x=0;
+                System.out.println("is left of ground");
+            } 
+            if (ccm.get(entity).isRightOfGround()) {
+                pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
+                    //mcm.get(entity).getVelocity().x=0;
+                System.out.println("is right of ground");
+            } 
+            if (ccm.get(entity).isTopOfGround()) {
+                pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getOldPosition().z);
+                    //mcm.get(entity).getVelocity().y=0;
+                System.out.println("is top of ground");
+            } 
+            if (ccm.get(entity).isBottomOfGround()) {
+                pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getOldPosition().z);
+                    //mcm.get(entity).getVelocity().y=0;
+                System.out.println("is bottom of ground");
+            }
+            System.out.println("************************************************************:");
 
         }
         

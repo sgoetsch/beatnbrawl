@@ -9,6 +9,11 @@ import com.badlogic.gdx.math.Vector3;
 public class PositionComponent extends Component{
 
     private Vector3 position;
+    private Vector3 oldPosition = new Vector3(0,0,0);
+
+    public Vector3 getOldPosition() {
+        return oldPosition;
+    }
 
     public PositionComponent(Vector3 position) {
         this.position = position;

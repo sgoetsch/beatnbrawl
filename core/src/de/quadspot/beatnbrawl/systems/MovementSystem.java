@@ -8,8 +8,10 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Bits;
+import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 
 import de.quadspot.beatnbrawl.components.MovementComponent;
@@ -23,14 +25,14 @@ public class MovementSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
     private Entity mapEntity;
     Vector3 oldPos = new Vector3(0, 0, 0);
-
+    int k=0;
     public MovementSystem() {
 
     }
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFor(PositionComponent.class, MovementComponent.class));
+        entities = engine.getEntitiesFor(Family.getFor(PositionComponent.class, MovementComponent.class, CollisionComponent.class));
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
 
     }
@@ -45,6 +47,8 @@ public class MovementSystem extends EntitySystem {
 
         ComponentMapper<PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
+        ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
+
         ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
@@ -52,11 +56,18 @@ public class MovementSystem extends EntitySystem {
             //System.out.println(mapcm.get(mapEntity).getGroundBody().getX()+","+mapcm.get(mapEntity).getGroundBody().getY()+","+(mapcm.get(mapEntity).getGroundBody().getX()+mapcm.get(mapEntity).getGroundBody().getWidth())+","+(mapcm.get(mapEntity).getGroundBody().getY()+mapcm.get(mapEntity).getGroundBody().getHeight()));
             //System.out.println(!mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z));
             //System.out.println("x:"+(int) pcm.get(entity).getPosition().x +"y:"+ (int) pcm.get(entity).getPosition().y+"z:"+ (int) pcm.get(entity).getPosition().z);
-            oldPos = pcm.get(entity).getPosition().cpy();
+            
+            pcm.get(entity).getOldPosition().set(pcm.get(entity).getPosition().cpy());
+            
+            System.out.println("************************************************************:");
 
+            
             pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
-            System.out.println("NEU:" + pcm.get(entity).getPosition() + "     ALT:" + oldPos + "       Velocity:" + mcm.get(entity).getVelocity());
+            //System.out.println("NEU:" + pcm.get(entity).getPosition() + "     ALT:" + oldPos + "       Velocity:" + mcm.get(entity).getVelocity());
+            //System.out.println("NEU:" + ccm.get(entity).getCollidingBody().getPosition());
 
+            
+            System.out.println("Moving"+k++);
             if (mcm.get(entity).getVelocity().x > 0) {
                 mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
 
@@ -82,36 +93,10 @@ public class MovementSystem extends EntitySystem {
             
             
             // of ground things
+            //System.out.println(ccm.get(entity).isLeftOfGround());
+            //System.out.println("x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
 
-            if (mcm.get(entity).getVelocity().x > 0 && (!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)))) {
-                pcm.get(entity).getPosition().set(oldPos.x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                    //mcm.get(entity).getVelocity().x=0;
-                //System.out.println(!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)));
-            } else if (mcm.get(entity).getVelocity().x < 0 && (!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)))) {
-                pcm.get(entity).getPosition().set(oldPos.x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                    //mcm.get(entity).getVelocity().x=0;
-                //System.out.println(!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)));
-            } else if (mcm.get(entity).getVelocity().y > 0 && (!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().y, (int) pcm.get(entity).getPosition().z)))) {
-                pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, oldPos.y, pcm.get(entity).getPosition().z);
-                    //mcm.get(entity).getVelocity().y=0;
-                //System.out.println(!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)));
-            } else if (mcm.get(entity).getVelocity().y < 0 && (!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().y, (int) pcm.get(entity).getPosition().z)))) {
-                pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, oldPos.y, pcm.get(entity).getPosition().z);
-                    //mcm.get(entity).getVelocity().y=0;
-                //System.out.println(!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)));
-            } else if (mcm.get(entity).getVelocity().z > 0 && (!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().z, (int) pcm.get(entity).getPosition().z)))) {
-                pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, oldPos.z);
-                    //mcm.get(entity).getVelocity().z = 0;
-                //System.out.println(!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)));
-            } else if (mcm.get(entity).getVelocity().z < 0 && (!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().z, (int) pcm.get(entity).getPosition().z)))) {
-                pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, oldPos.z);
-                    //mcm.get(entity).getVelocity().z = 0;
-                //System.out.println(!(mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z)));
-            } else {
-                if (mcm.get(entity).getPrevState().dir().equals("RIGHT")) {
-                } else {
-                }
-            }
+
 
         }
     }
