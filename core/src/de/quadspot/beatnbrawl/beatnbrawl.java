@@ -39,7 +39,7 @@ public class beatnbrawl extends Game {
         Entity entity = new Entity();
         entity.add(new RenderComponent());
         entity.add(new PositionComponent(new Vector3(100,0,10)));
-        entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
+        entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,0,200)));
         entity.add(new InputComponent());
         entity.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
         entity.add(new CollisionComponent());
@@ -53,8 +53,12 @@ public class beatnbrawl extends Game {
 
         //entity.removeAll();
         Entity entity2 = new Entity();
-        entity2.add(new PositionComponent(new Vector3(500,0,0)));
+        entity2.add(new PositionComponent(new Vector3(500,0,100)));
         entity2.add(new RenderComponent());
+        entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
+        //entity2.add(new InputComponent());
+        entity2.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
+        entity2.add(new CollisionComponent());        
         engine.addEntity(entity2);
 
 

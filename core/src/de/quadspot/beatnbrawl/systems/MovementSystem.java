@@ -59,7 +59,6 @@ public class MovementSystem extends EntitySystem {
             
             pcm.get(entity).getOldPosition().set(pcm.get(entity).getPosition().cpy());
             
-            System.out.println("************************************************************:");
 
             
             pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
@@ -67,7 +66,6 @@ public class MovementSystem extends EntitySystem {
             //System.out.println("NEU:" + ccm.get(entity).getCollidingBody().getPosition());
 
             
-            System.out.println("Moving"+k++);
             if (mcm.get(entity).getVelocity().x > 0) {
                 mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
 

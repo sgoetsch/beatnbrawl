@@ -79,11 +79,4 @@ public class MapComponent extends Component{
     public float getMapHeight() {
         return mapHeight*mapFactor;
     }
-    
-    public boolean isOnGround(int x, int y){
-        return groundBody2.contains(x, y);
-    }
-
-
-
 }

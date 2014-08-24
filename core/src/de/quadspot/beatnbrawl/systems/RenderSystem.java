@@ -10,13 +10,17 @@ import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
-
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
+import java.util.Comparator;
 
 /**
  * Created by goetsch on 05.08.14.
@@ -71,6 +75,40 @@ public class RenderSystem extends EntitySystem {
         mapcm.get(mapEntity).getTiledMapRenderer().setView(camera);
         mapcm.get(mapEntity).getTiledMapRenderer().render();
 
+        
+        //Z-Sort versuch
+        
+        /*
+        Array<Sprite> sort = new Array();
+        
+        for(int i = 0; i < entities.size(); ++i){
+            Entity entity = entities.get(i);
+            elapsedTime += deltaTime;
+            
+            sort.add(new Sprite(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime))); 
+            sort.get(i).setPosition(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
+            sort.get(i).setRegionWidth(acm.get(entity).getWidth(elapsedTime));
+            sort.get(i).setRegionHeight(acm.get(entity).getHeight(elapsedTime));
+            
+            sort.get(i).setScale(4, 4);
+                    
+        }
+        //@TODO: implemet Comperator;
+        sort.sort(new Comparator<Sprite>() {
+                    public int compare(Sprite s0, Sprite s1) {
+                    return s0.getRegionY() - s1.getRegionY();
+                    }
+                });
+        
+        batch.begin();
+
+        for (Sprite sprite : sort) {
+            sprite.draw(batch);
+        }
+        */
+        //-------------------------
+        
+        
         batch.begin();
 
         for(int i = 0; i < entities.size(); ++i){
@@ -88,3 +126,4 @@ public class RenderSystem extends EntitySystem {
         batch.end();
     }
 }
+
