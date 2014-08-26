@@ -8,15 +8,20 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Bits;
+
+import de.quadspot.beatnbrawl.beatnbrawl;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
+import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
@@ -30,9 +35,12 @@ public class RenderSystem extends EntitySystem {
     private Entity mapEntity;
     private float elapsedTime = 0;
 
+    private float scale;
+
 
     private OrthographicCamera camera;
     private SpriteBatch batch;
+    private ShapeRenderer shapeRenderer;
 
     public RenderSystem(OrthographicCamera camera, SpriteBatch batch){
         this.camera = camera;
@@ -41,12 +49,17 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, RenderComponent.class, AnimationComponent.class), new Bits(), new Bits()));
+        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, RenderComponent.class, AnimationComponent.class, CollisionComponent.class),
+                new Bits(), new Bits()));
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
-        camera.position.set(Gdx.graphics.getWidth()/2, mapcm.get(mapEntity).getMapHeight()/2, 0);
+        scale = mapcm.get(mapEntity).getMapFactor();
+        camera.position.set(Gdx.graphics.getWidth() / 2, mapcm.get(mapEntity).getMapHeight() / 2, 0);
         camera.update();
+        shapeRenderer = new ShapeRenderer();
+
+
     }
 
     @Override
@@ -60,6 +73,8 @@ public class RenderSystem extends EntitySystem {
         ComponentMapper <RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
         ComponentMapper <MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
         ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
+        ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
+
 
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -93,7 +108,7 @@ public class RenderSystem extends EntitySystem {
             sort.get(i).setScale(4, 4);
                     
         }
-        //@TODO: implemet Comperator;
+        //@TODO: implement Comparator;
         sort.sort(new Comparator<Sprite>() {
                     public int compare(Sprite s0, Sprite s1) {
                     return s0.getRegionY() - s1.getRegionY();
@@ -116,14 +131,29 @@ public class RenderSystem extends EntitySystem {
             elapsedTime += deltaTime;
             //batch.draw(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z);
             batch.draw(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime), pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y+pcm.get(entity).getPosition().z,
-                    0,0,acm.get(entity).getWidth(elapsedTime),acm.get(entity).getHeight(elapsedTime),4,4,0);
+                    0,0,acm.get(entity).getWidth(elapsedTime),acm.get(entity).getHeight(elapsedTime),scale,scale,0);
             //batch.draw(render.getImg(), 300, 300);
             //System.out.println(deltaTime);
             //System.out.println(acm.get(entity).getWalkRightAnimation().getKeyFrames().length);
             // getKeyFrameIndex(deltaTime));
         }
-
+        if (beatnbrawl.DEBUG) {
+            shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
+        }
         batch.end();
+        if (beatnbrawl.DEBUG) {
+            for(int i = 0; i < entities.size(); ++i) {
+                Entity entity = entities.get(i);
+                shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                shapeRenderer.setColor(Color.RED);
+                shapeRenderer.rect(ccm.get(entity).getCollidingBody().getCollisionBox().x, ccm.get(entity).getCollidingBody().getCollisionBox().y, ccm.get(entity).getCollidingBody().getCollisionBox().width, ccm.get(entity).getCollidingBody().getCollisionBox().height);
+                shapeRenderer.setColor(Color.BLUE);
+                shapeRenderer.rect(ccm.get(entity).getCollidingBody().getBoundingBox().x, ccm.get(entity).getCollidingBody().getBoundingBox().y, ccm.get(entity).getCollidingBody().getBoundingBox().width, ccm.get(entity).getCollidingBody().getBoundingBox().height);
+                shapeRenderer.setColor(Color.GREEN);
+                shapeRenderer.rect(mapcm.get(mapEntity).getGroundBody().x, mapcm.get(mapEntity).getGroundBody().y, mapcm.get(mapEntity).getGroundBody().width, mapcm.get(mapEntity).getGroundBody().height);
+                shapeRenderer.end();
+            }
+        }
     }
 }
 

@@ -17,45 +17,48 @@ import com.badlogic.gdx.math.Vector3;
 public class CollidingBody {
     
     private float sensorWidth=1;
-    private float sensorHight=1;
+    private float sensorHeight =1;
     private Rectangle boundingBox;
     private Rectangle sensorLeft;
     private Rectangle sensorRight;
     private Rectangle sensorTop;
     private Rectangle sensorBottom;
     private Rectangle collisionBox;
-    private Rectangle attackBox;
+    private Rectangle attackBoxLeft;
+    private Rectangle attackBoxRight;
     private float x;
     private float y;
     private float width;
-    private float hight;
+    private float height;
     private Vector2 position = new Vector2(0,0);
     
 
-    public CollidingBody(float x, float y, float width, float hight) {
+    public CollidingBody(float x, float y, float width, float height) {
         
         this.x = x;
         this.y = y;
         this.width = width;
-        this.hight = hight; 
+        this.height = height;
         this.position.set(x, y);
-        
-        boundingBox = new Rectangle(x, y, width, hight);
-        collisionBox = new Rectangle(x, y, width, hight/4);
-        attackBox = new Rectangle();
-            
-        sensorLeft = new Rectangle(x,(y+hight)/2-sensorHight/2,sensorWidth,sensorHight);
-        sensorRight = new Rectangle(x+width-sensorWidth,(y+hight)/2-sensorHight/2,sensorWidth,sensorHight);
-        sensorTop = new Rectangle((x+width)/2-sensorWidth/2,y+hight-sensorHight,sensorWidth,sensorHight);
-        sensorBottom = new Rectangle((x+width)/2-sensorWidth/2,y,sensorWidth,sensorHight);
+
+        boundingBox = new Rectangle(x, y, width, height);
+        collisionBox = new Rectangle(x, y, width, height /4);
+        attackBoxLeft = new Rectangle();
+
+        attackBoxRight = new Rectangle();
+
+        sensorLeft = new Rectangle(x,(y+ height)/2- sensorHeight /2,sensorWidth, sensorHeight);
+        sensorRight = new Rectangle(x+width-sensorWidth,(y+ height)/2- sensorHeight /2,sensorWidth, sensorHeight);
+        sensorTop = new Rectangle((x+width)/2-sensorWidth/2,y+ height - sensorHeight,sensorWidth, sensorHeight);
+        sensorBottom = new Rectangle((x+width)/2-sensorWidth/2, y, sensorWidth, sensorHeight);
     }
 
     public float getSensorWidth() {
         return sensorWidth;
     }
 
-    public float getSensorHight() {
-        return sensorHight;
+    public float getSensorHeight() {
+        return sensorHeight;
     }
 
     public Rectangle getBoundingBox() {
@@ -82,8 +85,8 @@ public class CollidingBody {
         return collisionBox;
     }
 
-    public Rectangle getAttackBox() {
-        return attackBox;
+    public Rectangle getAttackBoxLeft() {
+        return attackBoxLeft;
     }
 
     public float getX() {
@@ -98,49 +101,68 @@ public class CollidingBody {
         return width;
     }
 
-    public float getHight() {
-        return hight;
+    public float getHeight() {
+        return height;
     }
 
     public Vector2 getPosition() {
         return position;
     }
     
-    public void set(float x, float y, float width, float hight){
+    public void set(float x, float y, float width, float height){
         this.x = x;
         this.y = y;
         this.width = width;
-        this.hight = hight;
+        this.height = height;
         setRecs();
     }
     
-    public void set(Vector3 position, float width, float hight){
+    public void set(Vector3 position, float width, float height){
         this.position.set(new Vector2(position.x,position.z));
         this.x = this.position.x;
         this.y = this.position.y;
         this.width = width;
-        this.hight = hight;
+        this.height = height;
+        boundingBox.setSize(width, height);
+        collisionBox.setSize(width, height/4);
+        attackBoxLeft.setSize(0, height);
         setRecs();
     }
-    
+
+    public void set(Vector3 position){
+        this.position.set(new Vector2(position.x,position.z));
+        this.x = this.position.x;
+        this.y = this.position.y;
+        setRecs();
+    }
+
+    public void attackLeft(float range){
+        attackBoxLeft.setSize(-range, attackBoxLeft.height);
+    }
+
+    public void attackRight(float range){
+        attackBoxLeft.setSize(range, attackBoxRight.height);
+    }
+
     private void setRecs(){
         
-        //boundingBox.set(x, y, width, hight);
+        //boundingBox.set(x, y, width, height);
         boundingBox.setPosition(position);
-        //collisionBox.set(x, y, width, hight/4);
-        collisionBox.setPosition(position);
-        //attackBox.set();
-            
-        //sensorLeft.set(x,(y+hight)/2-sensorHight/2,sensorWidth,sensorHight);
-        sensorLeft.setPosition(x, (y+hight)/2-sensorHight/2);
-        
-        //sensorRight.set(x+width-sensorWidth,(y+hight)/2-sensorHight/2,sensorWidth,sensorHight);
-        sensorRight.setPosition(x+width-sensorWidth,(y+hight)/2-sensorHight/2);
+        //collisionBox.set(x, y, width, height/4);
+        collisionBox.setPosition(position.x, position.y - collisionBox.height/2);
+        attackBoxRight.setPosition(position.x + width, position.y);
+        attackBoxLeft.setPosition(position.x, position.y);
 
-        //sensorTop.set((x+width)/2-sensorWidth/2,y+hight-sensorHight,sensorWidth,sensorHight);
-        sensorTop.setPosition((x+width)/2-sensorWidth/2,y+hight-sensorHight);
+        //sensorLeft.set(x,(y+height)/2-sensorHeight/2,sensorWidth,sensorHeight);
+        sensorLeft.setPosition(collisionBox.x, (collisionBox.y+ collisionBox.height)/2- sensorHeight /2);
         
-        //sensorBottom.set((x+width)/2-sensorWidth/2,y,sensorWidth,sensorHight);
-        sensorBottom.setPosition((x+width)/2-sensorWidth/2,y);
+        //sensorRight.set(x+width-sensorWidth,(y+height)/2-sensorHeight/2,sensorWidth,sensorHeight);
+        sensorRight.setPosition(collisionBox.x+width-sensorWidth,(collisionBox.y+ collisionBox.height)/2- sensorHeight /2);
+
+        //sensorTop.set((x+width)/2-sensorWidth/2,y+height-sensorHeight,sensorWidth,sensorHeight);
+        sensorTop.setPosition((collisionBox.x+width)/2-sensorWidth/2,collisionBox.y+ collisionBox.height - sensorHeight);
+        
+        //sensorBottom.set((x+width)/2-sensorWidth/2,y,sensorWidth,sensorHeight);
+        sensorBottom.setPosition((collisionBox.x+width)/2-sensorWidth/2,collisionBox.y);
     }
 }

@@ -79,4 +79,8 @@ public class MapComponent extends Component{
     public float getMapHeight() {
         return mapHeight*mapFactor;
     }
+
+    public float getMapFactor() {
+        return mapFactor;
+    }
 }

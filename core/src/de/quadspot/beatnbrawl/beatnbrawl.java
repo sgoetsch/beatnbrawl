@@ -30,6 +30,7 @@ public class beatnbrawl extends Game {
     Float delta;
     public SpriteBatch batch;
     public BitmapFont font;
+    public static final boolean DEBUG = true;
 	
 	@Override
 	public void create () {

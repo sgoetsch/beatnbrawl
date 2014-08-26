@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector3;
  */
 public class MovementComponent extends Component {
     public enum State {
-        WALK_LEFT ("LEFT"), WALK_RIGHT ("RIGHT"), JUMP_LEFT ("LEFT"), JUMP_RIGHT ("RIGHT"), STAND_LEFT ("LEFT"), STAND_RIGHT ("RIGHT");
+        WALK_LEFT ("LEFT"), WALK_RIGHT ("RIGHT"), JUMP_LEFT ("LEFT"), JUMP_RIGHT ("RIGHT"), STAND_LEFT ("LEFT"), STAND_RIGHT ("RIGHT"), ATTACK_RIGHT ("RIGHT"), ATTACK_LEFT ("LEFT");
         private final String dir;
         State(String dir) {
             this.dir = dir;

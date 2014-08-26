@@ -44,7 +44,7 @@ public class GameScreen implements Screen{
 
         Entity entity = new Entity();
         entity.add(new RenderComponent());
-        entity.add(new PositionComponent(new Vector3(100,0,10)));
+        entity.add(new PositionComponent(new Vector3(100,0,100)));
         entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,0,200)));
         entity.add(new InputComponent());
         entity.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
@@ -58,21 +58,22 @@ public class GameScreen implements Screen{
         engine.addEntity(map);
 
         //entity.removeAll();
-        Entity entity2 = new Entity();
-        entity2.add(new PositionComponent(new Vector3(500,0,100)));
+/*        Entity entity2 = new Entity();
+        entity2.add(new PositionComponent(new Vector3(500,0,200)));
         entity2.add(new RenderComponent());
         entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         //entity2.add(new InputComponent());
         entity2.add(new AnimationComponent("don.atlas")); // TODO Evtl. noch scale übergeben?
         entity2.add(new CollisionComponent());        
-        engine.addEntity(entity2);
+        engine.addEntity(entity2);*/
 
 
+        engine.addSystem(new CollisionSystem());
         engine.addSystem(new RenderSystem(camera, game.batch));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new InputSystem(camera, game.batch));
         engine.addSystem(new AnimationSystem());
-        engine.addSystem(new CollisionSystem());
+
     }
 
     @Override

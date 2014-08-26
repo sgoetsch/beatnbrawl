@@ -30,10 +30,8 @@ import de.quadspot.beatnbrawl.components.RenderComponent;
 public class CollisionSystem extends EntitySystem{
     private ImmutableArray<Entity> entities;
     private ImmutableArray<Entity> entities2;
-    private float elapsedTime;
     private Entity mapEntity;
-    int k=0;
-    
+
     @Override
     public boolean checkProcessing() {
         return super.checkProcessing(); //To change body of generated methods, choose Tools | Templates.
@@ -54,7 +52,7 @@ public class CollisionSystem extends EntitySystem{
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
             
-            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime));
+            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(0)*mapcm.get(mapEntity).getMapFactor(), acm.get(entity).getHeight(0)*mapcm.get(mapEntity).getMapFactor());
             ccm.get(entity).setGround(mapcm.get(mapEntity).getGroundBody());
             //System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
 
@@ -91,8 +89,7 @@ public class CollisionSystem extends EntitySystem{
     
     @Override
     public void update(float deltaTime) {
-        elapsedTime += deltaTime;
-       
+
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
@@ -105,7 +102,7 @@ public class CollisionSystem extends EntitySystem{
             Entity entity = entities.get(i);
             
             
-            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime));
+            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition());
             //System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
             //System.out.println("Collision"+k++);
             
@@ -138,9 +135,9 @@ public class CollisionSystem extends EntitySystem{
 //                    System.out.println("entity2: x:"+ccm.get(entity2).getCollidingBody().getCollisionBox().x+"                  y:"+ccm.get(entity2).getCollidingBody().getCollisionBox().x+"("+i+")("+k+")");
                     //System.out.println(Intersector.overlaps(ccm.get(entity).getCollidingBody().getBoundingBox(), ccm.get(entity2).getCollidingBody().getBoundingBox()));
                     //System.out.println(doOverlap(ccm.get(entity).getCollidingBody().getBoundingBox(), ccm.get(entity2).getCollidingBody().getBoundingBox()));
-                    System.out.println("rect1:"+ccm.get(entity).getCollidingBody().getBoundingBox()+"     rect2:"+ccm.get(entity2).getCollidingBody().getBoundingBox());
+                    //System.out.println("rect1:"+ccm.get(entity).getCollidingBody().getBoundingBox()+"     rect2:"+ccm.get(entity2).getCollidingBody().getBoundingBox());
                     
-                    if (doOverlap(ccm.get(entity2).getCollidingBody().getBoundingBox(), new Rectangle(500,200,50,100))){
+                    if (Intersector.overlaps(ccm.get(entity2).getCollidingBody().getBoundingBox(), ccm.get(entity).getCollidingBody().getBoundingBox())){
                         //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                         System.out.println("collision");
                     }
@@ -150,17 +147,7 @@ public class CollisionSystem extends EntitySystem{
         }
         
     }
-    boolean doOverlap(Rectangle r1, Rectangle r2){
-        // If one rectangle is on left side of other
-        if (r1.x > r2.x+r2.width || r2.x > r1.x+r1.width)
-        return false;
- 
-        // If one rectangle is above other
-        if (r1.y+r1.height < r2.y || r2.y+r2.height < r1.y)
-            return false;
 
-        return true;
-    }
     
 
     
