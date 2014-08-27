@@ -59,7 +59,7 @@ public class GameScreen implements Screen{
 
         //entity.removeAll();
         Entity entity2 = new Entity();
-        entity2.add(new PositionComponent(new Vector3(500,0,100)));
+        entity2.add(new PositionComponent(new Vector3(500,0,150)));
         entity2.add(new RenderComponent());
         entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         //entity2.add(new InputComponent());
