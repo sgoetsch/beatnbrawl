@@ -33,7 +33,7 @@ import java.util.Comparator;
 class SpriteData {
 
     private TextureRegion tr;
-    Vector2 position;
+    Vector2 position = new Vector2(0,0);
     float width;
     float heith;
 
@@ -65,8 +65,8 @@ class SpriteData {
         return position.x;
     }
 
-    public float getY() {
-        return position.y;
+    public int getY() {
+        return ((Float)position.y).intValue();
     }
 
 }
@@ -128,24 +128,24 @@ public class RenderSystem extends EntitySystem {
         mapcm.get(mapEntity).getTiledMapRenderer().render();
 
         //Z-Sort versuch
-        Array<Object[]> sort = new Array();
+        Array<SpriteData> sort = new Array();
         Object[] SpiteDataA = new Object[5];
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
             elapsedTime += deltaTime;
-            SpiteDataA[0] = acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime);
-            SpiteDataA[1] = pcm.get(entity).getPosition().x;
-            SpiteDataA[2] = pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z;
-            SpiteDataA[3] = acm.get(entity).getWidth(elapsedTime);
-            SpiteDataA[4] = acm.get(entity).getHeight(elapsedTime);
+//            SpiteDataA[0] = acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime);
+//            SpiteDataA[1] = pcm.get(entity).getPosition().x;
+//            SpiteDataA[2] = (int)(pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z);
+//            SpiteDataA[3] = acm.get(entity).getWidth(elapsedTime);
+//            SpiteDataA[4] = acm.get(entity).getHeight(elapsedTime);
+//            
+//            sort.add(SpiteDataA);
             
-            sort.add(SpiteDataA);
-            
-//            sort.add( new SpriteData(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime),
-//                    pcm.get(entity).getPosition().x, 
-//                    pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z,
-//                    acm.get(entity).getWidth(elapsedTime),
-//                    acm.get(entity).getHeight(elapsedTime)));
+            sort.add( new SpriteData(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime),
+                    pcm.get(entity).getPosition().x, 
+                    pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z,
+                    acm.get(entity).getWidth(elapsedTime),
+                    acm.get(entity).getHeight(elapsedTime)));
             //sort.add(new Sprite(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime))); 
 //            sort.get(i).setPosition(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z);
 //            sort.get(i).setRegionWidth(acm.get(entity).getWidth(elapsedTime));
@@ -155,18 +155,20 @@ public class RenderSystem extends EntitySystem {
 
         }
         //@TODO: implemet Comperator;
-        sort.sort(new Comparator<Object[]>() {
+        sort.sort(new Comparator<SpriteData>() {
             @Override
-            public int compare(Object[] s0, Object[] s1) {
-                return (int) s0[2] - (int) s1[2];
+            public int compare(SpriteData s0, SpriteData s1) {
+                return s0.getY() - s1.getY();
             }
         });
         sort.reverse();
         batch.begin();
         
-        for (Object[] sprite : sort) {
+        for (SpriteData sprite : sort) {
             
-            batch.draw((TextureRegion)sprite[0], (float)sprite[1], (float)sprite[2],0,0,(float)sprite[3],(float)sprite[4],scale,scale,0);
+           //batch.draw((TextureRegion)sprite[0], (float)sprite[1], (float)sprite[2],0,0,(float)sprite[3],(float)sprite[4],scale,scale,0);
+            batch.draw(sprite.getTr(),sprite.getX(), sprite.getY(),0,0,sprite.getWidth(),sprite.getHeith(),scale,scale,0);
+
         }
         //-------------------------
 
