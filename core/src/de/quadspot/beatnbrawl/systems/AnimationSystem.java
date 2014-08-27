@@ -37,7 +37,7 @@ public class AnimationSystem extends EntitySystem {
         ComponentMapper<AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            //System.out.println(mcm.get(entity).getState());
+            System.out.println(mcm.get(entity).getState());
             switch (mcm.get(entity).getState()){
 
                 case WALK_LEFT:
@@ -58,6 +58,12 @@ public class AnimationSystem extends EntitySystem {
                 case STAND_RIGHT:
                     acm.get(entity).setCurrentAnimation(acm.get(entity).getStandRightAnimation());
                     break;
+//                case ATTACK_LEFT:
+//                    acm.get(entity).setCurrentAnimation(acm.get(entity).getAttackRightAnimation());
+//                    break;
+//                case ATTACK_RIGHT:
+//                    acm.get(entity).setCurrentAnimation(acm.get(entity).getAttackRightAnimation());
+//                    break;
             }
         }
 

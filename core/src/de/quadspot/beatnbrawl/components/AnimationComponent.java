@@ -18,6 +18,8 @@ public class AnimationComponent extends Component {
     Animation standLeftAnimation;
     Animation currentAnimation;
     int k;
+    private final Animation attackLeftAnimation;
+    private final Animation attackRightAnimation;
 
 
     public AnimationComponent(String string) {
@@ -41,12 +43,18 @@ public class AnimationComponent extends Component {
         jumpLeftAnimation = flip(0.15f, jumpRightAnimation);
         jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
+        attackRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("hit")));
+        attackRightAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         
-        standLeftAnimation = flip(0.15f, standRightAnimation);
-        standLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        attackLeftAnimation = flip(0.15f, attackRightAnimation);
+        attackLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+        
+
 
         currentAnimation = standRightAnimation; //Commenting this leads to: java.lang.NullPointerException
     }
+
+
     
     private Animation flip(float f, Animation sourceAnimation){
         TextureRegion[] destFrames = new TextureRegion[sourceAnimation.getKeyFrames().length];
@@ -83,6 +91,14 @@ public class AnimationComponent extends Component {
 
     public Animation getStandLeftAnimation() {
         return standLeftAnimation;
+    }
+    
+    public Animation getAttackLeftAnimation() {
+        return attackLeftAnimation;
+    }
+
+    public Animation getAttackRightAnimation() {
+        return attackRightAnimation;
     }
 
     public Animation getCurrentAnimation() {
