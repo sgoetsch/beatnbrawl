@@ -31,6 +31,9 @@ public class CollidingBody {
     private float width;
     private float height;
     private Vector2 position = new Vector2(0,0);
+    private float prvRangeRight;
+    private float prvRangeLeft;
+    private float attackRangeLeft;
     
 
     public CollidingBody(float x, float y, float width, float height) {
@@ -88,6 +91,10 @@ public class CollidingBody {
     public Rectangle getAttackBoxLeft() {
         return attackBoxLeft;
     }
+    
+    public Rectangle getAttackBoxRight() {
+        return attackBoxRight;
+    }
 
     public float getX() {
         return x;
@@ -126,6 +133,7 @@ public class CollidingBody {
         boundingBox.setSize(width, height);
         collisionBox.setSize(width, height/4);
         attackBoxLeft.setSize(0, height);
+        attackBoxRight.setSize(0, height);
         setRecs();
     }
 
@@ -137,11 +145,37 @@ public class CollidingBody {
     }
 
     public void attackLeft(float range){
-        attackBoxLeft.setSize(-range, attackBoxLeft.height);
+        attackBoxLeft.setSize(range, attackBoxLeft.height);
+        this.attackRangeLeft = range;
+        setRecs();
+        
+        if (range == 0){
+            collisionBox.setSize(collisionBox.width - prvRangeLeft, collisionBox.height);
+            //collisionBox.setPosition(position.x + prvRangeLeft,collisionBox.y);
+            this.prvRangeLeft = 0;
+            //this.attackRangeLeft = 0;
+        }else{
+            this.prvRangeLeft = range;
+            
+            
+            //collisionBox.setPosition(collisionBox.x - range,collisionBox.y);
+            collisionBox.setSize(collisionBox.width + range, collisionBox.height);
+            
+            
+        }
     }
 
     public void attackRight(float range){
-        attackBoxLeft.setSize(range, attackBoxRight.height);
+        
+        attackBoxRight.setSize(range, attackBoxRight.height);
+        if (range == 0){
+            collisionBox.setSize(collisionBox.width - prvRangeRight, collisionBox.height);
+            this.prvRangeRight = 0;
+        }else{
+            this.prvRangeRight = range;
+            collisionBox.setSize(collisionBox.width + range, collisionBox.height);
+        }
+            
     }
 
     private void setRecs(){
@@ -149,9 +183,9 @@ public class CollidingBody {
         //boundingBox.set(x, y, width, height);
         boundingBox.setPosition(position);
         //collisionBox.set(x, y, width, height/4);
-        collisionBox.setPosition(position.x, position.y - collisionBox.height/2);
+        collisionBox.setPosition(position.x-attackRangeLeft, position.y - collisionBox.height/2);
         attackBoxRight.setPosition(position.x + width, position.y);
-        attackBoxLeft.setPosition(position.x, position.y);
+        attackBoxLeft.setPosition(position.x-attackRangeLeft, position.y);
 
         //sensorLeft.set(x,(y+height)/2-sensorHeight/2,sensorWidth,sensorHeight);
         sensorLeft.setPosition(collisionBox.x, (collisionBox.y+ collisionBox.height)/2- sensorHeight /2);

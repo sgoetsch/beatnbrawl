@@ -14,7 +14,6 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.Bits;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
@@ -137,10 +136,29 @@ public class CollisionSystem extends EntitySystem{
                     //System.out.println(doOverlap(ccm.get(entity).getCollidingBody().getBoundingBox(), ccm.get(entity2).getCollidingBody().getBoundingBox()));
                     //System.out.println("rect1:"+ccm.get(entity).getCollidingBody().getBoundingBox()+"     rect2:"+ccm.get(entity2).getCollidingBody().getBoundingBox());
                     
-                    if (Intersector.overlaps(ccm.get(entity2).getCollidingBody().getBoundingBox(), ccm.get(entity).getCollidingBody().getBoundingBox())){
+                    if (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
+                        ccm.get(entity2).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity).getCollidingBody().getAttackBoxRight())&&
+                        mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)){
                         //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                        System.out.println("collision");
+                        System.out.println("Hit Right");
+                        mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
+                        ccm.get(entities.first()).getCollidingBody().attackRight(0);
+                        
+                        
                     }
+                    
+                    if (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
+                        ccm.get(entity2).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity).getCollidingBody().getAttackBoxLeft())&&
+                        mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)){
+                        //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
+                        System.out.println("Hit Left");
+                        mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
+                        ccm.get(entities.first()).getCollidingBody().attackLeft(0);
+                    }
+                        ccm.get(entities.first()).getCollidingBody().attackRight(0);
+                        ccm.get(entities.first()).getCollidingBody().attackLeft(0);
+                    
+                   
                 }
             }
 

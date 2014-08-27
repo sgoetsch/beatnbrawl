@@ -145,12 +145,17 @@ public class RenderSystem extends EntitySystem {
             for(int i = 0; i < entities.size(); ++i) {
                 Entity entity = entities.get(i);
                 shapeRenderer.begin(ShapeRenderer.ShapeType.Line);
+                
                 shapeRenderer.setColor(Color.RED);
                 shapeRenderer.rect(ccm.get(entity).getCollidingBody().getCollisionBox().x, ccm.get(entity).getCollidingBody().getCollisionBox().y, ccm.get(entity).getCollidingBody().getCollisionBox().width, ccm.get(entity).getCollidingBody().getCollisionBox().height);
                 shapeRenderer.setColor(Color.BLUE);
                 shapeRenderer.rect(ccm.get(entity).getCollidingBody().getBoundingBox().x, ccm.get(entity).getCollidingBody().getBoundingBox().y, ccm.get(entity).getCollidingBody().getBoundingBox().width, ccm.get(entity).getCollidingBody().getBoundingBox().height);
                 shapeRenderer.setColor(Color.GREEN);
                 shapeRenderer.rect(mapcm.get(mapEntity).getGroundBody().x, mapcm.get(mapEntity).getGroundBody().y, mapcm.get(mapEntity).getGroundBody().width, mapcm.get(mapEntity).getGroundBody().height);
+                shapeRenderer.setColor(Color.ORANGE);
+                shapeRenderer.rect(ccm.get(entity).getCollidingBody().getAttackBoxRight().x, ccm.get(entity).getCollidingBody().getAttackBoxRight().y, ccm.get(entity).getCollidingBody().getAttackBoxRight().width, ccm.get(entity).getCollidingBody().getAttackBoxRight().height);
+                shapeRenderer.setColor(Color.PINK);
+                shapeRenderer.rect(ccm.get(entity).getCollidingBody().getAttackBoxLeft().x, ccm.get(entity).getCollidingBody().getAttackBoxLeft().y, ccm.get(entity).getCollidingBody().getAttackBoxLeft().width, ccm.get(entity).getCollidingBody().getAttackBoxLeft().height);
                 shapeRenderer.end();
             }
         }
