@@ -35,17 +35,18 @@ public class AnimationComponent extends Component {
         jumpRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("jump")));
         jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-
         walkLeftAnimation = flip(0.15f, walkRightAnimation);     
         walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        
+        standLeftAnimation = flip(0.15f, standRightAnimation);
+        standLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
+
         jumpLeftAnimation = flip(0.15f, jumpRightAnimation);
         jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         attackRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("hit")));
         attackRightAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        
+
         attackLeftAnimation = flip(0.15f, attackRightAnimation);
         attackLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
         

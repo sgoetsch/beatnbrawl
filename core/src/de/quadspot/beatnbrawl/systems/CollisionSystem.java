@@ -142,9 +142,7 @@ public class CollisionSystem extends EntitySystem{
                         //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                         System.out.println("Hit Right");
                         mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
-                        ccm.get(entities.first()).getCollidingBody().attackRight(0);
-                        
-                        
+                        //ccm.get(entities.first()).getCollidingBody().attackRight(0);
                     }
                     
                     if (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
@@ -153,7 +151,7 @@ public class CollisionSystem extends EntitySystem{
                         //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                         System.out.println("Hit Left");
                         mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
-                        ccm.get(entities.first()).getCollidingBody().attackLeft(0);
+                        //ccm.get(entities.first()).getCollidingBody().attackLeft(0);
                     }
                         ccm.get(entities.first()).getCollidingBody().attackRight(0);
                         ccm.get(entities.first()).getCollidingBody().attackLeft(0);

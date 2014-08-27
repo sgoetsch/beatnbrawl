@@ -43,7 +43,7 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
         InputMultiplexer im = new InputMultiplexer();
 
-        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class, CollisionComponent.class));
+        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class, CollisionComponent.class, MovementComponent.class));
 
         icm = ComponentMapper.getFor(InputComponent.class);
         ccm = ComponentMapper.getFor(CollisionComponent.class);

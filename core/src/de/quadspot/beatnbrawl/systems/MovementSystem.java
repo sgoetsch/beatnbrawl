@@ -65,32 +65,33 @@ public class MovementSystem extends EntitySystem {
             //System.out.println("NEU:" + pcm.get(entity).getPosition() + "     ALT:" + oldPos + "       Velocity:" + mcm.get(entity).getVelocity());
             //System.out.println("NEU:" + ccm.get(entity).getCollidingBody().getPosition());
 
-            
-            if (mcm.get(entity).getVelocity().x > 0) {
-                mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
+            if (!((mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)) || (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)))) {
 
-            } else if (mcm.get(entity).getVelocity().x < 0) {
-                mcm.get(entity).setState(MovementComponent.State.WALK_LEFT);
+                if (mcm.get(entity).getVelocity().x > 0) {
+                    mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
 
-            } else if (mcm.get(entity).getVelocity().y > 0) {
+                } else if (mcm.get(entity).getVelocity().x < 0) {
+                    mcm.get(entity).setState(MovementComponent.State.WALK_LEFT);
 
-            } else if (mcm.get(entity).getVelocity().y < 0) {
+                } else if (mcm.get(entity).getVelocity().y > 0) {
 
-            } else if (mcm.get(entity).getVelocity().z > 0) {
+                } else if (mcm.get(entity).getVelocity().y < 0) {
 
-            } else if (mcm.get(entity).getVelocity().z < 0) {
+                } else if (mcm.get(entity).getVelocity().z > 0) {
 
-            } else {
-                if (mcm.get(entity).getPrevState().dir().equals("RIGHT")) {
-                    mcm.get(entity).setState(MovementComponent.State.STAND_RIGHT);
+                } else if (mcm.get(entity).getVelocity().z < 0) {
+
                 } else {
-                    mcm.get(entity).setState(MovementComponent.State.STAND_LEFT);
-                }
+                    if (mcm.get(entity).getPrevState().dir().equals("RIGHT")) {
+                        mcm.get(entity).setState(MovementComponent.State.STAND_RIGHT);
+                    } else {
+                        mcm.get(entity).setState(MovementComponent.State.STAND_LEFT);
+                    }
 
+                }
             }
-            
-            
-            // of ground things
+
+                // of ground things
             //System.out.println(ccm.get(entity).isLeftOfGround());
             //System.out.println("x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
 
