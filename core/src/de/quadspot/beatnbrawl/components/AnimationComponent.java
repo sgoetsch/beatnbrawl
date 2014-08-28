@@ -25,6 +25,7 @@ public class AnimationComponent extends Component {
     Animation standLeftAnimation;
     Animation currentAnimation;
     int k;
+    float stateTime;
     private final Animation attackLeftAnimation;
     private final Animation attackRightAnimation;
 
@@ -134,7 +135,9 @@ public class AnimationComponent extends Component {
     }
 
     public void setCurrentAnimation(Animation currentAnimation) {
+        this.stateTime = 0;
         this.currentAnimation = currentAnimation;
+        System.out.println(currentAnimation.toString());
     }
 
     public int getWidth(float elapsedTime) {
@@ -143,5 +146,13 @@ public class AnimationComponent extends Component {
 
     public int getHeight(float elapsedTime) {
         return currentAnimation.getKeyFrame(elapsedTime).getRegionHeight();
+    }
+
+    public float getStateTime() {
+        return stateTime;
+    }
+
+    public void setStateTime(float deltaTime) {
+        this.stateTime += deltaTime;
     }
 }

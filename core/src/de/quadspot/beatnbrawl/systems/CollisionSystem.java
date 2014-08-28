@@ -88,7 +88,6 @@ public class CollisionSystem extends EntitySystem{
     
     @Override
     public void update(float deltaTime) {
-
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
@@ -141,7 +140,7 @@ public class CollisionSystem extends EntitySystem{
                         mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)){
                         //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                         System.out.println("Hit Right");
-                        mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
+
                         //ccm.get(entities.first()).getCollidingBody().attackRight(0);
                     }
                     
@@ -150,10 +149,15 @@ public class CollisionSystem extends EntitySystem{
                         mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)){
                         //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                         System.out.println("Hit Left");
-                        mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
+
                         //ccm.get(entities.first()).getCollidingBody().attackLeft(0);
                     }
-                        ccm.get(entities.first()).getCollidingBody().attackRight(0);
+                    System.out.println(acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime()) + "  "+mcm.get(entities.first()).getPrevState()+"  "+mcm.get(entities.first()).getState()+ "  " +  acm.get(entities.first()).getStateTime());
+                    if ((acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime())) && (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT))) {
+                        mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
+                        System.out.println("Setback!");
+                    }
+                    ccm.get(entities.first()).getCollidingBody().attackRight(0);
                         ccm.get(entities.first()).getCollidingBody().attackLeft(0);
                     
                    

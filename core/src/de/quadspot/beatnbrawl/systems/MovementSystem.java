@@ -56,15 +56,14 @@ public class MovementSystem extends EntitySystem {
             //System.out.println(mapcm.get(mapEntity).getGroundBody().getX()+","+mapcm.get(mapEntity).getGroundBody().getY()+","+(mapcm.get(mapEntity).getGroundBody().getX()+mapcm.get(mapEntity).getGroundBody().getWidth())+","+(mapcm.get(mapEntity).getGroundBody().getY()+mapcm.get(mapEntity).getGroundBody().getHeight()));
             //System.out.println(!mapcm.get(mapEntity).isOnGround((int) pcm.get(entity).getPosition().x, (int) pcm.get(entity).getPosition().z));
             //System.out.println("x:"+(int) pcm.get(entity).getPosition().x +"y:"+ (int) pcm.get(entity).getPosition().y+"z:"+ (int) pcm.get(entity).getPosition().z);
-            
-            pcm.get(entity).getOldPosition().set(pcm.get(entity).getPosition().cpy());
-            
 
-            
+            pcm.get(entity).getOldPosition().set(pcm.get(entity).getPosition().cpy());
+
+
+
             pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
             //System.out.println("NEU:" + pcm.get(entity).getPosition() + "     ALT:" + oldPos + "       Velocity:" + mcm.get(entity).getVelocity());
             //System.out.println("NEU:" + ccm.get(entity).getCollidingBody().getPosition());
-
             if (!((mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)) || (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)))) {
 
                 if (mcm.get(entity).getVelocity().x > 0) {
@@ -91,12 +90,12 @@ public class MovementSystem extends EntitySystem {
                 }
             }
 
-                // of ground things
+            // of ground things
             //System.out.println(ccm.get(entity).isLeftOfGround());
             //System.out.println("x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
 
-
-
         }
+
     }
 }
+

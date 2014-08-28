@@ -63,15 +63,15 @@ public class GameScreen implements Screen{
         entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,1000,200)));
         //entity2.add(new InputComponent());
         entity2.add(new AnimationComponent("don.atlas"));
-        entity2.add(new CollisionComponent());        
+        entity2.add(new CollisionComponent());
         engine.addEntity(entity2);
 
-        engine.addSystem(new CollisionSystem());
+
         engine.addSystem(new RenderSystem(camera, game.batch));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new InputSystem(camera, game.batch));
         engine.addSystem(new AnimationSystem());
-
+        engine.addSystem(new CollisionSystem());
     }
 
     @Override

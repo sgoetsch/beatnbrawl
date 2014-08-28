@@ -137,7 +137,6 @@ public class RenderSystem extends EntitySystem {
 
         //Z-Sort versuch
         Array<SpriteData> sort = new Array();
-        Object[] SpiteDataA = new Object[5];
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
             elapsedTime += deltaTime;
