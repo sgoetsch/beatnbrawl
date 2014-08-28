@@ -11,8 +11,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
@@ -32,17 +31,26 @@ import java.util.Comparator;
  */
 class SpriteData {
 
+    private Texture t;
     private TextureRegion tr;
     Vector2 position = new Vector2(0,0);
     float width;
-    float heith;
+    float heigth;
 
-    public SpriteData(TextureRegion tr, float x, float y, float width, float heith) {
+    public SpriteData(TextureRegion tr, float x, float y, float width, float heigth) {
         this.tr = tr;
         this.position.x = x;
         this.position.y = y;
         this.width = width;
-        this.heith = heith;
+        this.heigth = heigth;
+    }
+
+    public SpriteData(Texture t, float x, float y, float width, float heigth) {
+        this.t = t;
+        this.position.x = x;
+        this.position.y = y;
+        this.width = width;
+        this.heigth = heigth;
     }
 
     public TextureRegion getTr() {
@@ -57,8 +65,8 @@ class SpriteData {
         return width;
     }
 
-    public float getHeith() {
-        return heith;
+    public float getHeigth() {
+        return heigth;
     }
 
     public float getX() {
@@ -133,28 +141,22 @@ public class RenderSystem extends EntitySystem {
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
             elapsedTime += deltaTime;
-//            SpiteDataA[0] = acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime);
-//            SpiteDataA[1] = pcm.get(entity).getPosition().x;
-//            SpiteDataA[2] = (int)(pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z);
-//            SpiteDataA[3] = acm.get(entity).getWidth(elapsedTime);
-//            SpiteDataA[4] = acm.get(entity).getHeight(elapsedTime);
-//            
-//            sort.add(SpiteDataA);
-            
+
             sort.add( new SpriteData(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime),
                     pcm.get(entity).getPosition().x, 
                     pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z,
                     acm.get(entity).getWidth(elapsedTime),
                     acm.get(entity).getHeight(elapsedTime)));
-            //sort.add(new Sprite(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime))); 
-//            sort.get(i).setPosition(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z);
-//            sort.get(i).setRegionWidth(acm.get(entity).getWidth(elapsedTime));
-//            sort.get(i).setRegionHeight(acm.get(entity).getHeight(elapsedTime));
-//
-//            sort.get(i).setScale(scale, scale);
 
         }
-        //@TODO: implemet Comperator;
+
+//        sort.add( new SpriteData(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime),
+//                pcm.get(entity).getPosition().x,
+//                pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z,
+//                acm.get(entity).getWidth(elapsedTime),
+//                acm.get(entity).getHeight(elapsedTime)));
+
+
         sort.sort(new Comparator<SpriteData>() {
             @Override
             public int compare(SpriteData s0, SpriteData s1) {
@@ -167,7 +169,7 @@ public class RenderSystem extends EntitySystem {
         for (SpriteData sprite : sort) {
             
            //batch.draw((TextureRegion)sprite[0], (float)sprite[1], (float)sprite[2],0,0,(float)sprite[3],(float)sprite[4],scale,scale,0);
-            batch.draw(sprite.getTr(),sprite.getX(), sprite.getY(),0,0,sprite.getWidth(),sprite.getHeith(),scale,scale,0);
+            batch.draw(sprite.getTr(),sprite.getX(), sprite.getY(),0,0,sprite.getWidth(),sprite.getHeigth(),scale,scale,0);
 
         }
         //-------------------------

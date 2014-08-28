@@ -6,6 +6,9 @@
  <tileset firstgid="379" name="Skullandcross_2a" tilewidth="32" tileheight="32">
   <image source="Skullandcross_2a.png" width="880" height="224"/>
  </tileset>
+ <tileset firstgid="568" name="mast" tilewidth="32" tileheight="32">
+  <image source="mast.png" width="96" height="192"/>
+ </tileset>
  <layer name="Kachelebene 2" width="54" height="7">
   <data encoding="base64" compression="zlib">
    eJy9zedCjQEAANDvXptQRqSsysyeD3eztyizjIyIkIiQnZGsjOxICBFSyCbOU3w/zu8TiwRBJrOYzRzmMo/5LGAhi1jMEpayjOVksYKVZJPDKlazhrWsYz2xEK9c8tjARjaxmXy2sJVtbKeAHeykkF3spog97GUfxeynhAMcpDTk6xCHKeMIRzlGOcc5wUlOcZoznKWCc5znAhep5BJVXOYKV7nG9ZCvam5wk1vcpoY73OUe93nAQx5Ry2OeUMdT6nnGc17QwEte8ZrGkK83vKWJd7znA818pIVWPvGZL7TxlW985wc/+cVv/vCXdv4RRIMgEg33itKBjnSiM13oSje604M4etKL3sSTQB/60o/+JDKAgSQxiGRSQr4GM4ShDGM4qaSRzghGMorRjGEsGYxjPBOYyCQmM4WpTGM6M5gZ8vUfD0DSVQ==
@@ -17,6 +20,11 @@
   </data>
  </layer>
  <objectgroup name="Grund">
-  <object name="ground2" x="4" y="136" width="1712" height="90"/>
+  <object name="ground2" x="0" y="128" width="1712" height="90"/>
  </objectgroup>
+ <layer name="Kachelebene 3" width="54" height="7" visible="0">
+  <data encoding="base64" compression="zlib">
+   eJzdjscJwEAAw8xNld7r/gtFkBHih4lBTwtJ76oi1dAUfV6Sq+XXQW9oSXIN/EaYDC1JrpnfAquhJcm18dvhMLQkuU5+F9yGllTXH/YA6R4OCA==
+  </data>
+ </layer>
 </map>
