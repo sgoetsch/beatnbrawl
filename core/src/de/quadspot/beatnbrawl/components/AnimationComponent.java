@@ -1,9 +1,16 @@
 package de.quadspot.beatnbrawl.components;
 
+import java.io.IOException;
+
 import com.badlogic.ashley.core.Component;
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.XmlReader;
+import com.badlogic.gdx.utils.XmlReader.Element;
 
 /**
  * Created by goetsch on 13.08.14.
@@ -24,8 +31,28 @@ public class AnimationComponent extends Component {
 
     public AnimationComponent(String string) {
         this.textureAtlas = new TextureAtlas(string);
+//        
+//        try {
+//			Element root = new XmlReader().parse(Gdx.files.internal("atlas.xml"));
+//			
+//			Array<Element> animation = root.getChildrenByName("animation");
+//			
+//			Element cut = animation.get(animation.indexOf("walk", true));
+//			animation.
+//			
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        
+//        Array<AtlasRegion> regions = new Array<AtlasRegion>();
+//        
+//        regions
+//        new AtlasRegion();
 
       //  TextureRegion[] walkRightFrames = textureAtlas.findRegions("walk");
+       
+        
         walkRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("walk")));
         walkRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
