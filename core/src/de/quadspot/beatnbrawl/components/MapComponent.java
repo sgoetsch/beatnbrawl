@@ -36,7 +36,7 @@ public class MapComponent extends Component{
         mapFactor = Gdx.graphics.getHeight()/mapHeight;
         
         objects = tiledMap.getLayers().get("Grund").getObjects();
-        groundBody1 = ((PolygonMapObject) objects.get("ground")).getPolygon();
+        //groundBody1 = ((PolygonMapObject) objects.get("ground")).getPolygon();
         tmp = ((RectangleMapObject) objects.get("ground2")).getRectangle();
         groundBody2 = tmp.setSize(tmp.getWidth()*mapFactor, tmp.getHeight()*mapFactor);
 

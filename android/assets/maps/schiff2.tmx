@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="54" height="7" tilewidth="32" tileheight="32">
+ <tileset firstgid="1" name="Skullandcross_1a" tilewidth="32" tileheight="32">
+  <image source="Skullandcross_1a.png" width="1728" height="224"/>
+ </tileset>
+ <tileset firstgid="379" name="Skullandcross_2a" tilewidth="32" tileheight="32">
+  <image source="Skullandcross_2a.png" width="880" height="224"/>
+ </tileset>
+ <layer name="Kachelebene 2" width="54" height="7">
+  <data encoding="base64" compression="zlib">
+   eJy9zedCjQEAANDvXptQRqSsysyeD3eztyizjIyIkIiQnZGsjOxICBFSyCbOU3w/zu8TiwRBJrOYzRzmMo/5LGAhi1jMEpayjOVksYKVZJPDKlazhrWsYz2xEK9c8tjARjaxmXy2sJVtbKeAHeykkF3spog97GUfxeynhAMcpDTk6xCHKeMIRzlGOcc5wUlOcZoznKWCc5znAhep5BJVXOYKV7nG9ZCvam5wk1vcpoY73OUe93nAQx5Ry2OeUMdT6nnGc17QwEte8ZrGkK83vKWJd7znA818pIVWPvGZL7TxlW985wc/+cVv/vCXdv4RRIMgEg33itKBjnSiM13oSje604M4etKL3sSTQB/60o/+JDKAgSQxiGRSQr4GM4ShDGM4qaSRzghGMorRjGEsGYxjPBOYyCQmM4WpTGM6M5gZ8vUfD0DSVQ==
+  </data>
+ </layer>
+ <layer name="Kachelebene 1" width="54" height="7">
+  <data encoding="base64" compression="zlib">
+   eJwNwwVwEAQAAMDBRm3ERg7GaEZ3M2IjxkZtdI6G0TVigAJKh9IojZJKp4KCEkoYpEHYgoISSigqyN/9pwsICEhvoEFmMKOZzGwWgw0xq9nMbg5DDTOnucxtHvOaz3DzW8AICxppIQtbxKIWs7glLGmUpSxtGctazvJWsKKVrGwVq1rN6tawprWsbR3rGm0969vAhsYYayMb28SmxtnMeBNsbgtb2srWJppkG9vazvZ2sKOd7GwXu9rN7ibbw572srd97Gs/+zvAFAc6yMEOcajDHO4IRzrK0aY6xrGOc7xpTnCik3zBF53sFKf6ki87zenOcKaznO0c5zrP+b7iqy5woYtc7BKXuszlvubrrnClq1ztGte6zvW+4ZtucKOb3OwWt/qWb7vN7e5wp7vc7R73us/9HvCg7/iuhzzse77vEY/6gR96zOOe8KQf+bGnPO0Zz/qJn/qZn3vO817wope87Bd+6Vd+7RWves3rfuO3fuf3/uCP/uTP3vCmv/irt7ztb/7uHe96z/v+4Z8+8KGPfOxf/u0T//Ff//Opz/zfgHSY3kCDzGBGM5nZLAYbYlazmd0chhpmTnOZ2zzmNZ/h5reAERY00kIWtohFLWZxS1jSKEtZ2jKWtZzlrWBFK1nZKla1mtWtYU1rWds61jXaeta3gQ2NMdZGNraJTY2zmfEm2NwWtrSVrU00yTa2tZ3t7WBHO9nZLna1m91Ntoc97WVv+9jXfvZ3gCkOdJCDHeJQhzncEY50lKNNdYxjHed405zgRJ8DN8KdSw==
+  </data>
+ </layer>
+ <objectgroup name="Grund">
+  <object name="ground2" x="4" y="136" width="1712" height="90"/>
+ </objectgroup>
+</map>
