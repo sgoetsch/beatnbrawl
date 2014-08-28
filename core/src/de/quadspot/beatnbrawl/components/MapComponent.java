@@ -29,8 +29,8 @@ public class MapComponent extends Component{
     float mapHeight;
     float mapFactor;
 
-    public MapComponent(Batch batch) {
-        tiledMap = new TmxMapLoader().load("maps/tmnt.tmx");
+    public MapComponent(Batch batch, String mapfile) {
+        tiledMap = new TmxMapLoader().load(mapfile);
         mapWidth = tiledMap.getProperties().get("width", Integer.class).floatValue()*tiledMap.getProperties().get("tilewidth", Integer.class).floatValue();
         mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue()*tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
         mapFactor = Gdx.graphics.getHeight()/mapHeight;

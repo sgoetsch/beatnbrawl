@@ -54,7 +54,7 @@ public class GameScreen implements Screen{
         engine.addEntity(entity);
 
         Entity map = new Entity();
-        map.add(new MapComponent(game.batch));
+        map.add(new MapComponent(game.batch, "/maps/tmnt.tmx"));
         engine.addEntity(map);
 
         //entity.removeAll();
