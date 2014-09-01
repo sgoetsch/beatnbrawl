@@ -7,24 +7,22 @@ import com.badlogic.gdx.math.Vector3;
  * Created by goetsch on 05.08.14.
  */
 public class MovementComponent extends Component {
-    public enum State {
-        WALK_LEFT ("LEFT"), WALK_RIGHT ("RIGHT"), JUMP_LEFT ("LEFT"), JUMP_RIGHT ("RIGHT"), STAND_LEFT ("LEFT"), STAND_RIGHT ("RIGHT"), ATTACK_RIGHT ("RIGHT"), ATTACK_LEFT ("LEFT");
-        private final String dir;
-        State(String dir) {
-            this.dir = dir;
-        }
-        public String dir() {return dir;}
-    }
+
     private Vector3 velocity;
     private Vector3 maxVelocity;
-    private State state;
-    private State prevState;
+    private boolean isMovingUp;
+    private boolean isMovingDown;
+    private boolean isMovingLeft;
+    private boolean isMovingRight;
+    private boolean isStanding;
+    private boolean isFacedRight=true;
+    private boolean isFacedLeft;
+
 
     public MovementComponent(Vector3 velocity, Vector3 maxVelocity) {
         this.velocity = velocity;
         this.maxVelocity = maxVelocity;
-        state = State.STAND_RIGHT;
-        this.prevState = this.state;
+
     }
 
     public Vector3 getVelocity() {
@@ -35,17 +33,64 @@ public class MovementComponent extends Component {
         return maxVelocity;
     }
 
-    public State getState() {
-        return state;
+    public boolean isMovingUp() {
+        return isMovingUp;
     }
 
-    public void setState(State state) {
-        this.prevState = this.state;
-        this.state = state;
+    public void setMovingUp(boolean isMovingUp) {
+        this.isMovingUp = isMovingUp;
     }
 
-    public State getPrevState() {
-        return prevState;
+    public boolean isMovingDown() {
+        return isMovingDown;
     }
+
+    public void setMovingDown(boolean isMovingDown) {
+        this.isMovingDown = isMovingDown;
+    }
+
+    public boolean isMovingLeft() {
+        return isMovingLeft;
+    }
+
+    public void setMovingLeft(boolean isMovingLeft) {
+        this.isMovingLeft = isMovingLeft;
+        this.isFacedLeft = true;
+        this.isFacedRight = false;
+        this.isMovingRight = false;
+        this.isStanding = false;
+
+    }
+
+    public boolean isMovingRight() {
+        return isMovingRight;
+    }
+
+    public void setMovingRight(boolean isMovingRight) {
+        this.isMovingRight = isMovingRight;
+        this.isFacedLeft = false;
+        this.isFacedRight = true;
+        this.isMovingLeft = false;
+        this.isStanding = false;
+    }
+
+    public boolean isStanding() {
+        return isStanding;
+    }
+
+    public void setStanding(boolean isStanding) {
+        this.isStanding = isStanding;
+        this.isMovingLeft = false;
+        this.isMovingRight = false;
+    }
+
+    public boolean isFacedLeft() {
+        return isFacedLeft;
+    }
+
+    public boolean isFacedRight() {
+        return isFacedRight;
+    }
+
 }
 

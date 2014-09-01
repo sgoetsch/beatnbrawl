@@ -19,7 +19,8 @@ public class CollisionComponent extends Component {
 
     private CollidingBody collidingBody;
     private Rectangle groundBody;
-    
+    private boolean isCollidingRight; // passives "has been hit" - wurde getroffen
+    private boolean isCollidingLeft;
 
     public CollisionComponent() {
         
@@ -58,6 +59,19 @@ public class CollisionComponent extends Component {
         return !(groundBody.contains(collidingBody.getSensorLeft()) || groundBody.contains(collidingBody.getSensorRight()) || groundBody.contains(collidingBody.getSensorTop()) || groundBody.contains(collidingBody.getSensorBottom()));
     }
 
-    
-    
+    public boolean isCollidingLeft() {
+        return isCollidingLeft;
+    }
+
+    public void setCollidingLeft(boolean isCollidingLeft) {
+        this.isCollidingLeft = isCollidingLeft;
+    }
+
+    public boolean isCollidingRight() {
+        return isCollidingRight;
+    }
+
+    public void setCollidingRight(boolean isCollidingRight) {
+        this.isCollidingRight = isCollidingRight;
+    }
 }

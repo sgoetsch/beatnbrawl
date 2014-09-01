@@ -13,6 +13,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 import de.quadspot.beatnbrawl.beatnbrawl;
+import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
@@ -20,11 +21,13 @@ import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
+import de.quadspot.beatnbrawl.components.StateComponent;
 import de.quadspot.beatnbrawl.systems.AnimationSystem;
 import de.quadspot.beatnbrawl.systems.CollisionSystem;
 import de.quadspot.beatnbrawl.systems.InputSystem;
 import de.quadspot.beatnbrawl.systems.MovementSystem;
 import de.quadspot.beatnbrawl.systems.RenderSystem;
+import de.quadspot.beatnbrawl.systems.StateSystem;
 
 /**
  *
@@ -49,6 +52,8 @@ public class GameScreen implements Screen{
         entity.add(new InputComponent());
         entity.add(new AnimationComponent("don.atlas"));
         entity.add(new CollisionComponent());
+        entity.add(new ActionComponent());
+        entity.add(new StateComponent());
 
         engine.addEntity(entity);
 
@@ -64,6 +69,8 @@ public class GameScreen implements Screen{
         //entity2.add(new InputComponent());
         entity2.add(new AnimationComponent("don.atlas"));
         entity2.add(new CollisionComponent());
+        entity2.add(new ActionComponent());
+        entity2.add(new StateComponent());
         engine.addEntity(entity2);
 
 
@@ -72,6 +79,7 @@ public class GameScreen implements Screen{
         engine.addSystem(new InputSystem(camera, game.batch));
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new CollisionSystem());
+        engine.addSystem(new StateSystem());
     }
 
     @Override

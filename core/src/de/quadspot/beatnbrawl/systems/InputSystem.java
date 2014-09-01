@@ -15,6 +15,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
+
+import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 
 import de.quadspot.beatnbrawl.components.InputComponent;
@@ -31,6 +33,7 @@ public class InputSystem extends EntitySystem implements InputProcessor{
     private ComponentMapper<InputComponent> icm;
     private ComponentMapper<MovementComponent> mcm;
     private ComponentMapper<CollisionComponent> ccm;
+    private ComponentMapper<ActionComponent> actcm;
 
 
     public InputSystem(OrthographicCamera camera, SpriteBatch batch) {
@@ -43,7 +46,7 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
         InputMultiplexer im = new InputMultiplexer();
 
-        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class, CollisionComponent.class, MovementComponent.class));
+        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class, CollisionComponent.class, MovementComponent.class, ActionComponent.class));
 
         icm = ComponentMapper.getFor(InputComponent.class);
         ccm = ComponentMapper.getFor(CollisionComponent.class);
@@ -130,23 +133,17 @@ public class InputSystem extends EntitySystem implements InputProcessor{
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-        if (Gdx.input.getX(pointer) > Gdx.graphics.getWidth()/2 ){
-            if(mcm.get(entities.first()).getState().equals(MovementComponent.State.STAND_RIGHT)||mcm.get(entities.first()).getState().equals(MovementComponent.State.WALK_RIGHT)){
-               System.out.println("Attack right");
+        actcm = ComponentMapper.getFor(ActionComponent.class);
 
-                mcm.get(entities.first()).setState(MovementComponent.State.ATTACK_RIGHT);
-                ccm.get(entities.first()).getCollidingBody().attackRight(100);
-    
-                
-            }else if(mcm.get(entities.first()).getState().equals(MovementComponent.State.STAND_LEFT) || mcm.get(entities.first()).getState().equals(MovementComponent.State.WALK_LEFT)){
-                System.out.println("Attack left");
-                
-                mcm.get(entities.first()).setState(MovementComponent.State.ATTACK_LEFT);
-                ccm.get(entities.first()).getCollidingBody().attackLeft(100);
-            }
+
+        if (Gdx.input.getX(pointer) > Gdx.graphics.getWidth()/2 ){
+
+            actcm.get(entities.first()).setAttacking(true);
+
             
         }
         else {
+            // Touchpad einblenden
             icm = ComponentMapper.getFor(InputComponent.class);
             icm.get(entities.first()).getTouchpad().setBounds(stage.screenToStageCoordinates(new Vector2(screenX, screenY)).x - 250, stage.screenToStageCoordinates(new Vector2(screenX, screenY)).y - 250, 500, 500);
             icm.get(entities.first()).getTouchpad().setVisible(true);

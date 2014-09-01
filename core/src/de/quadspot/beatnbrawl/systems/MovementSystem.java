@@ -16,6 +16,7 @@ import de.quadspot.beatnbrawl.components.MapComponent;
 
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
+import de.quadspot.beatnbrawl.components.StateComponent;
 
 /**
  * Created by goetsch on 05.08.14.
@@ -24,8 +25,6 @@ public class MovementSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
     private Entity mapEntity;
-    Vector3 oldPos = new Vector3(0, 0, 0);
-    int k=0;
     public MovementSystem() {
 
     }
@@ -48,6 +47,7 @@ public class MovementSystem extends EntitySystem {
         ComponentMapper<PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
+        ComponentMapper<StateComponent> scm = ComponentMapper.getFor(StateComponent.class);
 
         ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
         for (int i = 0; i < entities.size(); ++i) {
@@ -64,13 +64,13 @@ public class MovementSystem extends EntitySystem {
             pcm.get(entity).getPosition().add(mcm.get(entity).getVelocity().cpy().scl(deltaTime));
             //System.out.println("NEU:" + pcm.get(entity).getPosition() + "     ALT:" + oldPos + "       Velocity:" + mcm.get(entity).getVelocity());
             //System.out.println("NEU:" + ccm.get(entity).getCollidingBody().getPosition());
-            if (!((mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)) || (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)))) {
+           // if (!((mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)) || (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)))) {
 
                 if (mcm.get(entity).getVelocity().x > 0) {
-                    mcm.get(entity).setState(MovementComponent.State.WALK_RIGHT);
+                    mcm.get(entity).setMovingRight(true);
 
                 } else if (mcm.get(entity).getVelocity().x < 0) {
-                    mcm.get(entity).setState(MovementComponent.State.WALK_LEFT);
+                    mcm.get(entity).setMovingLeft(true);
 
                 } else if (mcm.get(entity).getVelocity().y > 0) {
 
@@ -81,14 +81,11 @@ public class MovementSystem extends EntitySystem {
                 } else if (mcm.get(entity).getVelocity().z < 0) {
 
                 } else {
-                    if (mcm.get(entity).getPrevState().dir().equals("RIGHT")) {
-                        mcm.get(entity).setState(MovementComponent.State.STAND_RIGHT);
-                    } else {
-                        mcm.get(entity).setState(MovementComponent.State.STAND_LEFT);
-                    }
+                        mcm.get(entity).setStanding(true);
+
 
                 }
-            }
+            //}
 
             // of ground things
             //System.out.println(ccm.get(entity).isLeftOfGround());

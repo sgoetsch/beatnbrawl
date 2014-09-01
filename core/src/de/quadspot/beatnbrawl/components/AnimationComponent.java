@@ -72,7 +72,7 @@ public class AnimationComponent extends Component {
         jumpLeftAnimation = flip(0.15f, jumpRightAnimation);
         jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        attackRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("hit")));
+        attackRightAnimation = new Animation(3.15f, (textureAtlas.findRegions("hit")));
         attackRightAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
         attackLeftAnimation = flip(0.15f, attackRightAnimation);
@@ -135,9 +135,11 @@ public class AnimationComponent extends Component {
     }
 
     public void setCurrentAnimation(Animation currentAnimation) {
-        this.stateTime = 0;
-        this.currentAnimation = currentAnimation;
-        System.out.println(currentAnimation.toString());
+        if (!currentAnimation.equals(this.currentAnimation)) {
+            this.stateTime = 0;
+            this.currentAnimation = currentAnimation;
+            System.out.println(currentAnimation.toString());
+        }
     }
 
     public int getWidth(float elapsedTime) {

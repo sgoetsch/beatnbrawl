@@ -21,6 +21,7 @@ import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
+import de.quadspot.beatnbrawl.components.StateComponent;
 
 /**
  *
@@ -35,27 +36,27 @@ public class CollisionSystem extends EntitySystem{
     public boolean checkProcessing() {
         return super.checkProcessing(); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, AnimationComponent.class, CollisionComponent.class), new Bits(), new Bits()));
-        entities2 = entities;
+        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, CollisionComponent.class, StateComponent.class), new Bits(), new Bits()));
+        //entities2 = entities;
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
-        
+
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
         ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
         ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
 
-        
+
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            
+
             ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(0)*mapcm.get(mapEntity).getMapFactor(), acm.get(entity).getHeight(0)*mapcm.get(mapEntity).getMapFactor());
             ccm.get(entity).setGround(mapcm.get(mapEntity).getGroundBody());
             //System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
 
-            
+
 //            ccm.get(entity).getBoundingBox().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime));
 //            ccm.get(entity).getCollisionBox().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, acm.get(entity).getWidth(elapsedTime), acm.get(entity).getHeight(elapsedTime)/4);
 //            
@@ -85,74 +86,71 @@ public class CollisionSystem extends EntitySystem{
     public void removedFromEngine(Engine engine) {
         super.removedFromEngine(engine); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
     @Override
     public void update(float deltaTime) {
         ComponentMapper <PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
-        ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
+        //ComponentMapper <AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
-        ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
+        //ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
+        ComponentMapper <StateComponent> scm = ComponentMapper.getFor(StateComponent.class);
 
 
 
-                    
+
+
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
-            
-            
+
             ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition());
-            //System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
-            //System.out.println("Collision"+k++);
-            
+
             if (ccm.get(entity).isLeftOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                    //mcm.get(entity).getVelocity().x=0;
+                //mcm.get(entity).getVelocity().x=0;
                 System.out.println("is left of ground");
-            } 
+            }
             if (ccm.get(entity).isRightOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                    //mcm.get(entity).getVelocity().x=0;
+                //mcm.get(entity).getVelocity().x=0;
                 System.out.println("is right of ground");
-            } 
+            }
             if (ccm.get(entity).isTopOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getOldPosition().z);
-                    //mcm.get(entity).getVelocity().y=0;
+                //mcm.get(entity).getVelocity().y=0;
                 System.out.println("is top of ground");
-            } 
+            }
             if (ccm.get(entity).isBottomOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getOldPosition().z);
-                    //mcm.get(entity).getVelocity().y=0;
+                //mcm.get(entity).getVelocity().y=0;
                 System.out.println("is bottom of ground");
             }
             for(int k = 0; k < entities.size(); ++k){
                 Entity entity2 = entities.get(k);
-                
+                // Prevent Comparison with same object
                 if ( (pcm.get(entity).getPosition().x != pcm.get(entity2).getPosition().x   ) ){
-//                    System.out.println("-----------------");
-//                    System.out.println("entity1: x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x+"                 y:"+ccm.get(entity).getCollidingBody().getBoundingBox().y+"("+i+")("+k+")");
-//                    System.out.println("entity2: x:"+ccm.get(entity2).getCollidingBody().getCollisionBox().x+"                  y:"+ccm.get(entity2).getCollidingBody().getCollisionBox().x+"("+i+")("+k+")");
-                    //System.out.println(Intersector.overlaps(ccm.get(entity).getCollidingBody().getBoundingBox(), ccm.get(entity2).getCollidingBody().getBoundingBox()));
-                    //System.out.println(doOverlap(ccm.get(entity).getCollidingBody().getBoundingBox(), ccm.get(entity2).getCollidingBody().getBoundingBox()));
-                    //System.out.println("rect1:"+ccm.get(entity).getCollidingBody().getBoundingBox()+"     rect2:"+ccm.get(entity2).getCollidingBody().getBoundingBox());
-                    
-                    if (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
-                        ccm.get(entity2).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity).getCollidingBody().getAttackBoxRight())&&
-                        mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT)){
-                        //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                        System.out.println("Hit Right");
 
-                        //ccm.get(entities.first()).getCollidingBody().attackRight(0);
-                    }
-                    
-                    if (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
-                        ccm.get(entity2).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity).getCollidingBody().getAttackBoxLeft())&&
-                        mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_LEFT)){
-                        //pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
-                        System.out.println("Hit Left");
 
-                        //ccm.get(entities.first()).getCollidingBody().attackLeft(0);
-                    }
-                    System.out.println(acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime()) + "  "+mcm.get(entities.first()).getPrevState()+"  "+mcm.get(entities.first()).getState()+ "  " +  acm.get(entities.first()).getStateTime());
+                    /*System.out.println(ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())+"-"
+                            +ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight())+"-"
+                            +scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)+"-"
+                            +(scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT)) + "->"+ (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())
+                            && (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight()))
+                            && (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)
+                            || (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT)))) + " " + entity);
+*/
+                    ccm.get(entity).setCollidingRight(ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())
+                                                    && (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight()))
+                                                    && (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)
+                                                     || (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT))));
+
+                    // TODO: Prevent enemy vs. enemy collisions!
+
+                    ccm.get(entity).setCollidingLeft(ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
+                                                    (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxLeft())) &&
+                                                    (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)
+                                                    || (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT))));
+                }
+/*                    System.out.println(acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime()) + "  "+mcm.get(entities.first()).getPrevState()+"  "+mcm.get(entities.first()).getState()+ "  " +  acm.get(entities.first()).getStateTime());
                     if ((acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime())) && (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT))) {
                         mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
                         System.out.println("Setback!");
@@ -160,18 +158,18 @@ public class CollisionSystem extends EntitySystem{
                     ccm.get(entities.first()).getCollidingBody().attackRight(0);
                         ccm.get(entities.first()).getCollidingBody().attackLeft(0);
                     
-                   
-                }
+                   */
             }
-
         }
-        
+
     }
 
-    
 
-    
-    
-    
-    
+
+
+
+
+
+
+
 }

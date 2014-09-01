@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Bits;
 
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
+import de.quadspot.beatnbrawl.components.StateComponent;
 
 /**
  * Created by goetsch on 15.08.14.
@@ -21,7 +22,7 @@ public class AnimationSystem extends EntitySystem {
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(AnimationComponent.class, MovementComponent.class), new Bits(), new Bits()));
+        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(AnimationComponent.class, StateComponent.class), new Bits(), new Bits()));
     }
 
 
@@ -33,51 +34,42 @@ public class AnimationSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
+        ComponentMapper<StateComponent> scm = ComponentMapper.getFor(StateComponent.class);
         ComponentMapper<AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
-        for(int i = 0; i < entities.size(); ++i){
+        for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
             acm.get(entity).setStateTime(deltaTime);
-            //System.out.println(mcm.get(entity).getState());
-            //System.out.println(!mcm.get(entity).getState().equals(mcm.get(entity).getPrevState()));
-           // if (!mcm.get(entity).getState().equals(mcm.get(entity).getPrevState())) {
-                switch (mcm.get(entity).getState()) {
+            //System.out.println(scm.get(entity).getState() + " - " + scm.get(entity).getPrevState() );
+            //System.out.println(!scm.get(entity).getState().equals(scm.get(entity).getPrevState()));
+            //if (!scm.get(entity).getState().equals(scm.get(entity).getPrevState())) {
+                switch (scm.get(entity).getState()) {
 
                     case WALK_LEFT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getWalkLeftAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                     case WALK_RIGHT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getWalkRightAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                     case JUMP_LEFT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getJumpLeftAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                     case JUMP_RIGHT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getJumpRightAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                     case STAND_LEFT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getStandLeftAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                     case STAND_RIGHT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getStandRightAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                     case ATTACK_LEFT:
-                        acm.get(entity).setCurrentAnimation(acm.get(entity).getAttackRightAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
+                        acm.get(entity).setCurrentAnimation(acm.get(entity).getAttackLeftAnimation());
                         break;
                     case ATTACK_RIGHT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getAttackRightAnimation());
-                        System.out.println("Set Animation for " + mcm.get(entity).getState() );
                         break;
                 }
             //}
         }
-
     }
 }
