@@ -83,7 +83,6 @@ public class RenderSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
     private Entity mapEntity;
-    private float elapsedTime = 0;
 
     private float scale;
 
@@ -139,13 +138,12 @@ public class RenderSystem extends EntitySystem {
         Array<SpriteData> sort = new Array();
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
-            elapsedTime += deltaTime;
 
-            sort.add( new SpriteData(acm.get(entity).getCurrentAnimation().getKeyFrame(elapsedTime),
+            sort.add( new SpriteData(acm.get(entity).getCurrentAnimation().getKeyFrame(acm.get(entity).getStateTime()),
                     pcm.get(entity).getPosition().x, 
                     pcm.get(entity).getPosition().y + pcm.get(entity).getPosition().z,
-                    acm.get(entity).getWidth(elapsedTime),
-                    acm.get(entity).getHeight(elapsedTime)));
+                    acm.get(entity).getWidth(acm.get(entity).getStateTime()),
+                    acm.get(entity).getHeight(acm.get(entity).getStateTime())));
 
         }
 

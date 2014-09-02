@@ -12,6 +12,7 @@ public class RenderComponent extends Component {
 
     private Texture img = new Texture("badlogic.jpg");
     private Vector2 frameOffset = new Vector2();
+    private float stateTime;
 
     public RenderComponent(){}
 

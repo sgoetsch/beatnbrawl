@@ -6,23 +6,37 @@ hit
   rotate: false
   xy: 2, 225
   size: 93, 67
-  orig: 93, 67
-  offset: 0, 0
+  orig: 50, 30
+  offset: 50, 0
   index: 0
+hit
+  rotate: false
+  xy: 2, 225
+  size: 93, 67
+  orig: 50, 30
+  offset: 50, 0
+  index: 1
+hit
+  rotate: false
+  xy: 2, 225
+  size: 93, 67
+  orig: 50, 30
+  offset: 50, 0
+  index: 2
 hit
   rotate: false
   xy: 2, 71
   size: 112, 34
-  orig: 112, 34
-  offset: 0, 0
-  index: 1
+  orig: 50, 34
+  offset: 50, 0
+  index: 3
 hit
   rotate: false
   xy: 2, 35
   size: 112, 34
-  orig: 112, 34
-  offset: 0, 0
-  index: 2
+  orig: 50, 34
+  offset: 50, 0
+  index: 4
 jump
   rotate: false
   xy: 48, 294

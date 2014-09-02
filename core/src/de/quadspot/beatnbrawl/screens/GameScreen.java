@@ -61,7 +61,7 @@ public class GameScreen implements Screen{
         map.add(new MapComponent(game.batch, "maps/schiff2.tmx"));
         engine.addEntity(map);
 
-        //entity.removeAll();
+/*        //entity.removeAll();
         Entity entity2 = new Entity();
         entity2.add(new PositionComponent(new Vector3(500,0,150)));
         entity2.add(new RenderComponent());
@@ -71,7 +71,7 @@ public class GameScreen implements Screen{
         entity2.add(new CollisionComponent());
         entity2.add(new ActionComponent());
         entity2.add(new StateComponent());
-        engine.addEntity(entity2);
+        engine.addEntity(entity2);*/
 
 
         engine.addSystem(new RenderSystem(camera, game.batch));
@@ -79,7 +79,7 @@ public class GameScreen implements Screen{
         engine.addSystem(new InputSystem(camera, game.batch));
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new CollisionSystem());
-        engine.addSystem(new StateSystem());
+        engine.addSystem(new StateSystem(-1));
     }
 
     @Override

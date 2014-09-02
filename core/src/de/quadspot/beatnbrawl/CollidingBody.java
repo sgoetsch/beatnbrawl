@@ -169,11 +169,11 @@ public class CollidingBody {
         
         attackBoxRight.setSize(range, attackBoxRight.height);
         if (range == 0){
-            collisionBox.setSize(collisionBox.width - prvRangeRight, collisionBox.height);
+            collisionBox.setSize(width, collisionBox.height);
             this.prvRangeRight = 0;
         }else{
             this.prvRangeRight = range;
-            collisionBox.setSize(collisionBox.width + range, collisionBox.height);
+            collisionBox.setSize(width + range, collisionBox.height);
         }
             
     }

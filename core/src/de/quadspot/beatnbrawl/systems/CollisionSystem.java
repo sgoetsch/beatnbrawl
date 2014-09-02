@@ -15,6 +15,8 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.utils.Bits;
+
+import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
@@ -39,7 +41,7 @@ public class CollisionSystem extends EntitySystem{
 
     @Override
     public void addedToEngine(Engine engine) {
-        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, CollisionComponent.class, StateComponent.class), new Bits(), new Bits()));
+        entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, CollisionComponent.class, StateComponent.class, ActionComponent.class), new Bits(), new Bits()));
         //entities2 = entities;
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
 
@@ -94,15 +96,18 @@ public class CollisionSystem extends EntitySystem{
         ComponentMapper <CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
         //ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
         ComponentMapper <StateComponent> scm = ComponentMapper.getFor(StateComponent.class);
+        ComponentMapper <ActionComponent> actcm = ComponentMapper.getFor(ActionComponent.class);
 
 
 
-
-
+// entity -> der potenziell geschlagene, entity2 -> der Angreifer
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
 
             ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition());
+
+
+
 
             if (ccm.get(entity).isLeftOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
@@ -127,41 +132,39 @@ public class CollisionSystem extends EntitySystem{
             for(int k = 0; k < entities.size(); ++k){
                 Entity entity2 = entities.get(k);
                 // Prevent Comparison with same object
-                if ( (pcm.get(entity).getPosition().x != pcm.get(entity2).getPosition().x   ) ){
+
+                if ( (pcm.get(entity).getPosition().x != pcm.get(entity2).getPosition().x) ){
+
+                    if (actcm.get(entity2).isAttacking() && scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT)){
+                        ccm.get(entity2).getCollidingBody().attackLeft(100);
+                    }
+                    else if (actcm.get(entity2).isAttacking() && scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)){
+                        ccm.get(entity2).getCollidingBody().attackRight(100);
+                    }
 
 
-                    /*System.out.println(ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())+"-"
-                            +ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight())+"-"
-                            +scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)+"-"
-                            +(scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT)) + "->"+ (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())
+                    boolean hitRight = (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())
                             && (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight()))
-                            && (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)
-                            || (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT)))) + " " + entity);
-*/
-                    ccm.get(entity).setCollidingRight(ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())
-                                                    && (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight()))
-                                                    && (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)
-                                                     || (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT))));
+                            && actcm.get(entity2).isAttacking());
+                    ccm.get(entity).setCollidingRight(hitRight);
+
 
                     // TODO: Prevent enemy vs. enemy collisions!
 
-                    ccm.get(entity).setCollidingLeft(ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
-                                                    (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxLeft())) &&
-                                                    (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT)
-                                                    || (scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT))));
-                }
-/*                    System.out.println(acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime()) + "  "+mcm.get(entities.first()).getPrevState()+"  "+mcm.get(entities.first()).getState()+ "  " +  acm.get(entities.first()).getStateTime());
-                    if ((acm.get(entities.first()).getCurrentAnimation().isAnimationFinished(acm.get(entities.first()).getStateTime())) && (mcm.get(entity).getState().equals(MovementComponent.State.ATTACK_RIGHT))) {
-                        mcm.get(entities.first()).setState(mcm.get(entities.first()).getPrevState());
-                        System.out.println("Setback!");
+                    boolean hitLeft = (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
+                            (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxLeft())) &&
+                            actcm.get(entity2).isAttacking());
+                    ccm.get(entity).setCollidingLeft(hitLeft);
+
+                    if (hitLeft || hitRight){
+                        ccm.get(entity2).getCollidingBody().attackLeft(0);
+                        ccm.get(entity2).getCollidingBody().attackRight(0);
+                        actcm.get(entity2).setAttacking(false);
+                        System.out.println("HIT!!!!");
                     }
-                    ccm.get(entities.first()).getCollidingBody().attackRight(0);
-                        ccm.get(entities.first()).getCollidingBody().attackLeft(0);
-                    
-                   */
+                }
             }
         }
-
     }
 
 

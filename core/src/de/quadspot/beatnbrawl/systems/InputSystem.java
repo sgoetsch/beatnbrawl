@@ -21,6 +21,7 @@ import de.quadspot.beatnbrawl.components.CollisionComponent;
 
 import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
+import de.quadspot.beatnbrawl.components.StateComponent;
 
 /**
  * Created by goetsch on 05.08.14.
@@ -34,6 +35,7 @@ public class InputSystem extends EntitySystem implements InputProcessor{
     private ComponentMapper<MovementComponent> mcm;
     private ComponentMapper<CollisionComponent> ccm;
     private ComponentMapper<ActionComponent> actcm;
+    private ComponentMapper<StateComponent> scm;
 
 
     public InputSystem(OrthographicCamera camera, SpriteBatch batch) {
@@ -46,7 +48,7 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
         InputMultiplexer im = new InputMultiplexer();
 
-        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class, CollisionComponent.class, MovementComponent.class, ActionComponent.class));
+        entities = engine.getEntitiesFor(Family.getFor(InputComponent.class, CollisionComponent.class, MovementComponent.class, ActionComponent.class, StateComponent.class));
 
         icm = ComponentMapper.getFor(InputComponent.class);
         ccm = ComponentMapper.getFor(CollisionComponent.class);
@@ -71,6 +73,8 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
         icm = ComponentMapper.getFor(InputComponent.class);
         mcm = ComponentMapper.getFor(MovementComponent.class);
+        scm = ComponentMapper.getFor(StateComponent.class);
+
 
         for(int i = 0; i < entities.size(); ++i){
             Entity entity = entities.get(i);
@@ -137,7 +141,7 @@ public class InputSystem extends EntitySystem implements InputProcessor{
 
 
         if (Gdx.input.getX(pointer) > Gdx.graphics.getWidth()/2 ){
-
+            if (!(scm.get(entities.first()).getState().equals(StateComponent.State.ATTACK_LEFT) || scm.get(entities.first()).getState().equals(StateComponent.State.ATTACK_RIGHT)))
             actcm.get(entities.first()).setAttacking(true);
 
             
