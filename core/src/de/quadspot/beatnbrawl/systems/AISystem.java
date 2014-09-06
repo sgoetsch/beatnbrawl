@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Bits;
 
@@ -25,6 +26,12 @@ public class AISystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
     private Entity player;
+    ComponentMapper<PositionComponent> pcm;
+    ComponentMapper<AIComponent> aicm;
+    ComponentMapper<MovementComponent> mcm;
+    ComponentMapper<ActionComponent> actcm;
+    ComponentMapper<StateComponent> scm;
+
 
     /**
      * Default constructor that will initialise an EntitySystem with priority 0.
@@ -71,25 +78,51 @@ public class AISystem extends EntitySystem {
      */
     @Override
     public void update(float deltaTime) {
-        ComponentMapper<PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
-        ComponentMapper<AIComponent> aicm = ComponentMapper.getFor(AIComponent.class);
-        ComponentMapper<ActionComponent> actcm = ComponentMapper.getFor(ActionComponent.class);
-        ComponentMapper<MovementComponent> mcm = ComponentMapper.getFor(MovementComponent.class);
+        pcm = ComponentMapper.getFor(PositionComponent.class);
+        aicm = ComponentMapper.getFor(AIComponent.class);
+        actcm = ComponentMapper.getFor(ActionComponent.class);
+        mcm = ComponentMapper.getFor(MovementComponent.class);
+        scm = ComponentMapper.getFor(StateComponent.class);
         ComponentMapper<CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
 
 
         for(int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
 
-            //if (aicm.get(entity).getDecisionTime(deltaTime)) {
+            if (aicm.get(entity).getDecisionTime(deltaTime)) {
             /*
             if (Gegner in Reichweite (distanz-vektor))
                 dann das was unten steht
 */
-                Vector3 pqvector = new Vector3(pcm.get(player).getPosition().x - pcm.get(entity).getPosition().x, 0, pcm.get(player).getPosition().z - pcm.get(entity).getPosition().z).nor().scl(mcm.get(entity).getMaxVelocity());
-                System.out.println(pqvector);
-                mcm.get(entity).getVelocity().set(pqvector.scl(mcm.get(entity).getMaxVelocity()));
+                int rand = MathUtils.random(0,2);
+                if (rand == 0) {
+
+                if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 250 &&
+                        !(scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT) ||
+                        scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT))) {
+                    mcm.get(entity).getVelocity().setZero();
+                    actcm.get(entity).setAttacking(true);
+                }
+                else if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 900 && distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) > 250) {
+                    //System.out.println(distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()));
+                    moveTowardsPlayer(player, entity);
+                }
+                else
+                    mcm.get(entity).getVelocity().setZero();
             }
-        //}
+            }
+        }
+    }
+
+    private float distance (Vector3 v1, Vector3 v2){
+        Vector3 rv = v1.sub(v2);
+        //System.out.println(rv);
+        return rv.len();
+    }
+
+    private void moveTowardsPlayer(Entity player, Entity entity){
+        Vector3 pqvector = new Vector3(pcm.get(player).getPosition().x - pcm.get(entity).getPosition().x, 0, pcm.get(player).getPosition().z - pcm.get(entity).getPosition().z).nor();
+        //System.out.println(pqvector);
+        mcm.get(entity).getVelocity().set(pqvector.scl(mcm.get(entity).getMaxVelocity()));
     }
 }

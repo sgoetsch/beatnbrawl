@@ -7,6 +7,7 @@ import com.badlogic.ashley.core.Component;
  */
 public class ActionComponent extends Component {
     private boolean isAttacking;
+    private boolean isKnockedOut;
 
     public boolean isAttacking() {
         return isAttacking;
@@ -14,5 +15,13 @@ public class ActionComponent extends Component {
 
     public void setAttacking(boolean isAttacking) {
         this.isAttacking = isAttacking;
+    }
+
+    public boolean isKnockedOut() {
+        return isKnockedOut;
+    }
+
+    public void setKnockedOut(boolean isKnockedOut) {
+        this.isKnockedOut = isKnockedOut;
     }
 }

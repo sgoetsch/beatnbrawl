@@ -145,7 +145,7 @@ public class CollisionSystem extends EntitySystem{
 
                     boolean hitRight = (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())
                             && (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxRight()))
-                            && actcm.get(entity2).isAttacking());
+                            && actcm.get(entity2).isAttacking() && scm.get(entity2).getState().equals(StateComponent.State.ATTACK_RIGHT));
                     ccm.get(entity).setCollidingRight(hitRight);
 
 
@@ -153,7 +153,7 @@ public class CollisionSystem extends EntitySystem{
 
                     boolean hitLeft = (ccm.get(entity2).getCollidingBody().getCollisionBox().overlaps(ccm.get(entity).getCollidingBody().getCollisionBox())&&
                             (ccm.get(entity).getCollidingBody().getBoundingBox().overlaps(ccm.get(entity2).getCollidingBody().getAttackBoxLeft())) &&
-                            actcm.get(entity2).isAttacking());
+                            actcm.get(entity2).isAttacking() && scm.get(entity2).getState().equals(StateComponent.State.ATTACK_LEFT));
                     ccm.get(entity).setCollidingLeft(hitLeft);
 
                     if (hitLeft || hitRight){

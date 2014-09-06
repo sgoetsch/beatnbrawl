@@ -18,6 +18,7 @@ public class AIComponent extends Component {
             decisionTime = MathUtils.random(0.1f, 0.5f);
             return true;
         }
+        decisionTime -= deltaTime;
         return false;
     }
 

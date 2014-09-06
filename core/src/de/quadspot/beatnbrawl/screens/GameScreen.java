@@ -83,7 +83,7 @@ public class GameScreen implements Screen{
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new AISystem());
-        engine.addSystem(new StateSystem(-1));
+        engine.addSystem(new StateSystem(-10));
     }
 
     @Override
