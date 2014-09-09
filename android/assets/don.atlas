@@ -2,44 +2,79 @@ don.png
 format: RGBA8888
 filter: Linear,Linear
 repeat: none
+dead
+  rotate: false
+  xy: 255, 2
+  size: 45, 54
+  orig: 45, 54
+  offset: 0, 0
+  index: 1
+dead
+  rotate: false
+  xy: 302, 2
+  size: 47, 54
+  orig: 47, 54
+  offset: 0, 0
+  index: 2
+dead
+  rotate: false
+  xy: 208, 58
+  size: 49, 61
+  orig: 49, 61
+  offset: 0, 0
+  index: 3
+dead
+  rotate: false
+  xy: 198, 2
+  size: 55, 53
+  orig: 55, 53
+  offset: 0, 0
+  index: 4
+dead
+  rotate: false
+  xy: 98, 2
+  size: 66, 35
+  orig: 66, 35
+  offset: 0, 0
+  index: 5
 hit
   rotate: false
-  xy: 2, 225
-  size: 93, 67
-  orig: 50, 30
-  offset: 50, 0
+  xy: 134, 127
+  size: 130, 67
+  orig: 130, 67
+  offset: 0, 0
   index: 0
 hit
   rotate: false
-  xy: 2, 225
-  size: 93, 67
-  orig: 50, 30
-  offset: 50, 0
+  xy: 134, 127
+  size: 130, 67
+  orig: 130, 67
+  offset: 0, 0
   index: 1
 hit
   rotate: false
-  xy: 2, 225
-  size: 93, 67
-  orig: 50, 30
-  offset: 50, 0
+  xy: 134, 127
+  size: 130, 67
+  orig: 130, 67
+  offset: 0, 0
   index: 2
 hit
   rotate: false
-  xy: 2, 71
-  size: 112, 34
-  orig: 50, 34
-  offset: 50, 0
+  xy: 2, 127
+  size: 130, 67
+  orig: 130, 67
+  offset: 0, 0
   index: 3
 hit
   rotate: false
-  xy: 2, 35
-  size: 112, 34
-  orig: 50, 34
-  offset: 50, 0
+  xy: 259, 58
+  size: 130, 67
+  orig: 130, 67
+  offset: 0, 0
   index: 4
 jump
   rotate: false
-  xy: 48, 294
+  xy: 312, 127
   size: 35, 85
   orig: 35, 85
   offset: 0, 0
@@ -67,49 +102,49 @@ jump
   index: 3
 jump
   rotate: false
-  xy: 2, 107
+  xy: 166, 2
   size: 30, 37
   orig: 30, 37
   offset: 0, 0
   index: 4
 jump
   rotate: false
-  xy: 2, 294
+  xy: 266, 127
   size: 44, 73
   orig: 44, 73
   offset: 0, 0
   index: 5
 stand
   rotate: false
-  xy: 56, 165
+  xy: 146, 58
   size: 60, 58
   orig: 60, 58
   offset: 0, 0
   index: 0
 walk
   rotate: false
-  xy: 2, 165
+  xy: 92, 58
   size: 52, 57
   orig: 52, 57
   offset: 0, 0
   index: 0
 walk
   rotate: false
-  xy: 78, 107
+  xy: 46, 58
   size: 44, 56
   orig: 44, 56
   offset: 0, 0
   index: 1
 walk
   rotate: false
-  xy: 34, 107
+  xy: 2, 58
   size: 42, 55
   orig: 42, 55
   offset: 0, 0
   index: 2
 walk
   rotate: false
-  xy: 78, 107
+  xy: 46, 58
   size: 44, 56
   orig: 44, 56
   offset: 0, 0

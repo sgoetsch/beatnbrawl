@@ -17,6 +17,7 @@ import de.quadspot.beatnbrawl.components.AIComponent;
 import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
+import de.quadspot.beatnbrawl.components.HealthComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
@@ -39,11 +40,9 @@ public class GameScreen implements Screen{
     final beatnbrawl game;
     Engine engine;
     OrthographicCamera camera;
-    Float delta;
 
     public GameScreen(final beatnbrawl gam) {
         game = gam;
-        delta = Gdx.graphics.getDeltaTime();
         camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         engine = new Engine();
 
@@ -56,6 +55,7 @@ public class GameScreen implements Screen{
         entity.add(new CollisionComponent());
         entity.add(new ActionComponent());
         entity.add(new StateComponent());
+        entity.add(new HealthComponent());
 
         engine.addEntity(entity);
 
@@ -73,6 +73,8 @@ public class GameScreen implements Screen{
         entity2.add(new CollisionComponent());
         entity2.add(new ActionComponent());
         entity2.add(new StateComponent());
+        entity2.add(new HealthComponent());
+
         entity2.add(new AIComponent());
         engine.addEntity(entity2);
 
@@ -88,9 +90,7 @@ public class GameScreen implements Screen{
 
     @Override
     public void render(float f) {
-        delta = Gdx.graphics.getDeltaTime();
-
-        engine.update(delta);    }
+        engine.update(f);    }
 
     @Override
     public void resize(int i, int i1) {

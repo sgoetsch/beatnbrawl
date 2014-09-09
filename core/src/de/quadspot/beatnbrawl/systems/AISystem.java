@@ -94,22 +94,22 @@ public class AISystem extends EntitySystem {
             if (Gegner in Reichweite (distanz-vektor))
                 dann das was unten steht
 */
-                int rand = MathUtils.random(0,2);
-                if (rand == 0) {
-
-                if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 250 &&
-                        !(scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT) ||
-                        scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT))) {
-                    mcm.get(entity).getVelocity().setZero();
-                    actcm.get(entity).setAttacking(true);
+                if (!(scm.get(player).getState().equals(StateComponent.State.DEAD_LEFT) || scm.get(player).getState().equals(StateComponent.State.DEAD_RIGHT))) {
+                    int rand = MathUtils.random(0, 2);
+                    if (rand == 0) { // 1/3 Chance etwas zu tun, 2/3 idle
+                        // falls distanz zu player <= 250 und player nicht in attack state
+                        if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 250 &&
+                                !(scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT) ||
+                                        scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT))) {
+                            mcm.get(entity).getVelocity().setZero(); //stehen bleiben
+                            actcm.get(entity).setAttacking(true); //angreifen
+                        } else if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 900 && distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) > 250) {
+                            //System.out.println(distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()));
+                            moveTowardsPlayer(player, entity);
+                        } else
+                            mcm.get(entity).getVelocity().setZero(); // falls Player-distance > 900, stehen bleiben und nichts tun
+                    }
                 }
-                else if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 900 && distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) > 250) {
-                    //System.out.println(distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()));
-                    moveTowardsPlayer(player, entity);
-                }
-                else
-                    mcm.get(entity).getVelocity().setZero();
-            }
             }
         }
     }

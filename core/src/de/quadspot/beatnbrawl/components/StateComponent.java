@@ -7,7 +7,9 @@ import com.badlogic.ashley.core.Component;
  */
 public class StateComponent extends Component {
     public enum State {
-        WALK_LEFT ("LEFT"), WALK_RIGHT ("RIGHT"), JUMP_LEFT ("LEFT"), JUMP_RIGHT ("RIGHT"), STAND_LEFT ("LEFT"), STAND_RIGHT ("RIGHT"), ATTACK_RIGHT ("RIGHT"), ATTACK_LEFT ("LEFT");
+        WALK_LEFT ("LEFT"), WALK_RIGHT ("RIGHT"), JUMP_LEFT ("LEFT"), JUMP_RIGHT ("RIGHT"),
+        STAND_LEFT ("LEFT"), STAND_RIGHT ("RIGHT"), ATTACK_RIGHT ("RIGHT"), ATTACK_LEFT ("LEFT"),
+        DEAD_LEFT ("LEFT"), DEAD_RIGHT ("RIGHT");
         private final String dir;
         State(String dir) {
             this.dir = dir;

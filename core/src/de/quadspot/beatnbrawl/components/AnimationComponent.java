@@ -23,6 +23,8 @@ public class AnimationComponent extends Component {
     Animation jumpRightAnimation;
     Animation standRightAnimation;
     Animation standLeftAnimation;
+    Animation deadRightAnimation;
+    Animation deadLeftAnimation;
     Animation currentAnimation;
     int k;
     float stateTime;
@@ -75,9 +77,16 @@ public class AnimationComponent extends Component {
         attackRightAnimation = new Animation(.07f, (textureAtlas.findRegions("hit")));
         attackRightAnimation.setPlayMode(Animation.PlayMode.NORMAL);
 
-        attackLeftAnimation = flip(0.15f, attackRightAnimation);
+        attackLeftAnimation = flip(0.07f, attackRightAnimation);
         attackLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
-        
+
+        deadRightAnimation = new Animation(.15f, (textureAtlas.findRegions("dead")));
+        deadRightAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+
+        deadLeftAnimation = flip(.15f, deadRightAnimation);
+        deadLeftAnimation.setPlayMode(Animation.PlayMode.NORMAL);
+
+
 
 
         currentAnimation = standRightAnimation; //Commenting this leads to: java.lang.NullPointerException
@@ -128,6 +137,14 @@ public class AnimationComponent extends Component {
 
     public Animation getAttackRightAnimation() {
         return attackRightAnimation;
+    }
+
+    public Animation getDeadRightAnimation() {
+        return deadRightAnimation;
+    }
+
+    public Animation getDeadLeftAnimation() {
+        return deadLeftAnimation;
     }
 
     public Animation getCurrentAnimation() {

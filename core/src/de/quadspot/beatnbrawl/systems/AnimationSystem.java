@@ -68,6 +68,12 @@ public class AnimationSystem extends EntitySystem {
                     case ATTACK_RIGHT:
                         acm.get(entity).setCurrentAnimation(acm.get(entity).getAttackRightAnimation());
                         break;
+                    case DEAD_LEFT:
+                        acm.get(entity).setCurrentAnimation(acm.get(entity).getDeadLeftAnimation());
+                        break;
+                    case DEAD_RIGHT:
+                        acm.get(entity).setCurrentAnimation(acm.get(entity).getDeadRightAnimation());
+                        break;
                 }
             //}
         }

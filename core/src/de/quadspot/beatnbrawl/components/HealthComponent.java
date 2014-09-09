@@ -9,4 +9,13 @@ public class HealthComponent extends Component {
     private int health = 100;
     private int strength = 100;
     private int resilience = 100;
+
+    public void countHit() {
+        health -= 10;
+        System.out.println(health);
+    }
+
+    public boolean isDead() {
+        return ( health <= 0 );
+    }
 }
