@@ -16,6 +16,7 @@
 
 package com.badlogic.ashley.core;
 
+import com.badlogic.ashley.core.Engine.ComponentOperationHandler;
 import com.badlogic.ashley.signals.Signal;
 import com.badlogic.ashley.utils.Bag;
 import com.badlogic.ashley.utils.ImmutableArray;
@@ -29,7 +30,7 @@ import com.badlogic.gdx.utils.Bits;
  * @author Stefan Bachmann
  */
 public class Entity {
-	private static int nextIndex;
+	private static long nextId;
 	
 	/** A flag that can be used to bit mask this entity. Up to the user to manage. */
 	public int flags;
@@ -38,8 +39,8 @@ public class Entity {
 	/** Will dispatch an event when a component is removed. */
 	public final Signal<Entity> componentRemoved;
 	
-	/** Unique entity index for fast retrieval */
-	private int index;
+	/** Unique entity id */
+	protected Long uuid;
 	/** A collection that holds all the components indexed by their {@link ComponentType} index */
 	private Bag<Component> components;
 	/** An auxiliary array for user access to all the components of an entity */
@@ -51,28 +52,30 @@ public class Entity {
 	/** A Bits describing all the systems this entity was matched with. */
 	private Bits familyBits;
 	
+	ComponentOperationHandler componentOperationHandler;
+	
 	/**
 	 * Creates an empty Entity.
 	 */
 	public Entity(){
 		components = new Bag<Component>();
-		componentsArray = new Array<Component>();
+		componentsArray = new Array<Component>(false, 16);
 		immutableComponentsArray = new ImmutableArray<Component>(componentsArray);
 		componentBits = new Bits();
 		familyBits = new Bits();
 		flags = 0;
 		
-		index = nextIndex++;
+		uuid = new Long(nextId++);
 		
 		componentAdded = new Signal<Entity>();
 		componentRemoved = new Signal<Entity>();
 	}
 	
 	/**
-	 * @return The Entity's unique index.
+	 * @return The Entity's unique id.
 	 */
-	public int getIndex(){
-		return index;
+	public long getId(){
+		return uuid;
 	}
 	
 	/**
@@ -80,23 +83,12 @@ public class Entity {
 	 * @return The Entity for easy chaining
 	 */
 	public Entity add(Component component){
-		Class<? extends Component> componentClass = component.getClass();
-		
-		for (int i = 0; i < componentsArray.size; ++i) {
-			if (componentsArray.get(i).getClass() == componentClass) {
-				componentsArray.removeIndex(i);
-				break;
-			}
+		if (componentOperationHandler != null) {
+			componentOperationHandler.add(this, component);
 		}
-		
-		int componentTypeIndex = ComponentType.getIndexFor(component.getClass()); 
-		
-		components.set(componentTypeIndex, component);
-		componentsArray.add(component);
-		
-		componentBits.set(componentTypeIndex);
-		
-		componentAdded.dispatch(this);
+		else {
+			addInternal(component);
+		}
 		return this;
 	}
 	
@@ -110,12 +102,11 @@ public class Entity {
 		int componentTypeIndex = componentType.getIndex();
 		Component removeComponent = components.get(componentTypeIndex);
 		
-		if(removeComponent != null){
-			components.set(componentTypeIndex, null);
-			componentsArray.removeValue(removeComponent, true);
-			componentBits.clear(componentTypeIndex);
-			
-			componentRemoved.dispatch(this);
+		if (componentOperationHandler != null) {
+			componentOperationHandler.remove(this, componentClass);
+		}
+		else {
+			removeInternal(componentClass);
 		}
 		
 		return removeComponent;
@@ -126,7 +117,7 @@ public class Entity {
 	 */
 	public void removeAll() {
 		while(componentsArray.size > 0) {
-			remove(componentsArray.get(0).getClass());
+			removeInternal(componentsArray.get(0).getClass());
 		}
 	}
 	
@@ -138,10 +129,25 @@ public class Entity {
 	}
 	
 	/**
+	 * Retrieve a component from this {@link Entity} by class.
+	 * 
+	 * <em>Note:</em> the preferred way of retrieving {@link Component}s is using {@link ComponentMapper}s. This method
+	 * is provided for convenience; using a ComponentMapper provides O(1) access to components while this method
+	 * provides only O(logn).
+	 * 
+	 * @param componentClass the class of the component to be retrieved.
+	 * @return the instance of the specified {@link Component} attached to this {@link Entity}, or null if no such {@link Component} exists.
+	 */
+	public <T extends Component> T getComponent(Class<T> componentClass){
+		return getComponent(ComponentType.getFor(componentClass));
+	}
+	
+	/**
 	 * Internal use.
 	 * 
 	 * @return The {@link Component} object for the specified class, null if the Entity does not have any components for that class.
 	 */
+	@SuppressWarnings("unchecked")
 	<T extends Component> T getComponent(ComponentType componentType) {
 		int componentTypeIndex = componentType.getIndex();
 		
@@ -178,9 +184,46 @@ public class Entity {
 		return familyBits;
 	}
 	
+	Entity addInternal(Component component){
+		Class<? extends Component> componentClass = component.getClass();
+		
+		for (int i = 0; i < componentsArray.size; ++i) {
+			if (componentsArray.get(i).getClass() == componentClass) {
+				componentsArray.removeIndex(i);
+				break;
+			}
+		}
+		
+		int componentTypeIndex = ComponentType.getIndexFor(component.getClass()); 
+		
+		components.set(componentTypeIndex, component);
+		componentsArray.add(component);
+		
+		componentBits.set(componentTypeIndex);
+		
+		componentAdded.dispatch(this);
+		return this;
+	}
+
+	Component removeInternal(Class<? extends Component> componentClass){
+		ComponentType componentType = ComponentType.getFor(componentClass);
+		int componentTypeIndex = componentType.getIndex();
+		Component removeComponent = components.get(componentTypeIndex);
+		
+		if(removeComponent != null){
+			components.set(componentTypeIndex, null);
+			componentsArray.removeValue(removeComponent, true);
+			componentBits.clear(componentTypeIndex);
+			
+			componentRemoved.dispatch(this);
+		}
+		
+		return removeComponent;
+	}
+	
 	@Override
 	public int hashCode() {
-		return index;
+		return uuid.hashCode();
 	}
 
 	@Override
@@ -192,6 +235,6 @@ public class Entity {
 		if (!(obj instanceof Entity))
 			return false;
 		Entity other = (Entity) obj;
-        return index == other.index;
+        return uuid.equals(other.uuid);
     }
 }
