@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Bits;
 import de.quadspot.beatnbrawl.beatnbrawl;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
+import de.quadspot.beatnbrawl.components.HealthComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
@@ -83,16 +84,29 @@ public class RenderSystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
     private Entity mapEntity;
+    private Entity playerEntity;
+
 
     private float scale;
 
     private OrthographicCamera camera;
+    private beatnbrawl game;
     private SpriteBatch batch;
     private ShapeRenderer shapeRenderer;
 
-    public RenderSystem(OrthographicCamera camera, SpriteBatch batch) {
+    ComponentMapper<PositionComponent> pcm;
+    ComponentMapper<MapComponent> mapcm;
+    ComponentMapper<RenderComponent> rcm;
+    ComponentMapper<AnimationComponent> acm;
+    ComponentMapper<CollisionComponent> ccm;
+    ComponentMapper<HealthComponent> hcm;
+
+
+
+    public RenderSystem(OrthographicCamera camera, beatnbrawl game) {
         this.camera = camera;
-        this.batch = batch;
+        this.batch = game.batch;
+        this.game = game;
     }
 
     @Override
@@ -100,13 +114,18 @@ public class RenderSystem extends EntitySystem {
         entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, RenderComponent.class, AnimationComponent.class, CollisionComponent.class),
                 new Bits(), new Bits()));
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
-        ComponentMapper<PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
-        ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
+        playerEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(HealthComponent.class), new Bits(), new Bits())).first();
+        pcm = ComponentMapper.getFor(PositionComponent.class);
+        mapcm = ComponentMapper.getFor(MapComponent.class);
         scale = mapcm.get(mapEntity).getMapFactor();
         camera.position.set(Gdx.graphics.getWidth() / 2, mapcm.get(mapEntity).getMapHeight() / 2, 0);
         camera.update();
         shapeRenderer = new ShapeRenderer();
 
+        rcm = ComponentMapper.getFor(RenderComponent.class);
+        acm = ComponentMapper.getFor(AnimationComponent.class);
+        ccm = ComponentMapper.getFor(CollisionComponent.class);
+        hcm = ComponentMapper.getFor(HealthComponent.class);
     }
 
     @Override
@@ -116,11 +135,7 @@ public class RenderSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        ComponentMapper<PositionComponent> pcm = ComponentMapper.getFor(PositionComponent.class);
-        ComponentMapper<RenderComponent> rcm = ComponentMapper.getFor(RenderComponent.class);
-        ComponentMapper<MapComponent> mapcm = ComponentMapper.getFor(MapComponent.class);
-        ComponentMapper<AnimationComponent> acm = ComponentMapper.getFor(AnimationComponent.class);
-        ComponentMapper<CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
+
 
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
@@ -134,7 +149,7 @@ public class RenderSystem extends EntitySystem {
         mapcm.get(mapEntity).getTiledMapRenderer().setView(camera);
         mapcm.get(mapEntity).getTiledMapRenderer().render();
 
-        //Z-Sort versuch
+        //Z-Sort
         Array<SpriteData> sort = new Array();
         for (int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
@@ -169,6 +184,8 @@ public class RenderSystem extends EntitySystem {
             batch.draw(sprite.getTr(),sprite.getX(), sprite.getY(),0,0,sprite.getWidth(),sprite.getHeigth(),scale,scale,0);
 
         }
+
+
         //-------------------------
 
 //        batch.begin();
@@ -187,6 +204,15 @@ public class RenderSystem extends EntitySystem {
             shapeRenderer.setProjectionMatrix(batch.getProjectionMatrix());
         }
         batch.end();
+
+        OrthographicCamera guiCam = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+        guiCam.position.set(Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight() / 2, 0);
+
+        batch.setProjectionMatrix(guiCam.combined);
+        batch.begin();
+        game.font.draw(batch, hcm.get(playerEntity).getHealthString() , 30, 480 - 20);
+        batch.end();
+
         if (beatnbrawl.DEBUG) {
             for (int i = 0; i < entities.size(); ++i) {
                 Entity entity = entities.get(i);

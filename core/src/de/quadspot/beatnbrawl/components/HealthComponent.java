@@ -6,7 +6,7 @@ import com.badlogic.ashley.core.Component;
  * Created by goetsch on 02.09.14.
  */
 public class HealthComponent extends Component {
-    private int health = 100;
+    private Integer health = 100;
     private int strength = 100;
     private int resilience = 100;
 
@@ -17,5 +17,13 @@ public class HealthComponent extends Component {
 
     public boolean isDead() {
         return ( health <= 0 );
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public String getHealthString() {
+        return health.toString();
     }
 }

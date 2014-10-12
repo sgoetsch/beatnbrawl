@@ -112,22 +112,22 @@ public class CollisionSystem extends EntitySystem{
             if (ccm.get(entity).isLeftOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                 //mcm.get(entity).getVelocity().x=0;
-                System.out.println("is left of ground");
+                //System.out.println("is left of ground");
             }
             if (ccm.get(entity).isRightOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getOldPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getPosition().z);
                 //mcm.get(entity).getVelocity().x=0;
-                System.out.println("is right of ground");
+                //System.out.println("is right of ground");
             }
             if (ccm.get(entity).isTopOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getOldPosition().z);
                 //mcm.get(entity).getVelocity().y=0;
-                System.out.println("is top of ground");
+                //System.out.println("is top of ground");
             }
             if (ccm.get(entity).isBottomOfGround()) {
                 pcm.get(entity).getPosition().set(pcm.get(entity).getPosition().x, pcm.get(entity).getPosition().y, pcm.get(entity).getOldPosition().z);
                 //mcm.get(entity).getVelocity().y=0;
-                System.out.println("is bottom of ground");
+                //System.out.println("is bottom of ground");
             }
             for(int k = 0; k < entities.size(); ++k){
                 Entity entity2 = entities.get(k);

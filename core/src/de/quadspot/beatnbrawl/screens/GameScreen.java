@@ -29,6 +29,7 @@ import de.quadspot.beatnbrawl.systems.AnimationSystem;
 import de.quadspot.beatnbrawl.systems.CollisionSystem;
 import de.quadspot.beatnbrawl.systems.InputSystem;
 import de.quadspot.beatnbrawl.systems.MovementSystem;
+import de.quadspot.beatnbrawl.systems.PlayerSystem;
 import de.quadspot.beatnbrawl.systems.RenderSystem;
 import de.quadspot.beatnbrawl.systems.StateSystem;
 
@@ -41,8 +42,17 @@ public class GameScreen implements Screen{
     Engine engine;
     OrthographicCamera camera;
 
-    public GameScreen(final beatnbrawl gam) {
-        game = gam;
+    public static final int GAME_READY = 0;
+    public static final int GAME_RUNNING = 1;
+    public static final int GAME_PAUSED = 2;
+    public static final int GAME_LEVEL_END = 3;
+    public static final int GAME_OVER = 4;
+
+    private int state;
+
+    public GameScreen(final beatnbrawl game) {
+        this.game = game;
+        state = GAME_RUNNING;
         camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
         engine = new Engine();
 
@@ -79,18 +89,51 @@ public class GameScreen implements Screen{
         engine.addEntity(entity2);
 
 
-        engine.addSystem(new RenderSystem(camera, game.batch));
+        engine.addSystem(new RenderSystem(camera, game));
         engine.addSystem(new MovementSystem());
         engine.addSystem(new InputSystem(camera, game.batch));
         engine.addSystem(new AnimationSystem());
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new AISystem());
+        engine.addSystem(new PlayerSystem(this));
         engine.addSystem(new StateSystem(-10));
     }
 
+    public void update(float deltaTime) {
+        //if (deltaTime > 0.1f) deltaTime = 0.1f;
+
+        engine.update(deltaTime);
+
+        switch (state) {
+            case GAME_READY:
+                //updateReady();
+                break;
+            case GAME_RUNNING:
+                //updateRunning(deltaTime);
+                break;
+            case GAME_PAUSED:
+                //updatePaused();
+                break;
+            case GAME_LEVEL_END:
+                //updateLevelEnd();
+                break;
+            case GAME_OVER:
+                updateGameOver();
+                break;
+        }
+    }
+
+    public void updateGameOver(){
+        if (Gdx.input.justTouched()) {
+            game.setScreen(new MainMenuScreen(game));
+        }
+    }
+
     @Override
-    public void render(float f) {
-        engine.update(f);    }
+    public void render(float delta) {
+        engine.update(delta);
+        update(delta);
+    }
 
     @Override
     public void resize(int i, int i1) {
@@ -115,5 +158,8 @@ public class GameScreen implements Screen{
     @Override
     public void dispose() {
     }
-    
+
+    public void setState(int state) {
+        this.state = state;
+    }
 }
