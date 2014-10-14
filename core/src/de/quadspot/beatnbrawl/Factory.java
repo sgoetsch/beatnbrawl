@@ -82,7 +82,7 @@ public class Factory {
         entity.add(new CollisionComponent());
         entity.add(new ActionComponent());
         entity.add(new StateComponent());
-        entity.add(new HealthComponent());
+        entity.add(new HealthComponent(10000));
 
         engine.addEntity(entity);
     }
@@ -96,7 +96,7 @@ public class Factory {
         entity2.add(new CollisionComponent());
         entity2.add(new ActionComponent());
         entity2.add(new StateComponent());
-        entity2.add(new HealthComponent());
+        entity2.add(new HealthComponent(30));
 
         entity2.add(new AIComponent());
         engine.addEntity(entity2);

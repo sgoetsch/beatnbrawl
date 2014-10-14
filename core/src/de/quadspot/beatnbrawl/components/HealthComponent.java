@@ -10,6 +10,10 @@ public class HealthComponent extends Component {
     private int strength = 100;
     private int resilience = 100;
 
+    public HealthComponent(Integer health) {
+        this.health = health;
+    }
+
     public void countHit() {
         health -= 10;
         System.out.println(health);

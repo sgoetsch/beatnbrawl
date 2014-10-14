@@ -49,14 +49,20 @@ public class HealthSystem extends EntitySystem {
     public void update(float deltaTime) {
         for(int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
-
-//            for (int j=0; j < ccm.get(entity).getHit().size(); ++j) {
-//
-//            }
-
-            while(ccm.get(entity).checkHit()) {
-                hcm.get(entity).countHit(ccm.get(entity).popHit()[0]);
-                System.out.println("HIER");
+            for (int j=0; j < ccm.get(entity).getHit().size(); ++j) {
+                for(int k = 0; k < entities.size(); ++k) {
+                    Entity entity2 = entities.get(k);
+                    if (ccm.get(entity).getHit().get(j)[1] == entity2.getId()) {
+                        if (acm.get(entity2).getCurrentAnimation().isAnimationFinished(scm.get(entity2).getStateTime())) {
+                            hcm.get(entity).countHit(ccm.get(entity).getHit().remove(j)[0]);
+                            System.out.println("HIER-----------------------------");
+                            k=0;
+                            j=0;
+                        }
+                    }
+                 if (ccm.get(entity).getHit().isEmpty())
+                     break;
+                }
             }
         }
     }

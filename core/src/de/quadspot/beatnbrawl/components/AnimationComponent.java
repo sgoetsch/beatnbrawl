@@ -155,7 +155,7 @@ public class AnimationComponent extends Component {
         if (!currentAnimation.equals(this.currentAnimation)) {
             this.stateTime = 0;
             this.currentAnimation = currentAnimation;
-            System.out.println(currentAnimation.toString());
+            //System.out.println(currentAnimation.toString());
         }
     }
 

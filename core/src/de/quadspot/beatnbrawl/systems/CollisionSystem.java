@@ -155,7 +155,7 @@ public class CollisionSystem extends EntitySystem{
 //                ccm.get(entity2).getCollidingBody().attackLeft(0);
 //                ccm.get(entity2).getCollidingBody().attackRight(0);
 //                actcm.get(entity2).setAttacking(false);
-                System.out.println("HIT!!!!");
+                //System.out.println("HIT!!!!");
             }
         }
     }

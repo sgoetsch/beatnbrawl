@@ -9,6 +9,7 @@ package de.quadspot.beatnbrawl.components;
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Rectangle;
 
+import java.util.ArrayList;
 import java.util.Stack;
 
 import de.quadspot.beatnbrawl.CollidingBody;
@@ -24,12 +25,12 @@ public class CollisionComponent extends Component {
     private Rectangle groundBody;
     private boolean isCollidingRight; // passives "has been hit" - wurde getroffen
     private boolean isCollidingLeft;
-    private Stack<long[]> hit;
+    private ArrayList<long[]> hit;
 
     public CollisionComponent() {
         
         collidingBody = new CollidingBody(0, 0, 0, 0);
-        hit = new Stack<>();
+        hit = new ArrayList<>();
 
     }
     
@@ -90,34 +91,34 @@ public class CollisionComponent extends Component {
 
     public long[] popHit() {
         long[] tmp = {-1, -1};
-        return !this.hit.isEmpty() ? this.hit.pop(): tmp;
+        return !this.hit.isEmpty() ? this.hit.get(0): tmp;
     }
 
     public void pushHit(long hit, long id) {
         boolean test = false;
         if (!this.hit.isEmpty()) {
             for (int i = 0; i < this.hit.size(); i++) {
-                if (this.hit.elementAt(i)[1] == id) {
+                if (this.hit.get(i)[1] == id) {
                     test=true;
                 }
             }
             if (!test) {
                 long[] tmp = {hit, id};
-                this.hit.push(tmp);
+                this.hit.add(tmp);
             }
          }
         else {
             long[] tmp = {hit, id};
-            this.hit.push(tmp);
+            this.hit.add(tmp);
         }
-        System.out.println(this.hit);
+        //System.out.println(this.hit);
     }
 
     public boolean checkHit() {
         return !hit.isEmpty();
     }
 
-    public Stack<long[]> getHit() {
+    public ArrayList<long[]> getHit() {
         return hit;
     }
 }
