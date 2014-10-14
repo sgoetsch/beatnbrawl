@@ -19,8 +19,18 @@
    eJwNwwVwEAQAAMDBRm3ERg7GaEZ3M2IjxkZtdI6G0TVigAJKh9IojZJKp4KCEkoYpEHYgoISSigqyN/9pwsICEhvoEFmMKOZzGwWgw0xq9nMbg5DDTOnucxtHvOaz3DzW8AICxppIQtbxKIWs7glLGmUpSxtGctazvJWsKKVrGwVq1rN6tawprWsbR3rGm0969vAhsYYayMb28SmxtnMeBNsbgtb2srWJppkG9vazvZ2sKOd7GwXu9rN7ibbw572srd97Gs/+zvAFAc6yMEOcajDHO4IRzrK0aY6xrGOc7xpTnCik3zBF53sFKf6ki87zenOcKaznO0c5zrP+b7iqy5woYtc7BKXuszlvubrrnClq1ztGte6zvW+4ZtucKOb3OwWt/qWb7vN7e5wp7vc7R73us/9HvCg7/iuhzzse77vEY/6gR96zOOe8KQf+bGnPO0Zz/qJn/qZn3vO817wope87Bd+6Vd+7RWves3rfuO3fuf3/uCP/uTP3vCmv/irt7ztb/7uHe96z/v+4Z8+8KGPfOxf/u0T//Ff//Opz/zfgHSY3kCDzGBGM5nZLAYbYlazmd0chhpmTnOZ2zzmNZ/h5reAERY00kIWtohFLWZxS1jSKEtZ2jKWtZzlrWBFK1nZKla1mtWtYU1rWds61jXaeta3gQ2NMdZGNraJTY2zmfEm2NwWtrSVrU00yTa2tZ3t7WBHO9nZLna1m91Ntoc97WVv+9jXfvZ3gCkOdJCDHeJQhzncEY50lKNNdYxjHed405zgRJ8DN8KdSw==
   </data>
  </layer>
- <objectgroup name="Grund">
+ <objectgroup name="Grund" visible="0">
   <object name="ground2" x="0" y="128" width="1712" height="90"/>
+ </objectgroup>
+ <objectgroup name="Enemies">
+  <object x="384" y="144"/>
+  <object x="384" y="184"/>
+  <object x="672" y="144"/>
+  <object x="864" y="200"/>
+  <object name="Boss" x="1560" y="152"/>
+ </objectgroup>
+ <objectgroup name="Player">
+  <object x="72" y="184"/>
  </objectgroup>
  <layer name="Kachelebene 3" width="54" height="7" visible="0">
   <data encoding="base64" compression="zlib">

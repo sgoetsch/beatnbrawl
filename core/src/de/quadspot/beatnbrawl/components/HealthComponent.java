@@ -15,6 +15,11 @@ public class HealthComponent extends Component {
         System.out.println(health);
     }
 
+    public void countHit(long hitcount) {
+        health -= (int)hitcount;
+        System.out.println(health);
+    }
+
     public boolean isDead() {
         return ( health <= 0 );
     }

@@ -19,7 +19,6 @@ import com.badlogic.gdx.math.Rectangle;
  * Created by goetsch on 12.08.14.
  */
 public class MapComponent extends Component{
-    TiledMap tiledMap;
     TiledMapRenderer tiledMapRenderer;
     MapObjects objects;
     Polygon groundBody1;
@@ -29,8 +28,7 @@ public class MapComponent extends Component{
     float mapHeight;
     float mapFactor;
 
-    public MapComponent(Batch batch, String mapfile) {
-        tiledMap = new TmxMapLoader().load(mapfile);
+    public MapComponent(Batch batch, TiledMap tiledMap) {
         mapWidth = tiledMap.getProperties().get("width", Integer.class).floatValue()*tiledMap.getProperties().get("tilewidth", Integer.class).floatValue();
         mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue()*tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
         mapFactor = Gdx.graphics.getHeight()/mapHeight;

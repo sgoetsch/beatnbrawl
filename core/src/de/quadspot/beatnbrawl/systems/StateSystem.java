@@ -88,70 +88,56 @@ public class StateSystem extends EntitySystem {
                     && acm.get(entity).getCurrentAnimation().isAnimationFinished(scm.get(entity).getStateTime())
                     || acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.LOOP)));*/
 
-            if (!hcm.get(entity).isDead()) {
-                if (acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.NORMAL)
-                        && acm.get(entity).getCurrentAnimation().isAnimationFinished(scm.get(entity).getStateTime())) {
-                    actcm.get(entity).setAttacking(false);
-                    ccm.get(entity).getCollidingBody().attackLeft(0);
-                    ccm.get(entity).getCollidingBody().attackRight(0);
-                }
-                if (acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.NORMAL)
-                        && acm.get(entity).getCurrentAnimation().isAnimationFinished(scm.get(entity).getStateTime())
-                        || acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.LOOP)) {
-                    if (mcm.get(entity).isFacedRight()) {
-                        if (actcm.get(entity).isAttacking()) {
-                            // Attack animation rechts // TODO isAttacking muss zurückgesetzt werden wenn getroffen wurde oder die Animation abgelaufen ist
-                            scm.get(entity).setState(StateComponent.State.ATTACK_RIGHT);
-                        } else if (ccm.get(entity).isCollidingLeft()) {
-                            //System.out.println("Right-Hit-Left");
-                            // Entity wurde getroffen von Gegner der nach Links geschlagen hat -> von-vorne-getroffen Animation, nach rechts ausgerichtet
-                            hcm.get(entity).countHit();
-                            if (hcm.get(entity).isDead())
-                                scm.get(entity).setState(StateComponent.State.DEAD_RIGHT);
-                        } else if (ccm.get(entity).isCollidingRight()) {
-                            //System.out.println("Right-Hit-Right");
-                            // -> von-hinten-getroffen Animation, nach rechts ausgerichtet
-                            hcm.get(entity).countHit(); // reduce Health
-                            if (hcm.get(entity).isDead())
-                                scm.get(entity).setState(StateComponent.State.DEAD_RIGHT);
-                        } else if (mcm.get(entity).isMovingRight()) {
-                            // walk right Animation
-                            scm.get(entity).setState(StateComponent.State.WALK_RIGHT);
-                        } else if (mcm.get(entity).isStanding()) {
-                            //stand right animation
-                            scm.get(entity).setState(StateComponent.State.STAND_RIGHT);
-                        }
-                    } else if (mcm.get(entity).isFacedLeft()) {
-                        if (actcm.get(entity).isAttacking()) {
-                            // Attack animation links
-                            scm.get(entity).setState(StateComponent.State.ATTACK_LEFT);
-                        } else if (ccm.get(entity).isCollidingLeft()) {
-                            // Entity wurde getroffen von Gegner der nach Links geschlagen hat -> von-hinten-getroffen Animation, nach links ausgerichtet
-                            hcm.get(entity).countHit();
-                            if (hcm.get(entity).isDead())
-                                scm.get(entity).setState(StateComponent.State.DEAD_LEFT);
-                        } else if (ccm.get(entity).isCollidingRight()) {
-                            // -> von-vorne-getroffen Animation, nach links ausgerichtet
-                            hcm.get(entity).countHit();
-                            if (hcm.get(entity).isDead())
-                                scm.get(entity).setState(StateComponent.State.DEAD_LEFT);
-                        } else if (mcm.get(entity).isMovingLeft()) {
-                            // walk left Animation
-                            scm.get(entity).setState(StateComponent.State.WALK_LEFT);
-                        } else if (mcm.get(entity).isStanding()) {
-                            //stand left animation
-                            scm.get(entity).setState(StateComponent.State.STAND_LEFT);
-                        }
+
+            if (acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.NORMAL)
+                    && acm.get(entity).getCurrentAnimation().isAnimationFinished(scm.get(entity).getStateTime())) {
+                actcm.get(entity).setAttacking(false);
+                ccm.get(entity).getCollidingBody().attackLeft(0);
+                ccm.get(entity).getCollidingBody().attackRight(0);
+            }
+            if (acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.NORMAL)
+                    && acm.get(entity).getCurrentAnimation().isAnimationFinished(scm.get(entity).getStateTime())
+                    || acm.get(entity).getCurrentAnimation().getPlayMode().equals(Animation.PlayMode.LOOP)) {
+                if (mcm.get(entity).isFacedRight()) {
+                    if (hcm.get(entity).isDead()) {
+                        scm.get(entity).setState(StateComponent.State.DEAD_RIGHT);
+                    } else if (ccm.get(entity).isCollidingRight()) {
+                        // -> von-hinten-getroffen Animation, nach rechts ausgerichtet
+                    } else if (ccm.get(entity).isCollidingLeft()) {
+                        // Entity wurde getroffen von Gegner der nach Links geschlagen hat -> von-vorne-getroffen Animation, nach rechts ausgerichtet
+                    } else if (actcm.get(entity).isAttacking()) {
+                        // Attack animation rechts // TODO isAttacking muss zurückgesetzt werden wenn getroffen wurde oder die Animation abgelaufen ist
+                        scm.get(entity).setState(StateComponent.State.ATTACK_RIGHT);
+                    } else if (mcm.get(entity).isMovingRight()) {
+                        // walk right Animation
+                        scm.get(entity).setState(StateComponent.State.WALK_RIGHT);
+                    } else if (mcm.get(entity).isStanding()) {
+                        //stand right animation
+                        scm.get(entity).setState(StateComponent.State.STAND_RIGHT);
+                    }
+                } else if (mcm.get(entity).isFacedLeft()) {
+                    if (hcm.get(entity).isDead()){
+                        scm.get(entity).setState(StateComponent.State.DEAD_LEFT);
+                    } else if (ccm.get(entity).isCollidingLeft()) {
+                        // Entity wurde getroffen von Gegner der nach Links geschlagen hat -> von-hinten-getroffen Animation, nach links ausgerichtet
+                    } else if (ccm.get(entity).isCollidingRight()) {
+                        // -> von-vorne-getroffen Animation, nach links ausgerichtet
+                    } else if (actcm.get(entity).isAttacking()) {
+                        // Attack animation links
+                        scm.get(entity).setState(StateComponent.State.ATTACK_LEFT);
+                    } else if (mcm.get(entity).isMovingLeft()) {
+                        // walk left Animation
+                        scm.get(entity).setState(StateComponent.State.WALK_LEFT);
+                    } else if (mcm.get(entity).isStanding()) {
+                        //stand left animation
+                        scm.get(entity).setState(StateComponent.State.STAND_LEFT);
                     }
                 }
             }
+
+            ccm.get(entity).resetColliding();
+
         }
-
-
-
-
-
-
 
 
             /*

@@ -8,6 +8,9 @@ package de.quadspot.beatnbrawl.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Rectangle;
+
+import java.util.Stack;
+
 import de.quadspot.beatnbrawl.CollidingBody;
 
 /**
@@ -21,11 +24,12 @@ public class CollisionComponent extends Component {
     private Rectangle groundBody;
     private boolean isCollidingRight; // passives "has been hit" - wurde getroffen
     private boolean isCollidingLeft;
+    private Stack<long[]> hit;
 
     public CollisionComponent() {
         
         collidingBody = new CollidingBody(0, 0, 0, 0);
-
+        hit = new Stack<>();
 
     }
     
@@ -64,7 +68,9 @@ public class CollisionComponent extends Component {
     }
 
     public void setCollidingLeft(boolean isCollidingLeft) {
-        this.isCollidingLeft = isCollidingLeft;
+        if (isCollidingLeft) {
+            this.isCollidingLeft = isCollidingLeft;
+        }
     }
 
     public boolean isCollidingRight() {
@@ -72,6 +78,46 @@ public class CollisionComponent extends Component {
     }
 
     public void setCollidingRight(boolean isCollidingRight) {
-        this.isCollidingRight = isCollidingRight;
+        if (isCollidingRight) {
+            this.isCollidingRight = isCollidingRight;
+        }
+    }
+
+    public void resetColliding() {
+        this.isCollidingRight = false;
+        this.isCollidingLeft = false;
+    }
+
+    public long[] popHit() {
+        long[] tmp = {-1, -1};
+        return !this.hit.isEmpty() ? this.hit.pop(): tmp;
+    }
+
+    public void pushHit(long hit, long id) {
+        boolean test = false;
+        if (!this.hit.isEmpty()) {
+            for (int i = 0; i < this.hit.size(); i++) {
+                if (this.hit.elementAt(i)[1] == id) {
+                    test=true;
+                }
+            }
+            if (!test) {
+                long[] tmp = {hit, id};
+                this.hit.push(tmp);
+            }
+         }
+        else {
+            long[] tmp = {hit, id};
+            this.hit.push(tmp);
+        }
+        System.out.println(this.hit);
+    }
+
+    public boolean checkHit() {
+        return !hit.isEmpty();
+    }
+
+    public Stack<long[]> getHit() {
+        return hit;
     }
 }
