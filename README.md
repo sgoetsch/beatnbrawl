@@ -4,14 +4,14 @@ FH-Köln Projekt
 
 TODO:
 * Z-Achse /done
-* Springen
+* Springen /cancelled
 * Kollisionen /done
-* Tiled-Objekte auslesen
+* Tiled-Objekte bzw. Positionen auslesen /done
 * Sprites laden und einbinden /done
 * Entity-States einführen (fsm?) /done
 * Sprites mit States verbinden /done
 * Enemies
 * KI /done
 * Menüs
-* Entity-Factory
+* Entity-Factory /done
 * and much more!
