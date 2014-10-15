@@ -20,6 +20,7 @@ import com.badlogic.gdx.math.Vector3;
 import de.quadspot.beatnbrawl.components.AIComponent;
 import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
+import de.quadspot.beatnbrawl.components.BossComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.HealthComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
@@ -38,17 +39,26 @@ public class Factory {
     MapObjects objects;
     beatnbrawl game;
     float mapFactor;
+    int level = 0;
 
 
     public Factory(beatnbrawl game, Engine engine) {
         this.engine = engine;
         this.game = game;
-        loadLevel(1);
+        loadLevel(0);
     }
 
     public void loadLevel(int x) {
         // TODO Levelliste auslesen.
-        tiledMap = new TmxMapLoader().load("maps/schiff2.tmx");
+        level =  x;
+        switch (x%2) {
+            case 0:
+                tiledMap = new TmxMapLoader().load("maps/schiff2.tmx");
+                break;
+            case 1:
+                tiledMap = new TmxMapLoader().load("maps/tmnt.tmx");
+                break;
+        }
         float mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue()*tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
         mapFactor = Gdx.graphics.getHeight()/mapHeight;
         createMap();
@@ -70,6 +80,20 @@ public class Factory {
                 createEnemy(rect.getX(), rect.getY(), "don.atlas");
             }
         }
+
+        objects = tiledMap.getLayers().get("Boss").getObjects();
+
+        for (MapObject object : objects) {
+            if (object instanceof RectangleMapObject) {
+                Rectangle rect = ((RectangleMapObject) object).getRectangle();
+                createBoss(rect.getX(), rect.getY(), "don.atlas");
+            }
+        }
+        level++;
+    }
+
+    public void loadLevel() {
+        loadLevel(level);
     }
 
     private void createPlayer(float x, float y, String model) {
@@ -82,7 +106,7 @@ public class Factory {
         entity.add(new CollisionComponent());
         entity.add(new ActionComponent());
         entity.add(new StateComponent());
-        entity.add(new HealthComponent(10000));
+        entity.add(new HealthComponent(100));
 
         engine.addEntity(entity);
     }
@@ -96,7 +120,23 @@ public class Factory {
         entity2.add(new CollisionComponent());
         entity2.add(new ActionComponent());
         entity2.add(new StateComponent());
-        entity2.add(new HealthComponent(30));
+        entity2.add(new HealthComponent(20));
+
+        entity2.add(new AIComponent());
+        engine.addEntity(entity2);
+    }
+
+    private void createBoss(float x, float y, String model) {
+        Entity entity2 = new Entity();
+        entity2.add(new PositionComponent(new Vector3(x*mapFactor,0,y*mapFactor)));
+        entity2.add(new RenderComponent());
+        entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(400,0,100)));
+        entity2.add(new AnimationComponent(model));
+        entity2.add(new CollisionComponent());
+        entity2.add(new ActionComponent());
+        entity2.add(new StateComponent());
+        entity2.add(new HealthComponent(60));
+        entity2.add(new BossComponent());
 
         entity2.add(new AIComponent());
         engine.addEntity(entity2);

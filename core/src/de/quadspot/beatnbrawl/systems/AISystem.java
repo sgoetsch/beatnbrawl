@@ -11,13 +11,16 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Bits;
 
+import de.quadspot.beatnbrawl.beatnbrawl;
 import de.quadspot.beatnbrawl.components.AIComponent;
 import de.quadspot.beatnbrawl.components.ActionComponent;
+import de.quadspot.beatnbrawl.components.BossComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.StateComponent;
+import de.quadspot.beatnbrawl.screens.GameScreen;
 
 /**
  * Created by goetsch on 02.09.14.
@@ -25,7 +28,9 @@ import de.quadspot.beatnbrawl.components.StateComponent;
 public class AISystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
+    private ImmutableArray<Entity> bossEntities;
     private Entity player;
+    private GameScreen gameScreen;
     ComponentMapper<PositionComponent> pcm;
     ComponentMapper<AIComponent> aicm;
     ComponentMapper<MovementComponent> mcm;
@@ -36,7 +41,8 @@ public class AISystem extends EntitySystem {
     /**
      * Default constructor that will initialise an EntitySystem with priority 0.
      */
-    public AISystem() {
+    public AISystem(GameScreen gameScreen) {
+        this.gameScreen = gameScreen;
     }
 
     /**
@@ -44,8 +50,9 @@ public class AISystem extends EntitySystem {
      *
      * @param priority The priority to execute this system with (lower means higher priority).
      */
-    public AISystem(int priority) {
+    public AISystem(int priority, GameScreen gameScreen) {
         super(priority);
+        this.gameScreen = gameScreen;
     }
 
     /**
@@ -59,6 +66,8 @@ public class AISystem extends EntitySystem {
                 new Bits(), new Bits()));
         player = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(InputComponent.class),
                 new Bits(), new Bits())).first();
+        bossEntities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(BossComponent.class),
+                new Bits(), new Bits()));
     }
 
     /**
@@ -83,34 +92,43 @@ public class AISystem extends EntitySystem {
         actcm = ComponentMapper.getFor(ActionComponent.class);
         mcm = ComponentMapper.getFor(MovementComponent.class);
         scm = ComponentMapper.getFor(StateComponent.class);
-        ComponentMapper<CollisionComponent> ccm = ComponentMapper.getFor(CollisionComponent.class);
 
 
         for(int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
 
-            if (aicm.get(entity).getDecisionTime(deltaTime)) {
+            if (!(scm.get(entity).getState().equals(StateComponent.State.DEAD_RIGHT) || scm.get(entity).getState().equals(StateComponent.State.DEAD_LEFT))) {
+                if (aicm.get(entity).getDecisionTime(deltaTime)) {
             /*
             if (Gegner in Reichweite (distanz-vektor))
                 dann das was unten steht
 */
-                if (!(scm.get(player).getState().equals(StateComponent.State.DEAD_LEFT) || scm.get(player).getState().equals(StateComponent.State.DEAD_RIGHT))) {
-                    int rand = MathUtils.random(0, 2);
-                    if (rand == 0) { // 1/3 Chance etwas zu tun, 2/3 idle
-                        // falls distanz zu player <= 250 und player nicht in attack state
-                        if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 250 &&
-                                !(scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT) ||
-                                        scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT))) {
-                            mcm.get(entity).getVelocity().setZero(); //stehen bleiben
-                            actcm.get(entity).setAttacking(true); //angreifen
-                        } else if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 900 && distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) > 250) {
-                            //System.out.println(distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()));
-                            moveTowardsPlayer(player, entity);
-                        } else
-                            mcm.get(entity).getVelocity().setZero(); // falls Player-distance > 900, stehen bleiben und nichts tun
+                    if (!(scm.get(player).getState().equals(StateComponent.State.DEAD_LEFT) || scm.get(player).getState().equals(StateComponent.State.DEAD_RIGHT))) {
+                        int rand = MathUtils.random(0, 2);
+                        if (rand == 0) { // 1/3 Chance etwas zu tun, 2/3 idle
+                            // falls distanz zu player <= 250 und player nicht in attack state
+                            if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 250 &&
+                                    !(scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT) ||
+                                            scm.get(entity).getState().equals(StateComponent.State.ATTACK_RIGHT))) {
+                                mcm.get(entity).getVelocity().setZero(); //stehen bleiben
+                                actcm.get(entity).setAttacking(true); //angreifen
+                            } else if (distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) <= 900 && distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()) > 250) {
+                                //System.out.println(distance(pcm.get(player).getPosition().cpy(), pcm.get(entity).getPosition().cpy()));
+                                moveTowardsPlayer(player, entity);
+                            } else
+                                mcm.get(entity).getVelocity().setZero(); // falls Player-distance > 900, stehen bleiben und nichts tun
+                        }
                     }
                 }
             }
+        }
+        if (bossEntities.size()==0)
+            gameScreen.setState(GameScreen.GAME_LEVEL_END);
+        System.out.println(bossEntities.size());
+        for(int i = 0; i < bossEntities.size(); ++i) {
+            Entity entity = bossEntities.get(i);
+            if (scm.get(entity).getState().equals(StateComponent.State.DEAD_LEFT) || scm.get(entity).getState().equals(StateComponent.State.DEAD_RIGHT))
+                entity.remove(BossComponent.class);
         }
     }
 
