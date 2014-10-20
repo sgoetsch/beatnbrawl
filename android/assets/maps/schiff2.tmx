@@ -29,6 +29,9 @@
   <object x="864" y="200"/>
  </objectgroup>
  <objectgroup name="Boss">
+  <properties>
+   <property name="model" value="rocksteady.atlas"/>
+  </properties>
   <object x="1616" y="176"/>
  </objectgroup>
  <objectgroup name="Player">
@@ -39,4 +42,7 @@
    eJzdjscJwEAAw8xNld7r/gtFkBHih4lBTwtJ76oi1dAUfV6Sq+XXQW9oSXIN/EaYDC1JrpnfAquhJcm18dvhMLQkuU5+F9yGllTXH/YA6R4OCA==
   </data>
  </layer>
+ <objectgroup name="Objekte">
+  <object x="88" y="200"/>
+ </objectgroup>
 </map>

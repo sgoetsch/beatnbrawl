@@ -3,6 +3,8 @@ package de.quadspot.beatnbrawl;
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.MapLayers;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
 import com.badlogic.gdx.maps.objects.CircleMapObject;
@@ -10,12 +12,16 @@ import com.badlogic.gdx.maps.objects.PolygonMapObject;
 import com.badlogic.gdx.maps.objects.PolylineMapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Circle;
 import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.math.Polyline;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
+import com.badlogic.gdx.utils.Array;
+
+import java.util.Iterator;
 
 import de.quadspot.beatnbrawl.components.AIComponent;
 import de.quadspot.beatnbrawl.components.ActionComponent;
@@ -40,7 +46,7 @@ public class Factory {
     MapObjects objects;
     beatnbrawl game;
     float mapFactor;
-    int level = 0;
+    int level = 1;
 
 
     public Factory(beatnbrawl game, Engine engine) {
@@ -90,6 +96,20 @@ public class Factory {
                 createBoss(rect.getX(), rect.getY(), "don.atlas");
             }
         }
+
+        Iterator<MapLayer> iterator = tiledMap.getLayers().iterator();
+        while ( iterator.hasNext()) {
+            MapLayer mapLayer = iterator.next();
+            //System.out.println(mapLayer.getName());
+            if (!(mapLayer instanceof TiledMapTileLayer)){
+                try {
+                    System.out.println("x = [" + mapLayer.getProperties().get("model") + "]");
+                } catch (Exception e) {
+                    System.out.println("NPE!!!!");
+                }
+            }
+        }
+
         level++;
     }
 
