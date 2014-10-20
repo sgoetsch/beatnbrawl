@@ -150,7 +150,7 @@ public class CollidingBody {
         setRecs();
         
         if (range == 0){
-            collisionBox.setSize(collisionBox.width - prvRangeLeft, collisionBox.height);
+            collisionBox.setSize(width - prvRangeLeft, collisionBox.height);
             //collisionBox.setPosition(position.x + prvRangeLeft,collisionBox.y);
             this.prvRangeLeft = 0;
             //this.attackRangeLeft = 0;
@@ -159,7 +159,8 @@ public class CollidingBody {
             
             
             //collisionBox.setPosition(collisionBox.x - range,collisionBox.y);
-            collisionBox.setSize(collisionBox.width + range, collisionBox.height);
+            //float tmp = collisionBox.getWidth()
+            collisionBox.setSize(width + range, collisionBox.height);
             
             
         }

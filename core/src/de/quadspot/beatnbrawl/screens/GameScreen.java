@@ -62,15 +62,7 @@ public class GameScreen implements Screen{
 
         factory = new Factory(game, engine);
 
-        engine.addSystem(new RenderSystem(camera, game));
-        engine.addSystem(new MovementSystem());
-        engine.addSystem(new InputSystem(camera, game.batch));
-        engine.addSystem(new AnimationSystem());
-        engine.addSystem(new CollisionSystem());
-        engine.addSystem(new AISystem(this));
-        engine.addSystem(new HealthSystem());
-        engine.addSystem(new PlayerSystem(this));
-        engine.addSystem(new StateSystem(-10));
+        addSystems();
 
         //pauseSystems();
     }
@@ -85,6 +77,8 @@ public class GameScreen implements Screen{
                 //updateReady();
                 break;
             case GAME_RUNNING:
+                resumeSystems();
+
                 System.out.println("State: " +state);
                 //updateRunning(deltaTime);
                 game.batch.end();
@@ -118,15 +112,16 @@ public class GameScreen implements Screen{
     public void updateLevelEnd(){
         game.font.draw(game.batch, "YOU MADE IT, MAN!", 30, 680 - 20);
         game.batch.end();
-        
+        //pauseSystems();
 
         // Entities löschen
         // factory mit neuem Level ausführen
         // resume
 
         if (Gdx.input.justTouched()) {
-        	//pauseSystems();
+            removeSystems();
             newLevel();
+            addSystems();
             //resumeSystems();
         }
     }
@@ -140,7 +135,7 @@ public class GameScreen implements Screen{
         engine.getSystem(HealthSystem.class).setProcessing(false);
         engine.getSystem(PlayerSystem.class).setProcessing(false);
         engine.getSystem(StateSystem.class).setProcessing(false);
-        //engine.getSystem(RenderSystem.class).setProcessing(false);
+        engine.getSystem(RenderSystem.class).setProcessing(false);
     }
 
     public void resumeSystems() {
@@ -152,15 +147,40 @@ public class GameScreen implements Screen{
         engine.getSystem(HealthSystem.class).setProcessing(true);
         engine.getSystem(PlayerSystem.class).setProcessing(true);
         engine.getSystem(StateSystem.class).setProcessing(true);
-        //engine.getSystem(RenderSystem.class).setProcessing(true);
+        engine.getSystem(RenderSystem.class).setProcessing(true);
+    }
+
+    public void addSystems() {
+        engine.addSystem(new RenderSystem(camera, game));
+        engine.addSystem(new MovementSystem());
+        engine.addSystem(new InputSystem(camera, game.batch));
+        engine.addSystem(new AnimationSystem());
+        engine.addSystem(new CollisionSystem());
+        engine.addSystem(new AISystem(this));
+        engine.addSystem(new HealthSystem());
+        engine.addSystem(new PlayerSystem(this));
+        engine.addSystem(new StateSystem(-10));
+    }
+
+    public void removeSystems() {
+        engine.removeSystem(engine.getSystem(StateSystem.class));
+        engine.removeSystem(engine.getSystem(PlayerSystem.class));
+        engine.removeSystem(engine.getSystem(HealthSystem.class));
+        engine.removeSystem(engine.getSystem(AISystem.class));
+        engine.removeSystem(engine.getSystem(CollisionSystem.class));
+        engine.removeSystem(engine.getSystem(AnimationSystem.class));
+        engine.removeSystem(engine.getSystem(InputSystem.class));
+        engine.removeSystem(engine.getSystem(MovementSystem.class));
+        engine.removeSystem(engine.getSystem(RenderSystem.class));
     }
 
     public void newLevel() {
-        //engine.removeAllEntities();
+        engine.removeAllEntities();
+        //engine.removeEntity(factory.);
         //camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
 
-        //factory.loadLevel();
-        factory = new Factory(game, engine);
+        factory.loadLevel();
+        //factory = new Factory(game, engine);
 
 
 

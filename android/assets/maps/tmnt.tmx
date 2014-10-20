@@ -21,6 +21,6 @@
   <object x="474" y="190"/>
  </objectgroup>
  <objectgroup name="Boss">
-  <object x="2360.67" y="203.667"/>
+  <object x="2336" y="200"/>
  </objectgroup>
 </map>
