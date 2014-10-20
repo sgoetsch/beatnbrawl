@@ -77,7 +77,7 @@ public class GameScreen implements Screen{
 
     public void update(float deltaTime) {
         if (deltaTime > 0.1f) deltaTime = 0.1f;
-        System.out.println("State: " +state);
+        //System.out.println("State: " +state);
         engine.update(deltaTime);
         game.batch.begin();
         switch (state) {
@@ -85,6 +85,7 @@ public class GameScreen implements Screen{
                 //updateReady();
                 break;
             case GAME_RUNNING:
+                System.out.println("State: " +state);
                 //updateRunning(deltaTime);
                 game.batch.end();
                 break;
@@ -93,6 +94,9 @@ public class GameScreen implements Screen{
                 break;
             case GAME_LEVEL_END:
                 updateLevelEnd();
+                System.out.println("State: " +state);
+
+                setState(GameScreen.GAME_RUNNING);
                 break;
             case GAME_OVER:
                 updateGameOver();
@@ -114,15 +118,16 @@ public class GameScreen implements Screen{
     public void updateLevelEnd(){
         game.font.draw(game.batch, "YOU MADE IT, MAN!", 30, 680 - 20);
         game.batch.end();
-        pauseSystems();
+        
 
         // Entities löschen
         // factory mit neuem Level ausführen
         // resume
 
         if (Gdx.input.justTouched()) {
+        	//pauseSystems();
             newLevel();
-            resumeSystems();
+            //resumeSystems();
         }
     }
 
@@ -135,6 +140,7 @@ public class GameScreen implements Screen{
         engine.getSystem(HealthSystem.class).setProcessing(false);
         engine.getSystem(PlayerSystem.class).setProcessing(false);
         engine.getSystem(StateSystem.class).setProcessing(false);
+        //engine.getSystem(RenderSystem.class).setProcessing(false);
     }
 
     public void resumeSystems() {
@@ -146,11 +152,17 @@ public class GameScreen implements Screen{
         engine.getSystem(HealthSystem.class).setProcessing(true);
         engine.getSystem(PlayerSystem.class).setProcessing(true);
         engine.getSystem(StateSystem.class).setProcessing(true);
+        //engine.getSystem(RenderSystem.class).setProcessing(true);
     }
 
     public void newLevel() {
-        engine.removeAllEntities();
-        factory.loadLevel();
+        //engine.removeAllEntities();
+        //camera = new OrthographicCamera(Gdx.graphics.getWidth(),Gdx.graphics.getHeight());
+
+        //factory.loadLevel();
+        factory = new Factory(game, engine);
+
+
 
         // Entities löschen
         // factory mit neuem Level ausführen

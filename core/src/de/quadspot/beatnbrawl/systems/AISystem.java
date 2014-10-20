@@ -124,7 +124,7 @@ public class AISystem extends EntitySystem {
         }
         if (bossEntities.size()==0)
             gameScreen.setState(GameScreen.GAME_LEVEL_END);
-        System.out.println(bossEntities.size());
+        //System.out.println(bossEntities.size());
         for(int i = 0; i < bossEntities.size(); ++i) {
             Entity entity = bossEntities.get(i);
             if (scm.get(entity).getState().equals(StateComponent.State.DEAD_LEFT) || scm.get(entity).getState().equals(StateComponent.State.DEAD_RIGHT))

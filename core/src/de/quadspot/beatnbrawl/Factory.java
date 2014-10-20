@@ -36,6 +36,7 @@ import de.quadspot.beatnbrawl.components.StateComponent;
 public class Factory {
     Engine engine;
     TiledMap tiledMap;
+    public float mapHeight;
     MapObjects objects;
     beatnbrawl game;
     float mapFactor;
@@ -45,7 +46,7 @@ public class Factory {
     public Factory(beatnbrawl game, Engine engine) {
         this.engine = engine;
         this.game = game;
-        loadLevel(0);
+        loadLevel();
     }
 
     public void loadLevel(int x) {
@@ -53,13 +54,13 @@ public class Factory {
         level =  x;
         switch (x%2) {
             case 0:
-                tiledMap = new TmxMapLoader().load("maps/schiff2.tmx");
+            	tiledMap = new TmxMapLoader().load("maps/tmnt.tmx");
                 break;
             case 1:
-                tiledMap = new TmxMapLoader().load("maps/tmnt.tmx");
+                tiledMap = new TmxMapLoader().load("maps/schiff2.tmx");
                 break;
         }
-        float mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue()*tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
+        mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue()*tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
         mapFactor = Gdx.graphics.getHeight()/mapHeight;
         createMap();
 
