@@ -22,6 +22,7 @@ import de.quadspot.beatnbrawl.beatnbrawl;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.HealthComponent;
+import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
@@ -114,7 +115,7 @@ public class RenderSystem extends EntitySystem {
         entities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(PositionComponent.class, RenderComponent.class, AnimationComponent.class, CollisionComponent.class),
                 new Bits(), new Bits()));
         mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
-        playerEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(HealthComponent.class), new Bits(), new Bits())).first();
+        playerEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(InputComponent.class), new Bits(), new Bits())).first();
         pcm = ComponentMapper.getFor(PositionComponent.class);
         mapcm = ComponentMapper.getFor(MapComponent.class);
         scale = mapcm.get(mapEntity).getMapFactor();
@@ -141,8 +142,8 @@ public class RenderSystem extends EntitySystem {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.setProjectionMatrix(camera.combined);
 
-        if ((pcm.get(entities.first()).getPosition().x > camera.viewportWidth / 2) && (pcm.get(entities.first()).getPosition().x < mapcm.get(mapEntity).getMapWidth() - camera.viewportWidth / 2)) {
-            camera.position.set(pcm.get(entities.first()).getPosition().x, mapcm.get(mapEntity).getMapHeight() / 2, 0);
+        if ((pcm.get(playerEntity).getPosition().x > camera.viewportWidth / 2) && (pcm.get(playerEntity).getPosition().x < mapcm.get(mapEntity).getMapWidth() - camera.viewportWidth / 2)) {
+            camera.position.set(pcm.get(playerEntity).getPosition().x, mapcm.get(mapEntity).getMapHeight() / 2, 0);
         }
 
         camera.update();

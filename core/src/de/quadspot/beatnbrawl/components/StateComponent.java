@@ -20,6 +20,7 @@ public class StateComponent extends Component {
     private State state;
     private State prevState;
     private float stateTime;
+    private long attackCount = 0;
 
     public StateComponent() {
         state = State.STAND_RIGHT;
@@ -35,6 +36,9 @@ public class StateComponent extends Component {
             this.prevState = this.state;
             this.state = state;
             this.stateTime = 0;
+            if (state.equals(State.ATTACK_LEFT) || state.equals(State.ATTACK_RIGHT)) {
+                attackCount++;
+            }
         }
     }
 
@@ -48,5 +52,9 @@ public class StateComponent extends Component {
 
     public void setStateTime(float deltaTime) {
         this.stateTime += deltaTime;
+    }
+
+    public long getAttackCount() {
+        return attackCount;
     }
 }

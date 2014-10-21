@@ -19,6 +19,7 @@ import de.quadspot.beatnbrawl.components.AIComponent;
 import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
+import de.quadspot.beatnbrawl.components.HealthComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
 import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
@@ -38,6 +39,7 @@ public class CollisionSystem extends EntitySystem{
     ComponentMapper<MapComponent> mapcm;
     ComponentMapper <ActionComponent> actcm;
     ComponentMapper <StateComponent> scm;
+    ComponentMapper<HealthComponent> hcm;
 
 
     private Entity mapEntity;
@@ -60,6 +62,7 @@ public class CollisionSystem extends EntitySystem{
         mapcm = ComponentMapper.getFor(MapComponent.class);
         actcm = ComponentMapper.getFor(ActionComponent.class);
         scm = ComponentMapper.getFor(StateComponent.class);
+        hcm = ComponentMapper.getFor(HealthComponent.class);
 
 
 
@@ -151,7 +154,9 @@ public class CollisionSystem extends EntitySystem{
 
 
             if (hitLeft || hitRight) {
-                ccm.get(entity).pushHit(10, entity2.getId());
+                if (( scm.get(entity2).getAttackCount()) != ccm.get(entity).putHits(entity2.getId(), scm.get(entity2).getAttackCount())) {
+                    hcm.get(entity).countHit(10);
+                }
 //                ccm.get(entity2).getCollidingBody().attackLeft(0);
 //                ccm.get(entity2).getCollidingBody().attackRight(0);
 //                actcm.get(entity2).setAttacking(false);

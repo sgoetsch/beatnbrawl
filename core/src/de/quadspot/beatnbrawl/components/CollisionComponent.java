@@ -10,6 +10,7 @@ import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.math.Rectangle;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.Stack;
 
 import de.quadspot.beatnbrawl.CollidingBody;
@@ -26,11 +27,13 @@ public class CollisionComponent extends Component {
     private boolean isCollidingRight; // passives "has been hit" - wurde getroffen
     private boolean isCollidingLeft;
     private ArrayList<long[]> hit;
+    private Hashtable<Long, Long> hits;
 
     public CollisionComponent() {
         
         collidingBody = new CollidingBody(0, 0, 0, 0);
         hit = new ArrayList<>();
+        hits = new Hashtable<>();
 
     }
     
@@ -89,12 +92,21 @@ public class CollisionComponent extends Component {
         this.isCollidingLeft = false;
     }
 
-    public long[] popHit() {
+/*    public long[] popHit() {
         long[] tmp = {-1, -1};
         return !this.hit.isEmpty() ? this.hit.get(0): tmp;
     }
 
-    public void pushHit(long hit, long id) {
+    public void pushHit(long hit, long id, long count) {
+        if (!(hits.put(id, count) == count)) {
+            hcm.get(entity).countHit(
+        }
+
+
+
+
+
+
         boolean test = false;
         if (!this.hit.isEmpty()) {
             for (int i = 0; i < this.hit.size(); i++) {
@@ -103,12 +115,12 @@ public class CollisionComponent extends Component {
                 }
             }
             if (!test) {
-                long[] tmp = {hit, id};
+                long[] tmp = {hit, id, count};
                 this.hit.add(tmp);
             }
          }
         else {
-            long[] tmp = {hit, id};
+            long[] tmp = {hit, id, count};
             this.hit.add(tmp);
         }
         //System.out.println(this.hit);
@@ -116,9 +128,16 @@ public class CollisionComponent extends Component {
 
     public boolean checkHit() {
         return !hit.isEmpty();
-    }
+    }*/
 
     public ArrayList<long[]> getHit() {
         return hit;
     }
+
+    public Long putHits(Long k, Long v) {
+        Long x = hits.put(k,v);
+        return (x != null ? x : -1 );
+        //return hits.put(k, v);
+    }
+
 }

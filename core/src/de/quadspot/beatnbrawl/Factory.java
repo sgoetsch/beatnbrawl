@@ -21,7 +21,9 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import de.quadspot.beatnbrawl.components.AIComponent;
 import de.quadspot.beatnbrawl.components.ActionComponent;
@@ -48,6 +50,9 @@ public class Factory {
     float mapFactor;
     int level = 1;
 
+    HashMap<String, Object> props = new HashMap<String, Object>() {
+    };
+
 
     public Factory(beatnbrawl game, Engine engine) {
         this.engine = engine;
@@ -57,59 +62,42 @@ public class Factory {
 
     public void loadLevel(int x) {
         // TODO Levelliste auslesen.
-        level =  x;
-        switch (x%2) {
+        level = x;
+        switch (x % 2) {
             case 0:
-            	tiledMap = new TmxMapLoader().load("maps/tmnt.tmx");
+                tiledMap = new TmxMapLoader().load("maps/tmnt.tmx");
                 break;
             case 1:
                 tiledMap = new TmxMapLoader().load("maps/schiff2.tmx");
                 break;
         }
-        mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue()*tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
-        mapFactor = Gdx.graphics.getHeight()/mapHeight;
+        mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue() * tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
+        mapFactor = Gdx.graphics.getHeight() / mapHeight;
         createMap();
 
-        objects = tiledMap.getLayers().get("Player").getObjects();
-
-        for (MapObject object : objects) {
-            if (object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                createPlayer(rect.getX(), rect.getY(), "don.atlas");
-            }
-        }
-
-        objects = tiledMap.getLayers().get("Enemies").getObjects();
-
-        for (MapObject object : objects) {
-            if (object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                createEnemy(rect.getX(), rect.getY(), "don.atlas");
-            }
-        }
-
-        objects = tiledMap.getLayers().get("Boss").getObjects();
-
-        for (MapObject object : objects) {
-            if (object instanceof RectangleMapObject) {
-                Rectangle rect = ((RectangleMapObject) object).getRectangle();
-                createBoss(rect.getX(), rect.getY(), "don.atlas");
-            }
-        }
 
         Iterator<MapLayer> iterator = tiledMap.getLayers().iterator();
-        while ( iterator.hasNext()) {
+        while (iterator.hasNext()) {
             MapLayer mapLayer = iterator.next();
             //System.out.println(mapLayer.getName());
-            if (!(mapLayer instanceof TiledMapTileLayer)){
+            if (!(mapLayer instanceof TiledMapTileLayer)) {
                 try {
-                    System.out.println("x = [" + mapLayer.getProperties().get("model") + "]");
+                    props.clear();
+                    for (Iterator<String> it = mapLayer.getProperties().getKeys() ; it.hasNext(); ) {
+                        String next = it.next();
+                        props.put(next, mapLayer.getProperties().get(next));
+                    }
+                    objects = mapLayer.getObjects();
+                    for (MapObject object : objects) {
+                            createEntity(object);
+                    }
+
                 } catch (Exception e) {
-                    System.out.println("NPE!!!!");
+                    System.out.println("NPE"+e);
+                    e.printStackTrace();
                 }
             }
         }
-
         level++;
     }
 
@@ -117,48 +105,62 @@ public class Factory {
         loadLevel(level);
     }
 
-    private void createPlayer(float x, float y, String model) {
+    public void createEntity(Object object) {
+        Rectangle rect = ((RectangleMapObject) object).getRectangle();
+        switch (props.get("cat").toString()) {
+            case "enemy":
+                createEnemy(rect.getX(), rect.getY());
+                break;
+            case "player":
+                createPlayer(rect.getX(), rect.getY());
+                break;
+            case "boss":
+                createBoss(rect.getX(), rect.getY());
+                break;
+            case "object":
+                break;
+        }
+    }
+
+    private void createPlayer(float x, float y) {
         Entity entity = new Entity();
         entity.add(new RenderComponent());
         entity.add(new PositionComponent(new Vector3(x*mapFactor,0,y*mapFactor)));
         entity.add(new MovementComponent(new Vector3(0,0,0),new Vector3(500,0,200)));
         entity.add(new InputComponent());
-        entity.add(new AnimationComponent(model));
+        entity.add(new AnimationComponent(props.get("model").toString()));
         entity.add(new CollisionComponent());
         entity.add(new ActionComponent());
         entity.add(new StateComponent());
-        entity.add(new HealthComponent(100));
-
+        entity.add(new HealthComponent(Integer.parseInt(props.get("hp").toString())));
         engine.addEntity(entity);
     }
 
-    private void createEnemy(float x, float y, String model) {
+    private void createEnemy(float x, float y) {
         Entity entity2 = new Entity();
         entity2.add(new PositionComponent(new Vector3(x*mapFactor,0,y*mapFactor)));
         entity2.add(new RenderComponent());
         entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(400,0,100)));
-        entity2.add(new AnimationComponent(model));
+        entity2.add(new AnimationComponent(props.get("model").toString()));
         entity2.add(new CollisionComponent());
         entity2.add(new ActionComponent());
         entity2.add(new StateComponent());
-        entity2.add(new HealthComponent(20));
-
+        entity2.add(new HealthComponent(Integer.parseInt(props.get("hp").toString())));
         entity2.add(new AIComponent());
         engine.addEntity(entity2);
     }
 
-    private void createBoss(float x, float y, String model) {
+    private void createBoss(float x, float y) {
         Entity entity2 = new Entity();
         entity2.add(new PositionComponent(new Vector3(x*mapFactor,0,y*mapFactor)));
         entity2.add(new RenderComponent());
         entity2.add(new MovementComponent(new Vector3(0,0,0),new Vector3(400,0,100)));
-        entity2.add(new AnimationComponent(model));
+        entity2.add(new AnimationComponent(props.get("model").toString()));
         entity2.add(new CollisionComponent());
         entity2.add(new ActionComponent());
         entity2.add(new StateComponent());
-        entity2.add(new HealthComponent(60));
+        entity2.add(new HealthComponent(Integer.parseInt(props.get("hp").toString())));
         entity2.add(new BossComponent());
-
         entity2.add(new AIComponent());
         engine.addEntity(entity2);
     }

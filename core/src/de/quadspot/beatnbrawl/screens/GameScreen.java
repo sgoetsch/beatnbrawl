@@ -79,7 +79,7 @@ public class GameScreen implements Screen{
             case GAME_RUNNING:
                 resumeSystems();
 
-                System.out.println("State: " +state);
+                //System.out.println("State: " +state);
                 //updateRunning(deltaTime);
                 game.batch.end();
                 break;
@@ -88,7 +88,7 @@ public class GameScreen implements Screen{
                 break;
             case GAME_LEVEL_END:
                 updateLevelEnd();
-                System.out.println("State: " +state);
+                //System.out.println("State: " +state);
 
                 setState(GameScreen.GAME_RUNNING);
                 break;

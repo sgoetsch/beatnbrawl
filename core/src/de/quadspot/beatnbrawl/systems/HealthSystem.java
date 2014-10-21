@@ -47,8 +47,15 @@ public class HealthSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        for(int i = 0; i < entities.size(); ++i) {
+/*        for(int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
+            if ()
+
+
+
+
+
+
             for (int j=0; j < ccm.get(entity).getHit().size(); ++j) {
                 for(int k = 0; k < entities.size(); ++k) {
                     Entity entity2 = entities.get(k);
@@ -64,7 +71,7 @@ public class HealthSystem extends EntitySystem {
                      break;
                 }
             }
-        }
+        }*/
     }
 
     @Override

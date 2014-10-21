@@ -9,18 +9,36 @@
   </data>
  </layer>
  <objectgroup name="Grund">
+  <properties>
+   <property name="cat" value=""/>
+  </properties>
   <object name="ground" x="0" y="175.667">
    <polygon points="0,0 496.667,0.333333 522.667,27 732.667,25.3333 715.333,1 2025.33,0 2050.33,-31.6667 2040.67,-41 2040.33,-63.3333 2326.33,-62.6667 2430,40.3333 0,40.6667"/>
   </object>
   <object name="ground2" x="0.666667" y="176" width="2399.67" height="41.6667"/>
  </objectgroup>
  <objectgroup name="Player">
+  <properties>
+   <property name="cat" value="player"/>
+   <property name="hp" value="150"/>
+   <property name="model" value="don.atlas"/>
+  </properties>
   <object x="80" y="192"/>
  </objectgroup>
  <objectgroup name="Enemies">
+  <properties>
+   <property name="cat" value="enemy"/>
+   <property name="hp" value="20"/>
+   <property name="model" value="don.atlas"/>
+  </properties>
   <object x="474" y="190"/>
  </objectgroup>
  <objectgroup name="Boss">
-  <object x="2336" y="200"/>
+  <properties>
+   <property name="cat" value="boss"/>
+   <property name="hp" value="30"/>
+   <property name="model" value="don.atlas"/>
+  </properties>
+  <object x="2336" y="200" width="8" height="8"/>
  </objectgroup>
 </map>
