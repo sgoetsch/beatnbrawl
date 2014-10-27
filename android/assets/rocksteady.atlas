@@ -1,0 +1,53 @@
+rocksteady.png
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+dead
+  rotate: false
+  xy: 2, 2
+  size: 65, 94
+  orig: 65, 94
+  offset: 0, 0
+  index: 0
+gotHit
+  rotate: false
+  xy: 69, 2
+  size: 102, 65
+  orig: 102, 65
+  offset: 0, 0
+  index: 0
+hit
+  rotate: false
+  xy: 173, 2
+  size: 177, 68
+  orig: 177, 68
+  offset: 0, 0
+  index: 0
+stand
+  rotate: false
+  xy: 352, 2
+  size: 61, 93
+  orig: 61, 93
+  offset: 0, 0
+  index: 0
+stand
+  rotate: false
+  xy: 415, 2
+  size: 61, 94
+  orig: 61, 94
+  offset: 0, 0
+  index: 1
+walk
+  rotate: false
+  xy: 352, 2
+  size: 61, 93
+  orig: 61, 93
+  offset: 0, 0
+  index: 0
+walk
+  rotate: false
+  xy: 415, 2
+  size: 61, 94
+  orig: 61, 94
+  offset: 0, 0
+  index: 1
