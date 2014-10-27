@@ -72,7 +72,7 @@ public class MainMenuScreen implements Screen {
     @Override
     public void show() {
         Sprite sp = new Sprite(new Texture(Gdx.files.internal("button.png")));
-        sp.setBounds(0,0, 1000, 100);
+        sp.setBounds(Gdx.graphics.getWidth()/2,Gdx.graphics.getHeight()/2, 1000, 100);
         SpriteDrawable sprite = new SpriteDrawable(sp);
 
 
@@ -80,6 +80,7 @@ public class MainMenuScreen implements Screen {
         TextButtonStyle style = new TextButtonStyle(sprite,sprite,sprite,game.font);
 
         startGameButton = new TextButton( "Start game",  style);
+        startGameButton.setBounds(500,500,900,400);
 
 
 

@@ -32,8 +32,9 @@ public class StateComponent extends Component {
     }
 
     public void setState(State state) {
+        this.prevState = this.state;
         if (!this.state.equals(state)) {
-            this.prevState = this.state;
+
             this.state = state;
             this.stateTime = 0;
             if (state.equals(State.ATTACK_LEFT) || state.equals(State.ATTACK_RIGHT)) {

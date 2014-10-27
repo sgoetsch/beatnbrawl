@@ -13,6 +13,7 @@ import de.quadspot.beatnbrawl.components.AnimationComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.HealthComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
+import de.quadspot.beatnbrawl.components.SoundComponent;
 import de.quadspot.beatnbrawl.components.StateComponent;
 
 /**
@@ -27,6 +28,7 @@ public class StateSystem extends EntitySystem {
     private ComponentMapper<StateComponent> scm;
     private ComponentMapper<AnimationComponent> acm;
     private ComponentMapper<HealthComponent> hcm;
+    private ComponentMapper<SoundComponent> sndcm;
 
 
     /**
@@ -78,6 +80,8 @@ public class StateSystem extends EntitySystem {
         scm = ComponentMapper.getFor(StateComponent.class);
         acm = ComponentMapper.getFor(AnimationComponent.class);
         hcm = ComponentMapper.getFor(HealthComponent.class);
+        sndcm = ComponentMapper.getFor(SoundComponent.class);
+
 
         for(int i = 0; i < entities.size(); ++i) {
             Entity entity = entities.get(i);
@@ -108,6 +112,7 @@ public class StateSystem extends EntitySystem {
                     } else if (actcm.get(entity).isAttacking()) {
                         // Attack animation rechts // TODO isAttacking muss zurückgesetzt werden wenn getroffen wurde oder die Animation abgelaufen ist
                         scm.get(entity).setState(StateComponent.State.ATTACK_RIGHT);
+                        sndcm.get(entity).getSound_hit().play();
                     } else if (mcm.get(entity).isMovingRight()) {
                         // walk right Animation
                         scm.get(entity).setState(StateComponent.State.WALK_RIGHT);
@@ -125,6 +130,8 @@ public class StateSystem extends EntitySystem {
                     } else if (actcm.get(entity).isAttacking()) {
                         // Attack animation links
                         scm.get(entity).setState(StateComponent.State.ATTACK_LEFT);
+                        sndcm.get(entity).getSound_hit().play();
+
                     } else if (mcm.get(entity).isMovingLeft()) {
                         // walk left Animation
                         scm.get(entity).setState(StateComponent.State.WALK_LEFT);

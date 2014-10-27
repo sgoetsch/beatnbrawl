@@ -17,6 +17,7 @@ import de.quadspot.beatnbrawl.components.ActionComponent;
 import de.quadspot.beatnbrawl.components.BossComponent;
 import de.quadspot.beatnbrawl.components.CollisionComponent;
 import de.quadspot.beatnbrawl.components.InputComponent;
+import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.StateComponent;
@@ -29,6 +30,7 @@ public class AISystem extends EntitySystem {
 
     private ImmutableArray<Entity> entities;
     private ImmutableArray<Entity> bossEntities;
+    private Entity mapEntity;
     private Entity player;
     private GameScreen gameScreen;
     ComponentMapper<PositionComponent> pcm;
@@ -36,6 +38,7 @@ public class AISystem extends EntitySystem {
     ComponentMapper<MovementComponent> mcm;
     ComponentMapper<ActionComponent> actcm;
     ComponentMapper<StateComponent> scm;
+    ComponentMapper<MapComponent> mapcm;
 
 
     /**
@@ -68,6 +71,8 @@ public class AISystem extends EntitySystem {
                 new Bits(), new Bits())).first();
         bossEntities = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(BossComponent.class),
                 new Bits(), new Bits()));
+        mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
+
     }
 
     /**
@@ -92,6 +97,7 @@ public class AISystem extends EntitySystem {
         actcm = ComponentMapper.getFor(ActionComponent.class);
         mcm = ComponentMapper.getFor(MovementComponent.class);
         scm = ComponentMapper.getFor(StateComponent.class);
+        mapcm = ComponentMapper.getFor(MapComponent.class);
 
 
         for(int i = 0; i < entities.size(); ++i) {
@@ -124,8 +130,10 @@ public class AISystem extends EntitySystem {
             else
                 mcm.get(entity).getVelocity().setZero();
         }
-        if (bossEntities.size()==0)
+        if (bossEntities.size()==0) {
             gameScreen.setState(GameScreen.GAME_LEVEL_END);
+            mapcm.get(mapEntity).stopMusic();
+        }
         //System.out.println(bossEntities.size());
         for(int i = 0; i < bossEntities.size(); ++i) {
             Entity entity = bossEntities.get(i);

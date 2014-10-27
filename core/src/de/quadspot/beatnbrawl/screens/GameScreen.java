@@ -34,6 +34,7 @@ import de.quadspot.beatnbrawl.systems.InputSystem;
 import de.quadspot.beatnbrawl.systems.MovementSystem;
 import de.quadspot.beatnbrawl.systems.PlayerSystem;
 import de.quadspot.beatnbrawl.systems.RenderSystem;
+import de.quadspot.beatnbrawl.systems.SoundSystem;
 import de.quadspot.beatnbrawl.systems.StateSystem;
 
 /**
@@ -112,7 +113,7 @@ public class GameScreen implements Screen{
     public void updateLevelEnd(){
         game.font.draw(game.batch, "YOU MADE IT, MAN!", 30, 680 - 20);
         game.batch.end();
-        //pauseSystems();
+        pauseSystems();
 
         // Entities löschen
         // factory mit neuem Level ausführen
@@ -161,6 +162,8 @@ public class GameScreen implements Screen{
         engine.addSystem(new HealthSystem());
         engine.addSystem(new PlayerSystem(this));
         engine.addSystem(new StateSystem(-10));
+        //engine.addSystem(new SoundSystem());
+
     }
 
     public void removeSystems() {
@@ -172,6 +175,7 @@ public class GameScreen implements Screen{
         engine.removeSystem(engine.getSystem(AnimationSystem.class));
         engine.removeSystem(engine.getSystem(InputSystem.class));
         engine.removeSystem(engine.getSystem(MovementSystem.class));
+        //engine.removeSystem(engine.getSystem(SoundSystem.class));
         engine.removeSystem(engine.getSystem(RenderSystem.class));
     }
 

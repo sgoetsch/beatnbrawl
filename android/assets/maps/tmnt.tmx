@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="76" height="7" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="music" value="music/alleycat.blues.mp3"/>
+ </properties>
  <tileset firstgid="1" name="tmnt" tilewidth="32" tileheight="32">
   <image source="TMNT-City.gif" width="2432" height="224"/>
  </tileset>
@@ -20,6 +23,7 @@
  <objectgroup name="Player">
   <properties>
    <property name="cat" value="player"/>
+   <property name="hitsound" value="sounds/hit.wav"/>
    <property name="hp" value="150"/>
    <property name="model" value="don.atlas"/>
   </properties>
@@ -28,16 +32,23 @@
  <objectgroup name="Enemies">
   <properties>
    <property name="cat" value="enemy"/>
+   <property name="hitsound" value="sounds/hit.wav"/>
    <property name="hp" value="20"/>
-   <property name="model" value="don.atlas"/>
+   <property name="model" value="foot1.atlas"/>
   </properties>
   <object x="474" y="190"/>
+  <object x="1560" y="184"/>
+  <object x="1552" y="200"/>
+  <object x="1584" y="192"/>
+  <object x="992" y="184"/>
+  <object x="976" y="208"/>
  </objectgroup>
  <objectgroup name="Boss">
   <properties>
    <property name="cat" value="boss"/>
+   <property name="hitsound" value="sounds/hit.wav"/>
    <property name="hp" value="30"/>
-   <property name="model" value="don.atlas"/>
+   <property name="model" value="rocksteady.atlas"/>
   </properties>
   <object x="2336" y="200" width="8" height="8"/>
  </objectgroup>

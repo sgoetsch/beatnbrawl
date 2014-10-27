@@ -36,6 +36,7 @@ import de.quadspot.beatnbrawl.components.MapComponent;
 import de.quadspot.beatnbrawl.components.MovementComponent;
 import de.quadspot.beatnbrawl.components.PositionComponent;
 import de.quadspot.beatnbrawl.components.RenderComponent;
+import de.quadspot.beatnbrawl.components.SoundComponent;
 import de.quadspot.beatnbrawl.components.StateComponent;
 
 /**
@@ -74,7 +75,6 @@ public class Factory {
         mapHeight = tiledMap.getProperties().get("height", Integer.class).floatValue() * tiledMap.getProperties().get("tileheight", Integer.class).floatValue();
         mapFactor = Gdx.graphics.getHeight() / mapHeight;
         createMap();
-
 
         Iterator<MapLayer> iterator = tiledMap.getLayers().iterator();
         while (iterator.hasNext()) {
@@ -133,6 +133,7 @@ public class Factory {
         entity.add(new ActionComponent());
         entity.add(new StateComponent());
         entity.add(new HealthComponent(Integer.parseInt(props.get("hp").toString())));
+        entity.add(new SoundComponent(props));
         engine.addEntity(entity);
     }
 
@@ -147,6 +148,7 @@ public class Factory {
         entity2.add(new StateComponent());
         entity2.add(new HealthComponent(Integer.parseInt(props.get("hp").toString())));
         entity2.add(new AIComponent());
+        entity2.add(new SoundComponent(props));
         engine.addEntity(entity2);
     }
 
@@ -162,6 +164,7 @@ public class Factory {
         entity2.add(new HealthComponent(Integer.parseInt(props.get("hp").toString())));
         entity2.add(new BossComponent());
         entity2.add(new AIComponent());
+        entity2.add(new SoundComponent(props));
         engine.addEntity(entity2);
     }
 

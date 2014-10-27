@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="54" height="7" tilewidth="32" tileheight="32">
+ <properties>
+  <property name="music" value="music/skull.crossbones.mp3"/>
+ </properties>
  <tileset firstgid="1" name="Skullandcross_1a" tilewidth="32" tileheight="32">
   <image source="Skullandcross_1a.png" width="1728" height="224"/>
  </tileset>
@@ -28,6 +31,7 @@
  <objectgroup name="Enemies">
   <properties>
    <property name="cat" value="enemy"/>
+   <property name="hitsound" value="sounds/hit.wav"/>
    <property name="hp" value="20"/>
    <property name="model" value="foot1.atlas"/>
    <property name="str" value="10"/>
@@ -40,15 +44,17 @@
  <objectgroup name="Boss">
   <properties>
    <property name="cat" value="boss"/>
+   <property name="hitsound" value="sounds/hit.wav"/>
    <property name="hp" value="60"/>
-   <property name="model" value="don.atlas"/>
+   <property name="model" value="rocksteady.atlas"/>
   </properties>
   <object x="1616" y="176"/>
  </objectgroup>
  <objectgroup name="Player">
   <properties>
    <property name="cat" value="player"/>
-   <property name="hp" value="100"/>
+   <property name="hitsound" value="sounds/hit.wav"/>
+   <property name="hp" value="150"/>
    <property name="model" value="don.atlas"/>
   </properties>
   <object x="72" y="184"/>

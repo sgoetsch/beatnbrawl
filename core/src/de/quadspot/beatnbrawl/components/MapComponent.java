@@ -29,6 +29,7 @@ public class MapComponent extends Component{
     float mapWidth;
     float mapHeight;
     float mapFactor;
+    Music mp3Music;
 
     public MapComponent(Batch batch, TiledMap tiledMap) {
         mapWidth = tiledMap.getProperties().get("width", Integer.class).floatValue()*tiledMap.getProperties().get("tilewidth", Integer.class).floatValue();
@@ -41,7 +42,7 @@ public class MapComponent extends Component{
         groundBody2 = tmp.setSize(tmp.getWidth()*mapFactor, tmp.getHeight()*mapFactor);
 
 
-        Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/alleycat.blues.mp3"));
+        mp3Music = Gdx.audio.newMusic(Gdx.files.internal(tiledMap.getProperties().get("music").toString()));
         mp3Music.play();
         
         
@@ -83,5 +84,9 @@ public class MapComponent extends Component{
 
     public float getMapFactor() {
         return mapFactor;
+    }
+
+    public void stopMusic() {
+        mp3Music.stop();
     }
 }

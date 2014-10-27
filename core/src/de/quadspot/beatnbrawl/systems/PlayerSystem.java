@@ -23,6 +23,9 @@ public class PlayerSystem extends EntitySystem {
     private Entity playerEntity;
     private ComponentMapper<HealthComponent> hcm;
     private final GameScreen game;
+    private Entity mapEntity;
+    ComponentMapper<MapComponent> mapcm;
+
 
     public PlayerSystem(GameScreen game) {
         this.game = game;
@@ -32,6 +35,9 @@ public class PlayerSystem extends EntitySystem {
     public void addedToEngine(Engine engine) {
         playerEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(InputComponent.class), new Bits(), new Bits())).first();
         hcm = ComponentMapper.getFor(HealthComponent.class);
+        mapEntity = engine.getEntitiesFor(Family.getFor(ComponentType.getBitsFor(MapComponent.class), new Bits(), new Bits())).first();
+        mapcm = ComponentMapper.getFor(MapComponent.class);
+
     }
 
     @Override
@@ -41,8 +47,11 @@ public class PlayerSystem extends EntitySystem {
 
     @Override
     public void update(float deltaTime) {
-        if (hcm.get(playerEntity).isDead())
+        if (hcm.get(playerEntity).isDead()) {
             game.setState(GameScreen.GAME_OVER);
+            mapcm.get(mapEntity).stopMusic();
+        }
+
     }
 
     @Override
