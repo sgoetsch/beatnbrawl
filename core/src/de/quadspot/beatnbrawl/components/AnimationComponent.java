@@ -62,8 +62,8 @@ public class AnimationComponent extends Component {
         standRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("stand")));
         standRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        jumpRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("jump")));
-        jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        //jumpRightAnimation = new Animation(0.15f, (textureAtlas.findRegions("jump")));
+        //jumpRightAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         walkLeftAnimation = flip(0.15f, walkRightAnimation);     
         walkLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
@@ -71,8 +71,8 @@ public class AnimationComponent extends Component {
         standLeftAnimation = flip(0.15f, standRightAnimation);
         standLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
-        jumpLeftAnimation = flip(0.15f, jumpRightAnimation);
-        jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
+        //jumpLeftAnimation = flip(0.15f, jumpRightAnimation);
+        //jumpLeftAnimation.setPlayMode(Animation.PlayMode.LOOP);
 
         attackRightAnimation = new Animation(.07f, (textureAtlas.findRegions("hit")));
         attackRightAnimation.setPlayMode(Animation.PlayMode.NORMAL);
@@ -161,6 +161,10 @@ public class AnimationComponent extends Component {
 
     public int getWidth(float elapsedTime) {
         return currentAnimation.getKeyFrame(elapsedTime).getRegionWidth();
+    }
+
+    public int getStandWidth(float elapsedTime) {
+        return standLeftAnimation.getKeyFrame(elapsedTime).getRegionWidth();
     }
 
     public int getHeight(float elapsedTime) {

@@ -69,7 +69,7 @@ public class CollisionSystem extends EntitySystem{
         for(int i = 0; i < allEntities.size(); ++i){
             Entity entity = allEntities.get(i);
 
-            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition(), acm.get(entity).getWidth(0)*mapcm.get(mapEntity).getMapFactor(), acm.get(entity).getHeight(0)*mapcm.get(mapEntity).getMapFactor());
+            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition().cpy().add(acm.get(entity).getWidth(0)*mapcm.get(mapEntity).getMapFactor()/2,0,0), acm.get(entity).getWidth(0)*mapcm.get(mapEntity).getMapFactor(), acm.get(entity).getHeight(0)*mapcm.get(mapEntity).getMapFactor());
             ccm.get(entity).setGround(mapcm.get(mapEntity).getGroundBody());
             //System.out.println("Aktuelle Pos:"+pcm.get(entity).getPosition()+"     x:"+ccm.get(entity).getCollidingBody().getBoundingBox().x + "   y:" +ccm.get(entity).getCollidingBody().getBoundingBox().y);
         }
@@ -86,7 +86,7 @@ public class CollisionSystem extends EntitySystem{
         for (int i = 0; i < allEntities.size(); ++i) {
             Entity entity = allEntities.get(i);
 
-            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition());
+            ccm.get(entity).getCollidingBody().set(pcm.get(entity).getPosition().cpy().add(acm.get(entity).getStandWidth(0)*mapcm.get(mapEntity).getMapFactor()/2*-1,0,0));
 
 
             if (ccm.get(entity).isLeftOfGround()) {

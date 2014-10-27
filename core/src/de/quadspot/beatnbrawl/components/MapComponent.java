@@ -2,6 +2,8 @@ package de.quadspot.beatnbrawl.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.MapObjects;
@@ -38,8 +40,9 @@ public class MapComponent extends Component{
         tmp = ((RectangleMapObject) objects.get("ground2")).getRectangle();
         groundBody2 = tmp.setSize(tmp.getWidth()*mapFactor, tmp.getHeight()*mapFactor);
 
-        
-            
+
+        Music mp3Music = Gdx.audio.newMusic(Gdx.files.internal("sounds/alleycat.blues.mp3"));
+        mp3Music.play();
         
         
         for (MapObject object : objects) {

@@ -121,6 +121,8 @@ public class AISystem extends EntitySystem {
                     }
                 }
             }
+            else
+                mcm.get(entity).getVelocity().setZero();
         }
         if (bossEntities.size()==0)
             gameScreen.setState(GameScreen.GAME_LEVEL_END);

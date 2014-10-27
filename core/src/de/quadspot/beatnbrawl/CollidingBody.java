@@ -138,8 +138,8 @@ public class CollidingBody {
     }
 
     public void set(Vector3 position){
-        this.position.set(new Vector2(position.x-30,position.z));
-        this.x = this.position.x-30;
+        this.position.set(new Vector2(position.x,position.z));
+        this.x = this.position.x;
         this.y = this.position.y;
         setRecs();
     }

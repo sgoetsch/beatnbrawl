@@ -90,7 +90,7 @@ public class GameScreen implements Screen{
                 updateLevelEnd();
                 //System.out.println("State: " +state);
 
-                setState(GameScreen.GAME_RUNNING);
+                //setState(GameScreen.GAME_RUNNING);
                 break;
             case GAME_OVER:
                 updateGameOver();
@@ -122,6 +122,7 @@ public class GameScreen implements Screen{
             removeSystems();
             newLevel();
             addSystems();
+            setState(GameScreen.GAME_RUNNING);
             //resumeSystems();
         }
     }
@@ -135,7 +136,7 @@ public class GameScreen implements Screen{
         engine.getSystem(HealthSystem.class).setProcessing(false);
         engine.getSystem(PlayerSystem.class).setProcessing(false);
         engine.getSystem(StateSystem.class).setProcessing(false);
-        engine.getSystem(RenderSystem.class).setProcessing(false);
+        //engine.getSystem(RenderSystem.class).setProcessing(false);
     }
 
     public void resumeSystems() {

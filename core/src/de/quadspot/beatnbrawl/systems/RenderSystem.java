@@ -182,7 +182,7 @@ public class RenderSystem extends EntitySystem {
         for (SpriteData sprite : sort) {
             
            //batch.draw((TextureRegion)sprite[0], (float)sprite[1], (float)sprite[2],0,0,(float)sprite[3],(float)sprite[4],scale,scale,0);
-            batch.draw(sprite.getTr(),sprite.getX(), sprite.getY(),0,0,sprite.getWidth(),sprite.getHeigth(),scale,scale,0);
+            batch.draw(sprite.getTr(),sprite.getX(), sprite.getY(),sprite.getWidth()/2,0,sprite.getWidth(),sprite.getHeigth(),scale,scale,0);
 
         }
 
